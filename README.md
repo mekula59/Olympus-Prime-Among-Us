@@ -1,8 +1,8 @@
-# Olympus Prime Gamesnight
+# Olympus Prime Gamesnight HQ
 
-Olympus Prime Gamesnight is a modern TypeScript frontend scaffold for a one-page event site that captures the memory of playing *Among Us*: dark starfield glow, emergency-meeting energy, suspicious side-eyes, and the kind of chaos that turns a simple game night into a story everyone retells later.
+Olympus Prime Gamesnight HQ is a modern React + TypeScript frontend experience built around the memory of playing *Among Us*: warm ship lights, emergency-meeting tension, suspicious confidence, and the exact kind of laughter that turns one round into hallway folklore.
 
-This project is intentionally not a generic gaming dashboard. It is a mood-forward landing experience designed around nostalgia, social deduction, and Olympus Prime’s own crew ritual.
+This is no longer a starter landing page. It is a navigable HQ experience with multiple in-world destinations, each designed to feel like a distinct room inside the same ship.
 
 ## Stack
 
@@ -11,18 +11,36 @@ This project is intentionally not a generic gaming dashboard. It is a mood-forwa
 - Vite
 - Plain CSS with a custom visual system
 
+## Experience Overview
+
+The HQ currently includes:
+
+- `Command Center`: the public-facing homepage and emotional core of the ship
+- `Crew Rankings`: a lore-first podium gallery instead of a plain leaderboard
+- `Crew File`: interactive dossier-style player profiles
+- `Mission Logs`: a corridor of remembered round-by-round moments
+- `Mission Report`: a calmer debrief space with atmospheric gauges and recap panels
+- `Prime Legends Archive`: a vault for the rounds that became house lore
+- `Incident Board`: an evidence-wall style internal record room
+- `Transmission Reports`: announcements and lobby chatter drifting through the relay lounge
+- `Ops Console`: a quieter, more practical host/admin shell
+
+Navigation is handled in-app with hash routes, so each section behaves like a page while still shipping as a simple frontend app.
+
 ## Project Structure
 
 ```text
 .
 ├── docs/
-│   └── design-direction.md
+│   ├── design-direction.md
+│   └── product-data-model.md
 ├── public/
 │   └── assets/
 ├── src/
 │   ├── components/
 │   ├── data/
-│   ├── sections/
+│   ├── hooks/
+│   ├── pages/
 │   ├── styles/
 │   ├── types/
 │   ├── App.tsx
@@ -65,11 +83,14 @@ This project is intentionally not a generic gaming dashboard. It is a mood-forwa
 ## Design Overview
 
 - The site uses a nostalgic sci-fi palette with warm warning lights, cool visor blues, and soft nebula haze.
-- Layouts lean on rounded windows, cockpit-style panels, floating status chips, and layered gradients.
+- Layouts lean on rounded windows, cockpit-style panels, porthole-like modules, pinned notes, relay bubbles, and layered gradients.
+- Each page is treated like a real zone in Olympus Prime, not a reused dashboard template.
 - Copy is written like a remembered gamesnight instead of a feature list.
 - The design references the feeling of *Among Us* without trying to recreate the game UI directly.
+- The admin-facing `Ops Console` is intentionally calmer and more practical than the public zones while staying inside the same visual world.
 
 See [docs/design-direction.md](./docs/design-direction.md) for the visual and content direction behind the build.
+See [docs/product-data-model.md](./docs/product-data-model.md) for the normalized product schema and view-model split.
 
 ## Suggested Next Steps
 
