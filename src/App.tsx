@@ -1,159 +1,147 @@
-import { navigationGroups, railRumors, routeOrder, routes } from './data/hqData';
+import { ModuleFrame } from './components/ModuleFrame';
+import { AmongUsModuleHeader } from './components/shell/AmongUsModuleHeader';
+import { HubShell } from './components/shell/HubShell';
+import type { AppRouteId } from './config/routes';
+import { usePublicSyncState } from './hooks/usePublicSyncState';
 import { useHashRoute } from './hooks/useHashRoute';
-import { CommandCenterPage } from './pages/CommandCenterPage';
-import { CrewFilePage } from './pages/CrewFilePage';
-import { CrewRankingsPage } from './pages/CrewRankingsPage';
-import { IncidentBoardPage } from './pages/IncidentBoardPage';
-import { MissionLogsPage } from './pages/MissionLogsPage';
-import { MissionReportPage } from './pages/MissionReportPage';
 import { OpsConsolePage } from './pages/OpsConsolePage';
-import { PrimeLegendsArchivePage } from './pages/PrimeLegendsArchivePage';
-import { TransmissionReportsPage } from './pages/TransmissionReportsPage';
-import type { RouteId } from './types/hq';
+import { AmongUsArchivePage } from './pages/games/among-us/AmongUsArchivePage';
+import { AmongUsIncidentsPage } from './pages/games/among-us/AmongUsIncidentsPage';
+import { AmongUsLegendsPage } from './pages/games/among-us/AmongUsLegendsPage';
+import { AmongUsOverviewPage } from './pages/games/among-us/AmongUsOverviewPage';
+import { AmongUsPlayersPage } from './pages/games/among-us/AmongUsPlayersPage';
+import { AmongUsRankingsPage } from './pages/games/among-us/AmongUsRankingsPage';
+import { AmongUsReportPage } from './pages/games/among-us/AmongUsReportPage';
+import { AmongUsSessionsPage } from './pages/games/among-us/AmongUsSessionsPage';
+import { AmongUsTransmissionsPage } from './pages/games/among-us/AmongUsTransmissionsPage';
+import { GamesPage } from './pages/hub/GamesPage';
+import { HomePage } from './pages/hub/HomePage';
+import { PlayerProfilePage } from './pages/hub/PlayerProfilePage';
+import { PlayersPage } from './pages/hub/PlayersPage';
+import { SeasonDetailPage } from './pages/hub/SeasonDetailPage';
+import { SeasonsPage } from './pages/hub/SeasonsPage';
+import { YearbookPage } from './pages/hub/YearbookPage';
 import './styles/index.css';
 
-const groupLabels = {
-  HQ: 'SIM',
-  Records: 'LOG',
-  Ops: 'OPS',
-} as const;
+interface HubPlaceholderPageProps {
+  eyebrow: string;
+  title: string;
+  lede: string;
+  primaryHref: string;
+  primaryLabel: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+}
 
-const routeStateLabels: Record<RouteId, string> = {
-  'command-center': 'Lobby',
-  'crew-rankings': 'Board',
-  'crew-file': 'File',
-  'mission-logs': 'Replay',
-  'mission-report': 'Report',
-  'prime-legends-archive': 'Legend',
-  'incident-board': 'Alert',
-  'transmission-reports': 'Signal',
-  'ops-console': 'Host',
-};
+function HubPlaceholderPage({
+  eyebrow,
+  title,
+  lede,
+  primaryHref,
+  primaryLabel,
+  secondaryHref,
+  secondaryLabel,
+}: HubPlaceholderPageProps) {
+  return (
+    <div className="page page--hub-placeholder">
+      <ModuleFrame
+        eyebrow={eyebrow}
+        title={title}
+        lede={lede}
+        className="hub-placeholder"
+      >
+        <div className="hub-placeholder__actions">
+          <a className="primary-link" href={primaryHref}>
+            {primaryLabel}
+          </a>
+          {secondaryHref && secondaryLabel ? (
+            <a className="secondary-link" href={secondaryHref}>
+              {secondaryLabel}
+            </a>
+          ) : null}
+        </div>
+      </ModuleFrame>
+    </div>
+  );
+}
 
-function renderPage(route: RouteId) {
-  switch (route) {
-    case 'command-center':
-      return <CommandCenterPage />;
-    case 'crew-rankings':
-      return <CrewRankingsPage />;
-    case 'crew-file':
-      return <CrewFilePage />;
-    case 'mission-logs':
-      return <MissionLogsPage />;
-    case 'mission-report':
-      return <MissionReportPage />;
-    case 'prime-legends-archive':
-      return <PrimeLegendsArchivePage />;
-    case 'incident-board':
-      return <IncidentBoardPage />;
-    case 'transmission-reports':
-      return <TransmissionReportsPage />;
-    case 'ops-console':
+function renderPage(routeId: AppRouteId) {
+  switch (routeId) {
+    case 'home':
+      return <HomePage />;
+    case 'players':
+      return <PlayersPage />;
+    case 'player-profile':
+      return <PlayerProfilePage />;
+    case 'seasons':
+      return <SeasonsPage />;
+    case 'season-detail':
+      return <SeasonDetailPage />;
+    case 'yearbook':
+      return <YearbookPage />;
+    case 'games':
+      return <GamesPage />;
+    case 'among-us-overview':
+      return <AmongUsOverviewPage />;
+    case 'among-us-rankings':
+      return <AmongUsRankingsPage />;
+    case 'among-us-players':
+      return <AmongUsPlayersPage />;
+    case 'among-us-sessions':
+      return <AmongUsSessionsPage />;
+    case 'among-us-reports':
+      return <AmongUsReportPage />;
+    case 'among-us-archive':
+      return <AmongUsArchivePage />;
+    case 'among-us-legends':
+      return <AmongUsLegendsPage />;
+    case 'among-us-incidents':
+      return <AmongUsIncidentsPage />;
+    case 'among-us-transmissions':
+      return <AmongUsTransmissionsPage />;
+    case 'ops':
+      return (
+        <HubPlaceholderPage
+          eyebrow="Ops"
+          title="Broad Ops route reserved."
+          lede="This route will become the generic gamesnight entry and publish layer. The full staged session engine remains available under Among Us Ops during the transition."
+          primaryHref="#/ops/among-us"
+          primaryLabel="Open Among Us Ops"
+          secondaryHref="#/"
+          secondaryLabel="Back to Hub"
+        />
+      );
+    case 'ops-among-us':
       return <OpsConsolePage />;
     default:
-      return <CommandCenterPage />;
+      return <AmongUsOverviewPage />;
   }
 }
 
 function App() {
-  const route = useHashRoute();
-  const currentRoute = routes.find((entry) => entry.id === route) ?? routes[0];
+  const { path, route } = useHashRoute();
+  const { shell, sync } = usePublicSyncState();
 
   return (
-    <div className={`app-shell app-shell--${route}`}>
+    <div className={`app-shell app-shell--${route.id}`}>
       <div className="ambient ambient--one" aria-hidden="true" />
       <div className="ambient ambient--two" aria-hidden="true" />
       <div className="ambient ambient--three" aria-hidden="true" />
 
-      <div className="hq-layout">
-        <aside className="nav-rail">
-          <a className="brand-mark" href="#/command-center" aria-label="Olympus Prime command center">
-            <img src="/assets/olympus-signal.svg" alt="" />
-            <span>
-              Olympus Prime
-              <strong>Among Us HQ</strong>
-            </span>
-          </a>
-
-          <div className="shell-state">
-            <p className="section-kicker">SIM STATE</p>
-            <div className="shell-state__row">
-              <strong>LIVE</strong>
-              <span>{routeStateLabels[route]}</span>
-            </div>
-            <p>{currentRoute.cue}</p>
-          </div>
-
-          <section className="rail-hum rail-hum--system" aria-label="Ship chatter">
-            <div className="rail-hum__lights">
-              <span className="rail-hum__light rail-hum__light--warm" aria-hidden="true" />
-              <span className="rail-hum__light rail-hum__light--cool" aria-hidden="true" />
-              <span className="rail-hum__light rail-hum__light--hot" aria-hidden="true" />
-            </div>
-            <div className="rail-hum__copy">
-              {railRumors.map((item) => (
-                <article className="rail-hum__item" key={item.title}>
-                  <span>{item.title}</span>
-                  <p>{item.detail}</p>
-                </article>
-              ))}
-            </div>
-          </section>
-
-          <nav className="route-groups" aria-label="Primary navigation">
-            {navigationGroups.map((group) => (
-              <section className="route-group" key={group}>
-                <p>{groupLabels[group]}</p>
-                <div className="route-group__links">
-                  {routeOrder
-                    .map((id) => routes.find((routeItem) => routeItem.id === id)!)
-                    .filter((routeItem) => routeItem.group === group)
-                    .map((routeItem) => (
-                      <a
-                        className={`nav-chip ${routeItem.id === route ? 'nav-chip--active' : ''}`}
-                        href={`#/${routeItem.id}`}
-                        key={routeItem.id}
-                      >
-                        <span>{routeStateLabels[routeItem.id]}</span>
-                        <strong>{routeItem.shortLabel}</strong>
-                        <small>{routeItem.id === route ? 'LIVE' : 'LOAD'}</small>
-                      </a>
-                    ))}
-                </div>
-              </section>
-            ))}
-          </nav>
-        </aside>
-
-        <div className="bridge-column">
-          <header className="bridge-header">
-            <div>
-              <p className="section-kicker">ROOM</p>
-              <h2>{currentRoute.label}</h2>
-              <p>{currentRoute.blurb}</p>
-            </div>
-
-            <div className="bridge-header__signals" aria-label="Current route details">
-              <article>
-                <span>Mode</span>
-                <strong>{routeStateLabels[route]}</strong>
-              </article>
-              <article>
-                <span>Deck</span>
-                <strong>{currentRoute.deck}</strong>
-              </article>
-              <article>
-                <span>Band</span>
-                <strong>{currentRoute.group}</strong>
-              </article>
-            </div>
-          </header>
-
-          <main className="page-stage" key={route}>
-            {renderPage(route)}
-          </main>
-        </div>
-      </div>
+      <HubShell
+        currentPath={path}
+        currentRoute={route}
+        shellTitle={shell.title}
+        shellDetail={route.section === 'hub' ? route.blurb : shell.detail}
+        shellStatus={route.section === 'hub' ? route.stateLabel : sync.phaseLabel}
+        noteTitle="Discord first"
+        noteDetail="Discord remains the live home for Olympus Prime. The site is shifting into the memory, identity, archive, and recap layer."
+        moduleHeader={
+          route.path.startsWith('/games/among-us') ? <AmongUsModuleHeader currentPath={path} /> : null
+        }
+      >
+        {renderPage(route.id)}
+      </HubShell>
     </div>
   );
 }

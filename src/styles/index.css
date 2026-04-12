@@ -153,6 +153,34 @@ img {
   --accent-secondary: #7ce0ff;
 }
 
+.app-shell--home,
+.app-shell--players,
+.app-shell--player-profile,
+.app-shell--seasons,
+.app-shell--season-detail,
+.app-shell--yearbook,
+.app-shell--games,
+.app-shell--ops {
+  --accent: #8fb0ff;
+  --accent-soft: rgba(143, 176, 255, 0.14);
+  --accent-secondary: #ffc978;
+}
+
+.app-shell--among-us-overview,
+.app-shell--among-us-rankings,
+.app-shell--among-us-players,
+.app-shell--among-us-sessions,
+.app-shell--among-us-reports,
+.app-shell--among-us-archive,
+.app-shell--among-us-legends,
+.app-shell--among-us-incidents,
+.app-shell--among-us-transmissions,
+.app-shell--ops-among-us {
+  --accent: #ff875f;
+  --accent-soft: rgba(255, 135, 95, 0.18);
+  --accent-secondary: #7ce0ff;
+}
+
 .ambient {
   position: absolute;
   border-radius: 999px;
@@ -3802,5 +3830,737 @@ img {
   .crew-slot,
   .board-strip {
     grid-template-columns: auto 1fr;
+  }
+}
+
+/* Mobile-first reset */
+
+.app-shell {
+  padding: 0.75rem 0.75rem 6.25rem;
+  background-size: min(980px, 140%);
+}
+
+.hq-layout--mobile {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+  width: min(100%, 680px);
+  margin: 0 auto;
+}
+
+.mobile-shell,
+.page-stage--mobile {
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 18px 40px rgba(1, 3, 10, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(18px);
+}
+
+.mobile-shell {
+  display: grid;
+  gap: 0.85rem;
+  padding: 0.95rem;
+  border-radius: 1.6rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 34%),
+    rgba(10, 13, 24, 0.86);
+}
+
+.mobile-shell__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.mobile-shell__status {
+  display: grid;
+  justify-items: end;
+  gap: 0.12rem;
+  min-width: 5.75rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.mobile-shell__status span,
+.bottom-dock__item span,
+.mobile-shell__signals span {
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.mobile-shell__status strong {
+  font-size: 0.86rem;
+}
+
+.mobile-shell__hero {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.mobile-shell__hero h1 {
+  margin: 0;
+  font-family: 'Arial Narrow', 'Avenir Next Condensed', 'Trebuchet MS', sans-serif;
+  font-size: clamp(1.9rem, 7vw, 3.2rem);
+  line-height: 0.94;
+  letter-spacing: -0.04em;
+}
+
+.mobile-shell__hero p:last-child,
+.mobile-shell__whisper p {
+  margin: 0.45rem 0 0;
+  color: var(--muted);
+}
+
+.mobile-shell__signals {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+.mobile-shell__signals article {
+  padding: 0.82rem 0.88rem;
+  border-radius: 1.1rem;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.mobile-shell__signals strong {
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.mobile-shell__whisper {
+  padding: 0.8rem 0.9rem;
+  border-radius: 1.1rem;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.mobile-shell__whisper span {
+  font-size: 0.72rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--warm);
+}
+
+.page-stage--mobile {
+  padding: 1rem;
+  border-radius: 1.8rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 20%),
+    rgba(8, 11, 20, 0.9);
+}
+
+.page {
+  gap: 0.9rem;
+}
+
+.page-intro {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.7rem;
+}
+
+.page-intro h2 {
+  max-width: 12ch;
+  font-size: clamp(2rem, 9vw, 3.5rem);
+}
+
+.page-intro__lede {
+  max-width: 38ch;
+  font-size: 0.98rem;
+}
+
+.page-intro__aside {
+  justify-content: flex-start;
+}
+
+.memory-orb {
+  width: 100%;
+  min-height: auto;
+  padding: 0.95rem;
+  border-radius: 1.3rem;
+}
+
+.memory-orb--soft {
+  background:
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.08), transparent 32%),
+    rgba(255, 255, 255, 0.035);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.page-tags {
+  margin-top: 0.35rem;
+}
+
+.page-tag {
+  padding: 0.34rem 0.7rem;
+  border-radius: 999px;
+}
+
+.module {
+  padding: 0.95rem;
+  border-radius: 1.35rem;
+  box-shadow: 0 14px 28px rgba(1, 3, 10, 0.2);
+}
+
+.module:hover {
+  transform: none;
+  border-color: var(--line);
+}
+
+.module__header {
+  margin-bottom: 0.8rem;
+}
+
+.module h3 {
+  font-size: clamp(1.3rem, 6vw, 2rem);
+}
+
+.system-switcher,
+.engine-stage-list,
+.relay-chip-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.6rem;
+  overflow-x: auto;
+  padding-bottom: 0.15rem;
+  scrollbar-width: none;
+}
+
+.system-switcher::-webkit-scrollbar,
+.engine-stage-list::-webkit-scrollbar,
+.relay-chip-row::-webkit-scrollbar,
+.bottom-dock__scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.system-switch,
+.relay-chip,
+.engine-stage {
+  flex: 0 0 auto;
+  min-width: max-content;
+}
+
+.system-switch,
+.ops-button,
+.board-strip,
+.crew-chip,
+.bottom-dock__item,
+.relay-chip,
+.engine-stage,
+.ops-person-pill {
+  min-height: 48px;
+}
+
+.command-console__grid,
+.rank-console__grid,
+.command-flow-stack,
+.rank-mobile-stack,
+.crew-file-layout--system,
+.dossier-columns--system,
+.ops-engine-layout,
+.ops-engine-grid,
+.ops-engine-stage,
+.transmission-layout,
+.two-up-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.9rem;
+}
+
+.meeting-core,
+.top-slot,
+.focus-panel,
+.dossier-panel--system {
+  border-radius: 1.3rem;
+}
+
+.meeting-core {
+  min-height: 0;
+}
+
+.meeting-core__button {
+  min-height: 10rem;
+}
+
+.system-stack,
+.crew-slot-grid,
+.system-feed,
+.board-list,
+.ribbon-stack--system,
+.scan-pills--system {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.7rem;
+}
+
+.crew-slot,
+.board-strip,
+.crew-chip,
+.ops-person-pill,
+.engine-stage {
+  border-radius: 1rem;
+}
+
+.zone-grid {
+  grid-template-columns: 1fr;
+}
+
+.zone-card {
+  min-height: 0;
+  padding: 0.95rem;
+  border-radius: 1.2rem;
+}
+
+.dossier-hero--system {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.85rem;
+}
+
+.dossier-scanrail--system {
+  display: grid;
+}
+
+.scan-pills--system {
+  grid-template-columns: 1fr;
+}
+
+.ops-engine-layout {
+  gap: 0.9rem;
+}
+
+.ops-engine-rail {
+  order: -1;
+}
+
+.engine-stage-list {
+  margin: 0 -0.05rem;
+}
+
+.engine-stage {
+  grid-template-columns: auto 1fr;
+  min-width: 13rem;
+}
+
+.engine-stage-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+}
+
+.ops-action-row {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.ops-button {
+  width: 100%;
+  border-radius: 1rem;
+}
+
+.bottom-dock {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 12;
+  padding: 0.55rem 0.75rem calc(0.55rem + env(safe-area-inset-bottom));
+  background: linear-gradient(180deg, transparent, rgba(6, 8, 15, 0.92) 28%);
+}
+
+.bottom-dock__scroll {
+  display: flex;
+  gap: 0.55rem;
+  overflow-x: auto;
+  padding: 0.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.4rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 90%),
+    rgba(11, 14, 23, 0.92);
+  box-shadow: 0 18px 42px rgba(1, 3, 10, 0.34);
+}
+
+.bottom-dock__item {
+  display: grid;
+  gap: 0.08rem;
+  min-width: 5.5rem;
+  padding: 0.62rem 0.78rem;
+  border-radius: 1.1rem;
+  background: rgba(255, 255, 255, 0.035);
+  text-align: center;
+}
+
+.bottom-dock__item strong {
+  font-size: 0.88rem;
+}
+
+.bottom-dock__item--active {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 90%),
+    color-mix(in srgb, var(--accent) 15%, rgba(255, 255, 255, 0.035));
+}
+
+.among-us-module-header {
+  display: grid;
+  gap: 0.8rem;
+  padding: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.45rem;
+  background:
+    radial-gradient(circle at top right, rgba(255, 135, 95, 0.14), transparent 30%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 36%),
+    rgba(15, 18, 31, 0.86);
+  box-shadow: 0 16px 34px rgba(1, 3, 10, 0.24);
+}
+
+.among-us-module-header__copy h2 {
+  margin: 0;
+  font-family: 'Arial Narrow', 'Avenir Next Condensed', 'Trebuchet MS', sans-serif;
+  font-size: clamp(1.65rem, 6vw, 2.4rem);
+  line-height: 0.96;
+}
+
+.among-us-module-header__copy p:last-child {
+  margin: 0.4rem 0 0;
+  color: var(--muted);
+}
+
+.among-us-module-header__nav {
+  display: flex;
+  gap: 0.6rem;
+  overflow-x: auto;
+  padding-bottom: 0.1rem;
+  scrollbar-width: none;
+}
+
+.among-us-module-header__nav::-webkit-scrollbar {
+  display: none;
+}
+
+.among-us-chip {
+  display: grid;
+  gap: 0.08rem;
+  flex: 0 0 auto;
+  min-width: 6.2rem;
+  min-height: 48px;
+  padding: 0.68rem 0.82rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.among-us-chip span {
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.among-us-chip strong {
+  font-size: 0.88rem;
+}
+
+.among-us-chip--active {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 90%),
+    rgba(255, 135, 95, 0.1);
+  border-color: rgba(255, 135, 95, 0.22);
+}
+
+.hub-placeholder {
+  background:
+    radial-gradient(circle at top right, rgba(143, 176, 255, 0.12), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.05), transparent 34%),
+    rgba(255, 255, 255, 0.03);
+}
+
+.hub-placeholder__actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+  margin-top: 0.9rem;
+}
+
+.hub-feature-stack,
+.hub-player-grid,
+.hub-two-up,
+.hub-game-list,
+.hub-memory-list,
+.hub-directory,
+.hub-season-list,
+.hub-yearbook-grid,
+.hub-stat-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.75rem;
+}
+
+.hub-feature,
+.hub-game-card,
+.hub-memory-item,
+.hub-directory-card,
+.hub-season-card,
+.hub-yearbook-card,
+.hub-player-card,
+.hub-stat-row article {
+  display: grid;
+  gap: 0.28rem;
+  padding: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.15rem;
+  background: rgba(255, 255, 255, 0.035);
+  box-shadow: 0 14px 30px rgba(1, 3, 10, 0.16);
+}
+
+.hub-feature span,
+.hub-game-card span,
+.hub-memory-item span,
+.hub-directory-card small,
+.hub-season-card span,
+.hub-yearbook-card span,
+.hub-stat-row span,
+.hub-player-card small {
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hub-feature strong,
+.hub-game-card strong,
+.hub-season-card strong,
+.hub-yearbook-card strong,
+.hub-directory-card strong,
+.hub-player-card strong,
+.hub-profile-card__hero strong,
+.hub-stat-row strong {
+  font-size: 1.05rem;
+  line-height: 1.08;
+}
+
+.hub-feature p,
+.hub-game-card p,
+.hub-memory-item p,
+.hub-directory-card p,
+.hub-season-card p,
+.hub-yearbook-card p,
+.hub-player-card p,
+.hub-profile-card__summary {
+  margin: 0;
+  color: var(--muted);
+}
+
+.hub-feature--hot,
+.hub-game-card--hot,
+.hub-yearbook-card--hot {
+  background:
+    radial-gradient(circle at top right, rgba(255, 122, 99, 0.12), transparent 32%),
+    rgba(255, 255, 255, 0.04);
+}
+
+.hub-feature--cool,
+.hub-player-card--cool,
+.hub-yearbook-card--cool {
+  background:
+    radial-gradient(circle at top right, rgba(124, 224, 255, 0.12), transparent 32%),
+    rgba(255, 255, 255, 0.04);
+}
+
+.hub-feature--warm,
+.hub-player-card--warm,
+.hub-yearbook-card--warm {
+  background:
+    radial-gradient(circle at top right, rgba(255, 201, 120, 0.12), transparent 32%),
+    rgba(255, 255, 255, 0.04);
+}
+
+.hub-player-card__head,
+.hub-directory-card__head,
+.hub-profile-card__hero {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.hub-player-card__token,
+.hub-profile-card__token {
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 999px;
+  background: var(--player-color);
+  box-shadow:
+    inset -3px -3px 0 rgba(0, 0, 0, 0.24),
+    0 0 0 2px rgba(255, 255, 255, 0.08);
+}
+
+.hub-profile-card__token {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem;
+}
+
+.hub-directory-card__meta,
+.hub-season-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  margin-top: 0.15rem;
+}
+
+.hub-directory-card__meta span,
+.hub-directory-card__meta small,
+.hub-season-card__meta small,
+.hub-game-card small {
+  color: var(--muted);
+}
+
+.hub-memory-item--link,
+.hub-game-card,
+.hub-feature,
+.hub-season-card,
+.hub-directory-card {
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease;
+}
+
+.hub-memory-item--link:hover,
+.hub-game-card:hover,
+.hub-feature:hover,
+.hub-season-card:hover,
+.hub-directory-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.hub-profile-card {
+  background:
+    radial-gradient(circle at top right, rgba(143, 176, 255, 0.14), transparent 28%),
+    rgba(255, 255, 255, 0.04);
+}
+
+.hub-stat-row article {
+  text-align: left;
+}
+
+.page--among-us-archive .module {
+  background:
+    radial-gradient(circle at top right, rgba(255, 135, 95, 0.1), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), transparent 30%),
+    rgba(255, 255, 255, 0.03);
+}
+
+.among-us-archive-switcher {
+  background:
+    radial-gradient(circle at top right, rgba(124, 224, 255, 0.1), transparent 30%),
+    rgba(255, 255, 255, 0.03);
+}
+
+.among-us-archive-grid,
+.among-us-archive-panel {
+  display: grid;
+  gap: 0.8rem;
+}
+
+@media (min-width: 721px) {
+  .app-shell {
+    padding: 1rem 1rem 1.4rem;
+  }
+
+  .hq-layout--mobile {
+    width: min(100%, 920px);
+  }
+
+  .mobile-shell {
+    padding: 1.1rem;
+  }
+
+  .mobile-shell__hero {
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: end;
+  }
+
+  .page-stage--mobile {
+    padding: 1.15rem;
+  }
+
+  .hub-placeholder__actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hub-feature-stack,
+  .hub-player-grid,
+  .hub-yearbook-grid,
+  .hub-game-list,
+  .hub-stat-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .among-us-archive-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hub-two-up {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .command-flow-stack,
+  .rank-mobile-stack,
+  .transmission-layout,
+  .two-up-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .zone-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1040px) {
+  .hq-layout--mobile {
+    width: min(100%, 1120px);
+  }
+
+  .hub-feature-stack,
+  .hub-player-grid,
+  .hub-game-list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .among-us-archive-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .mobile-shell__hero {
+    grid-template-columns: 1.3fr 0.7fr;
+  }
+
+  .command-console__grid,
+  .rank-console__grid {
+    grid-template-columns: 1.1fr 0.9fr;
+  }
+
+  .crew-file-layout--system,
+  .ops-engine-grid {
+    grid-template-columns: 0.95fr 1.05fr;
+  }
+
+  .bottom-dock {
+    position: static;
+    padding: 0;
+    background: none;
+  }
+
+  .bottom-dock__scroll {
+    width: min(100%, 1120px);
+    margin: 0.35rem auto 0;
   }
 }

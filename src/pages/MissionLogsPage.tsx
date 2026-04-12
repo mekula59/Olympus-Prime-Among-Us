@@ -1,19 +1,29 @@
-import { missionLogs } from '../data/hqData';
 import { ModuleFrame } from '../components/ModuleFrame';
 import { PageIntro } from '../components/PageIntro';
+import { usePublicSyncState } from '../hooks/usePublicSyncState';
 
 export function MissionLogsPage() {
+  const { missionLogs, shell, sync } = usePublicSyncState();
+
   return (
     <div className="page page--mission-logs">
       <PageIntro
         eyebrow="Archive corridor"
         title="Round-by-round history with the hallway still echoing."
-        lede="Mission Logs should feel like walking past illuminated memory capsules, each one holding a point where the room shifted, cracked up, or suddenly understood too much."
-        tags={['Corridor timestamps', 'Recorded tension', 'Hallway memory']}
+        lede={
+          sync.runtimeEnabled
+            ? `${shell.title} is feeding this corridor directly, so the turning points below now come from the session engine instead of a separate static archive.`
+            : 'Mission Logs should feel like walking past illuminated memory capsules, each one holding a point where the room shifted, cracked up, or suddenly understood too much.'
+        }
+        tags={['Corridor timestamps', sync.phaseLabel, 'Hallway memory']}
         aside={
           <div className="memory-orb memory-orb--compact">
             <p className="memory-orb__label">Corridor note</p>
-            <strong>Every timestamp keeps a little bit of the room noise trapped inside it.</strong>
+            <strong>
+              {sync.runtimeEnabled
+                ? 'Every new match log now leaves a fresh footprint in the corridor.'
+                : 'Every timestamp keeps a little bit of the room noise trapped inside it.'}
+            </strong>
           </div>
         }
       />
@@ -50,11 +60,23 @@ export function MissionLogsPage() {
             lede="Small atmospheric pieces make the archive feel inhabited."
             tone="warm"
           >
-            <div className="quote-stack">
-              <blockquote>“That sounded way too prepared for someone who says they were improvising.”</blockquote>
-              <blockquote>“Skip if you want, but the hallway already voted.”</blockquote>
-              <blockquote>“No one says ‘trust me’ like that unless the room should do the opposite.”</blockquote>
-            </div>
+          <div className="quote-stack">
+              <blockquote>
+                {sync.runtimeEnabled
+                  ? '“The log updated before the room fully recovered, which means HQ definitely felt that round.”'
+                  : '“That sounded way too prepared for someone who says they were improvising.”'}
+              </blockquote>
+              <blockquote>
+                {sync.runtimeEnabled
+                  ? '“If the engine marked it live, the hallway is going to keep that argument forever.”'
+                  : '“Skip if you want, but the hallway already voted.”'}
+              </blockquote>
+              <blockquote>
+                {sync.runtimeEnabled
+                  ? '“A transmitted round always sounds louder on replay than it did in the room.”'
+                  : '“No one says ‘trust me’ like that unless the room should do the opposite.”'}
+              </blockquote>
+          </div>
           </ModuleFrame>
 
           <ModuleFrame
@@ -64,8 +86,12 @@ export function MissionLogsPage() {
             className="empty-state-module"
           >
             <div className="empty-bay">
-              <p>The next corridor entry does not exist yet, but the ship is clearly expecting one.</p>
-              <span>Archive slot warm and waiting.</span>
+              <p>
+                {sync.runtimeEnabled
+                  ? 'The live session has not pushed the next turning point yet, so this corridor slot is waiting on the room.'
+                  : 'The next corridor entry does not exist yet, but the ship is clearly expecting one.'}
+              </p>
+              <span>{sync.runtimeEnabled ? 'Session link open. Next match will print here.' : 'Archive slot warm and waiting.'}</span>
             </div>
           </ModuleFrame>
         </div>

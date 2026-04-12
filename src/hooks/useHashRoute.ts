@@ -1,35 +1,33 @@
 import { startTransition, useEffect, useState } from 'react';
-import { routeOrder } from '../data/hqData';
-import type { RouteId } from '../types/hq';
-
-const defaultRoute: RouteId = 'command-center';
-
-function normalizeHash(hash: string): RouteId {
-  const cleaned = hash.replace(/^#\/?/, '');
-  if (routeOrder.includes(cleaned as RouteId)) {
-    return cleaned as RouteId;
-  }
-
-  return defaultRoute;
-}
+import { getRouteByPath, normalizeAppPath } from '../config/routes';
 
 export function useHashRoute() {
-  const [route, setRoute] = useState<RouteId>(() => normalizeHash(window.location.hash));
+  const [path, setPath] = useState(() => normalizeAppPath(window.location.hash));
 
   useEffect(() => {
-    if (!window.location.hash) {
-      window.location.hash = `/${defaultRoute}`;
-    }
+    const syncHash = (nextPath: string) => {
+      if (window.location.hash !== `#${nextPath}`) {
+        window.history.replaceState(null, '', `#${nextPath}`);
+      }
+    };
+
+    syncHash(path);
 
     const onHashChange = () => {
+      const nextPath = normalizeAppPath(window.location.hash);
+      syncHash(nextPath);
+
       startTransition(() => {
-        setRoute(normalizeHash(window.location.hash));
+        setPath(nextPath);
       });
     };
 
     window.addEventListener('hashchange', onHashChange);
     return () => window.removeEventListener('hashchange', onHashChange);
-  }, []);
+  }, [path]);
 
-  return route;
+  return {
+    path,
+    route: getRouteByPath(path),
+  };
 }

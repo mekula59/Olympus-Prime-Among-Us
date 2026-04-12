@@ -1,6 +1,7 @@
 import type { Tone } from './hq';
 
 export type PlayerStatus = 'active' | 'resting' | 'guest';
+export type GameStatus = 'active' | 'planned' | 'archived';
 export type SeasonStatus = 'planning' | 'active' | 'closed';
 export type SessionStatus = 'planned' | 'draft' | 'logged' | 'published';
 export type AttendanceStatus = 'present' | 'late' | 'guest' | 'host';
@@ -18,6 +19,8 @@ export type MediaUploadType = 'screenshot' | 'photo_set' | 'clip';
 export type MediaUploadStatus = 'placeholder' | 'ready' | 'published';
 export type IncidentVisibility = 'internal' | 'public';
 export type RecapStatus = 'draft' | 'ready' | 'published';
+export type OutcomeStatus = 'pending' | 'resolved' | 'published';
+export type PublishStateStatus = 'draft' | 'verified' | 'transmitted';
 
 export interface PlayerRecord {
   id: string;
@@ -40,6 +43,16 @@ export interface PlayerRecord {
   tellNotes: string[];
 }
 
+export interface GameRecord {
+  id: string;
+  slug: string;
+  name: string;
+  shortName: string;
+  status: GameStatus;
+  summary: string;
+  theme: string;
+}
+
 export interface SeasonRecord {
   id: string;
   name: string;
@@ -53,6 +66,7 @@ export interface SeasonRecord {
 
 export interface SessionRecord {
   id: string;
+  gameId: string;
   seasonId: string;
   label: string;
   sessionNumber: number;
@@ -145,6 +159,15 @@ export interface IncidentRecord {
   tone: Tone;
 }
 
+export interface OutcomeRecord {
+  id: string;
+  sessionId: string;
+  winnerPlayerId: string | null;
+  verdict: string;
+  flaggedSummary: string;
+  status: OutcomeStatus;
+}
+
 export interface RecapRecord {
   id: string;
   sessionId: string;
@@ -155,6 +178,16 @@ export interface RecapRecord {
   verdict: string;
   recommendation: string;
   status: RecapStatus;
+}
+
+export interface PublishStateRecord {
+  id: string;
+  sessionId: string;
+  reportStatus: PublishStateStatus;
+  awardsStatus: PublishStateStatus;
+  mediaStatus: PublishStateStatus;
+  publicStatus: PublishStateStatus;
+  transmittedAt: string | null;
 }
 
 export interface MediaUploadRecord {

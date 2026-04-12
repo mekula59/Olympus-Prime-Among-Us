@@ -54,27 +54,27 @@ export function CrewRankingsPage() {
   return (
     <div className="page page--crew-rankings">
       <PageIntro
-        eyebrow="Board"
-        title="Set the board. See who owns the room."
-        lede="This room should feel closer to a live vote board than a leaderboard page. Short labels, player colors, and one mode change away from a new top slot."
-        tags={['BOARD LIVE', 'COLOR FIRST', 'ROOM HEAT']}
+        eyebrow="Rankings"
+        title="See who the room remembers."
+        lede="This should feel like a mobile companion screen, not a leaderboard dashboard. One top player, one clean list, and quick mode switches that change the mood without scattering the screen."
+        tags={['Color first', 'Fast switch', 'Room heat']}
         aside={
-          <div className="memory-orb memory-orb--compact memory-orb--system">
+          <div className="memory-orb memory-orb--compact memory-orb--soft">
             <p className="memory-orb__label">Board mode</p>
-            <strong>{boardMode.toUpperCase()}</strong>
+            <strong>{boardMode}</strong>
             <span>The top slot changes with the question you ask the room.</span>
           </div>
         }
       />
 
       <ModuleFrame
-        eyebrow="Board mode"
-        title="Rank sim"
-        lede="Switch the board and the room tells a different story."
+        eyebrow="Top player"
+        title={champion.callsign}
+        lede="A cleaner board with one standout focal point and one smooth list underneath it."
         className="rank-console"
       >
         <div className="system-event-strip">
-          <span>Board event</span>
+          <span>Board update</span>
           <strong>{boardEvent}</strong>
           <small>{focusPlayer.callsign} is the current focus target.</small>
         </div>
@@ -128,11 +128,11 @@ export function CrewRankingsPage() {
         </div>
       </ModuleFrame>
 
-      <div className="two-up-grid rank-two-up">
+      <div className="rank-mobile-stack">
         <ModuleFrame
-          eyebrow="Focus slot"
+          eyebrow="Focus"
           title={`${focusPlayer.callsign} file`}
-          lede="Press any player and the board reroutes the spotlight."
+          lede="Press a player and the board settles on one clear story."
           tone={focusPlayer.tone}
           className="focus-panel"
         >
@@ -164,9 +164,9 @@ export function CrewRankingsPage() {
         </ModuleFrame>
 
         <ModuleFrame
-          eyebrow="Drops"
+          eyebrow="Awards"
           title="Night awards"
-          lede="These should feel like round-end drops, not website badges."
+          lede="Keep the drops compact so they support the board instead of fighting it."
           tone="warm"
           className="ribbon-drops"
         >

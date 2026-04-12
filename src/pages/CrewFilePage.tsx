@@ -46,32 +46,21 @@ export function CrewFilePage() {
   return (
     <div className="page page--crew-file">
       <PageIntro
-        eyebrow="File console"
-        title="Pick a color. Load a file."
-        lede="This room should behave like a social-deduction console, not a profile page. Select a player, flip the file mode, and watch the room logic change around them."
-        tags={['FILE LIVE', 'SELECT CREW', 'ROOM READ']}
+        eyebrow="Crew file"
+        title="Pick a color. Read the person."
+        lede="This screen should feel quick and touchable on a phone: choose someone fast, skim the important cues, and keep the rest tucked into smooth mode changes."
+        tags={['Touch first', 'Quick read', 'Social tells']}
         aside={
-          <div className="memory-orb memory-orb--compact memory-orb--system">
+          <div className="memory-orb memory-orb--compact memory-orb--soft">
             <p className="memory-orb__label">File mode</p>
             <strong>{fileTitle}</strong>
-            <span>Each tab should feel like another system layer coming online.</span>
+            <span>Each mode should reveal just enough without crowding the screen.</span>
           </div>
         }
       />
 
       <div className="crew-file-layout crew-file-layout--system">
-        <ModuleFrame
-          eyebrow="Roster"
-          title="Crew load"
-          lede="Pick the color first. Read the room second."
-          className="crew-selector crew-selector--system"
-        >
-          <div className="system-event-strip system-event-strip--compact">
-            <span>File event</span>
-            <strong>{fileEvent}</strong>
-            <small>{activeProfile.callsign} is the live file target.</small>
-          </div>
-
+        <ModuleFrame eyebrow="Roster" title="Crew" lede="Pick the color first." className="crew-selector crew-selector--system">
           <div className="crew-selector__stack crew-selector__stack--system">
             {crewProfiles.map((profile) => (
               <button
@@ -99,6 +88,12 @@ export function CrewFilePage() {
           tone={activeProfile.tone}
           className="dossier-panel dossier-panel--system"
         >
+          <div className="system-event-strip system-event-strip--compact">
+            <span>File update</span>
+            <strong>{fileEvent}</strong>
+            <small>{activeProfile.callsign} is the live file target.</small>
+          </div>
+
           <div className="dossier-hero dossier-hero--system">
             <div className="dossier-hero__id">
               <span
@@ -154,9 +149,9 @@ export function CrewFilePage() {
       </div>
 
       <ModuleFrame
-        eyebrow="Effect"
-        title="Room impact"
-        lede="The file should answer one question fast: what happens to the room when this person speaks?"
+        eyebrow="Impact"
+        title="What changes when they speak"
+        lede="A short summary rail so the screen still feels singular."
         tone={activeProfile.tone}
         className="dossier-scanrail dossier-scanrail--system"
       >

@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { transmissions } from '../data/hqData';
 import { ModuleFrame } from '../components/ModuleFrame';
 import { PageIntro } from '../components/PageIntro';
 import { ThresholdMarker } from '../components/ThresholdMarker';
+import { usePublicSyncState } from '../hooks/usePublicSyncState';
 
 export function TransmissionReportsPage() {
+  const { transmissions, sync } = usePublicSyncState();
   const channelOptions = ['All channels', ...new Set(transmissions.map((item) => item.channel)), 'Standby'];
   const [activeChannel, setActiveChannel] = useState(channelOptions[0]);
   const visibleTransmissions =
@@ -17,12 +18,20 @@ export function TransmissionReportsPage() {
       <PageIntro
         eyebrow="Relay lounge"
         title="Announcements, chatter, and afterglow notes drifting through the ship."
-        lede="This page is part noticeboard, part social memory. It should feel like overhearing the HQ talk to itself through warm speakers and soft indicator lights."
-        tags={['Signal lounge', 'Crew chatter', 'Warm relay glow']}
+        lede={
+          sync.runtimeEnabled
+            ? `The relay is now carrying live engine output, so verified reports and transmitted sessions arrive here as actual system traffic.`
+            : 'This page is part noticeboard, part social memory. It should feel like overhearing the HQ talk to itself through warm speakers and soft indicator lights.'
+        }
+        tags={['Signal lounge', sync.phaseLabel, 'Warm relay glow']}
         aside={
           <div className="memory-orb memory-orb--compact">
             <p className="memory-orb__label">Speaker check</p>
-            <strong>The ship sounds most like itself in the minute between one round and the next.</strong>
+            <strong>
+              {sync.runtimeEnabled
+                ? 'The speaker wall is now tied directly to the session engine.'
+                : 'The ship sounds most like itself in the minute between one round and the next.'}
+            </strong>
           </div>
         }
       />

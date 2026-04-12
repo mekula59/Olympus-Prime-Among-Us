@@ -1,14 +1,11 @@
 import { useState } from 'react';
 import type { CSSProperties } from 'react';
 import {
-  bridgeReadouts,
-  commandStats,
-  commandWhispers,
   commandZones,
-  crewRankings,
 } from '../data/hqData';
 import { ModuleFrame } from '../components/ModuleFrame';
 import { PageIntro } from '../components/PageIntro';
+import { usePublicSyncState } from '../hooks/usePublicSyncState';
 
 const simModes = [
   {
@@ -37,14 +34,15 @@ const simModes = [
 export function CommandCenterPage() {
   const [activeMode, setActiveMode] = useState<(typeof simModes)[number]['id']>('lobby');
   const [systemEvent, setSystemEvent] = useState('LOBBY LOADED');
+  const { commandCenter, shell, sync } = usePublicSyncState();
   const modeConfig = simModes.find((mode) => mode.id === activeMode) ?? simModes[0];
-  const liveRoster = crewRankings.slice(0, 5);
+  const liveRoster = commandCenter.roomRoster.slice(0, 5);
   const liveWhispers =
     activeMode === 'lobby'
-      ? commandWhispers.slice(0, 2)
+      ? commandCenter.commandWhispers.slice(0, 2)
       : activeMode === 'meeting'
-        ? commandWhispers.slice(1)
-        : [...commandWhispers.slice(2), commandWhispers[0]];
+        ? commandCenter.commandWhispers.slice(1)
+        : [...commandCenter.commandWhispers.slice(2), commandCenter.commandWhispers[0]].filter(Boolean);
 
   function loadMode(modeId: (typeof simModes)[number]['id']) {
     setActiveMode(modeId);
@@ -56,30 +54,30 @@ export function CommandCenterPage() {
   return (
     <div className="page page--command-center">
       <PageIntro
-        eyebrow="Control room"
-        title="Lobby. Meeting. Vote. Repeat."
-        lede="Olympus Prime should feel less like a themed site and more like a live social-deduction system. This room now runs like a match console: short labels, loud states, and one mode change away from chaos."
-        tags={['SIM LIVE', 'ROOM OPEN', 'STATE DRIVEN']}
+        eyebrow="Tonight"
+        title="Lobby, meeting, vote."
+        lede={`${shell.detail} The home screen should feel like the match companion you check between rounds: quick to read, easy to press, and still warm with social-deduction tension.`}
+        tags={[sync.phaseLabel, 'Live room', 'Crew loaded']}
         aside={
-          <div className="memory-orb memory-orb--compact memory-orb--system">
-            <p className="memory-orb__label">Room pulse</p>
-            <strong>{modeConfig.title}</strong>
-            <span>{modeConfig.detail}</span>
+          <div className="memory-orb memory-orb--compact memory-orb--soft">
+            <p className="memory-orb__label">Up next</p>
+            <strong>{shell.title}</strong>
+            <span>{sync.phaseDetail}</span>
           </div>
         }
       />
 
       <ModuleFrame
-        eyebrow="Core state"
-        title="Command sim"
-        lede="Every press should feel like the room changed."
+        eyebrow="Live room"
+        title={modeConfig.title}
+        lede="One strong focus card, one clear mode row, one quick glance at the people driving the night."
         tone="warm"
-        className="command-console"
+        className="command-console command-console--mobile"
       >
         <div className="system-event-strip">
-          <span>Event</span>
+          <span>Live update</span>
           <strong>{systemEvent}</strong>
-          <small>{modeConfig.detail}</small>
+          <small>{sync.runtimeEnabled ? `${shell.statusLabel} // ${modeConfig.detail}` : modeConfig.detail}</small>
         </div>
 
         <div className="system-switcher" role="tablist" aria-label="Command states">
@@ -119,7 +117,7 @@ export function CommandCenterPage() {
           </div>
 
           <div className="system-stack">
-            {commandStats.map((stat) => (
+            {commandCenter.commandStats.slice(0, 3).map((stat) => (
               <article className={`system-card system-card--${stat.tone}`} key={stat.label}>
                 <span>{stat.label}</span>
                 <strong>{stat.value}</strong>
@@ -130,11 +128,11 @@ export function CommandCenterPage() {
         </div>
       </ModuleFrame>
 
-      <div className="two-up-grid command-two-up">
+      <div className="command-flow-stack">
         <ModuleFrame
-          eyebrow="Live slots"
-          title="Room colors"
-          lede="A match feels alive when the players feel like pieces in it."
+          eyebrow="Crew"
+          title="Who the room is watching"
+          lede="Keep the player colors close to the top so the screen feels alive before you read a single stat."
           className="crew-slot-board"
         >
           <div className="crew-slot-grid">
@@ -155,9 +153,9 @@ export function CommandCenterPage() {
         </ModuleFrame>
 
         <ModuleFrame
-          eyebrow="Room feed"
-          title="Hot lines"
-          lede="Short reads. Live feeling."
+          eyebrow="Feed"
+          title="What the room sounds like"
+          lede="Short lines, fast reads, no extra chrome."
           tone="cool"
           className="command-feed"
         >
@@ -169,7 +167,7 @@ export function CommandCenterPage() {
               </article>
             ))}
 
-            {bridgeReadouts.map((item) => (
+            {commandCenter.bridgeReadouts.map((item) => (
               <article className="system-feed__item system-feed__item--readout" key={item.title}>
                 <span>{item.title}</span>
                 <p>{item.detail}</p>
@@ -180,9 +178,9 @@ export function CommandCenterPage() {
       </div>
 
       <ModuleFrame
-        eyebrow="Quick load"
-        title="Jump room"
-        lede="Each load target should feel like a system destination, not a content page."
+        eyebrow="Explore"
+        title="Jump to the next room"
+        lede="Keep the map simple and thumb-friendly."
         className="zone-map zone-map--system"
       >
         <div className="zone-grid zone-grid--system">

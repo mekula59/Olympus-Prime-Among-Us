@@ -87,6 +87,13 @@ This project now separates core source records from page-specific display models
 - Source of truth: `incidents` table.
 - Depends on it: Incident Board, Mission Report cues, Command Center suspicion signals, future moderation/review tooling.
 
+### `outcomes`
+- Purpose: canonical resolved result for a session.
+- Key fields: `id`, `sessionId`, `winnerPlayerId`, `verdict`, `flaggedSummary`, `status`.
+- Relationships: one-to-one with a session and linked indirectly to participants, awards, recap, and publish state.
+- Source of truth: `outcomes` table.
+- Depends on it: Ops outcome resolution, session winner state, report summary, final publish gating.
+
 ### `recaps`
 - Purpose: drafted or published night summary.
 - Key fields: `id`, `sessionId`, `headline`, `summary`, `highlight`, `publishNote`, `verdict`, `recommendation`, `status`.
@@ -101,6 +108,13 @@ This project now separates core source records from page-specific display models
 - Source of truth: `media_uploads` table plus Supabase Storage for actual files.
 - Depends on it: Ops media placeholder/upload flow, recap completeness checks, future gallery surfaces.
 
+### `publish_state`
+- Purpose: final operational record describing what is verified, transmitted, and public.
+- Key fields: `id`, `sessionId`, `reportStatus`, `awardsStatus`, `mediaStatus`, `publicStatus`, `transmittedAt`.
+- Relationships: one-to-one with a session and used as the final gate after outcomes, awards, recap, and media are ready.
+- Source of truth: `publish_state` table.
+- Depends on it: Ops transmit stage, future moderation/release workflows, public-side visibility rules.
+
 ### `rivalry_summaries`
 - Purpose: lightweight social graph summaries that explain recurring tension or chemistry.
 - Key fields: `id`, `playerAId`, `playerBId`, `seasonId`, `summary`, `heatLabel`, `stateLabel`, `tone`.
@@ -108,9 +122,43 @@ This project now separates core source records from page-specific display models
 - Source of truth: `rivalry_summaries` table.
 - Depends on it: Crew File social gravity, Command Center rumor texture, future matchup/rivalry surfaces.
 
+## Session Engine Mapping
+
+The staged Ops Console is now backed by a canonical engine layer in:
+
+- [src/data/sessionEngine.ts](/Users/mekula/olympus-prime-amongus-hq/src/data/sessionEngine.ts)
+- [src/types/sessionEngine.ts](/Users/mekula/olympus-prime-amongus-hq/src/types/sessionEngine.ts)
+- [src/hooks/useSessionEngine.ts](/Users/mekula/olympus-prime-amongus-hq/src/hooks/useSessionEngine.ts)
+
+Stage-to-record mapping:
+
+- `Boot Session`
+  Source of truth: `sessions`
+  Derived public state: room header, session identity, command-room status
+- `Load Crew`
+  Source of truth: `session_participants`
+  Derived public state: which players are live in the session and visible in summaries
+- `Log Matches`
+  Source of truth: `matches`
+  Derived public state: mission logs, legend candidates, report timeline
+- `Resolve Outcomes`
+  Source of truth: `outcomes`
+  Derived public state: winner, verdict, flagged review state
+- `Assign Awards`
+  Source of truth: `awards`
+  Derived public state: player titles, award ribbons, ranking flavor
+- `Draft Report`
+  Source of truth: `recaps`
+  Derived public state: mission report content and publish-ready summary
+- `Transmit to HQ`
+  Source of truth: `media_uploads`, `publish_state`
+  Derived public state: final public visibility/readiness
+
+This keeps stage logic centralized: the page renders the engine, but the record mapping and stage transitions live outside the page component.
+
 ## Practical Supabase shape
 
-- `players`, `seasons`, `sessions`, `matches`, `session_participants`, `awards`, `badges`, `titles`, `quotes`, `incidents`, `recaps`, `media_uploads`, and `rivalry_summaries` should each map to one table.
+- `players`, `seasons`, `sessions`, `matches`, `session_participants`, `awards`, `badges`, `titles`, `quotes`, `incidents`, `outcomes`, `recaps`, `media_uploads`, `publish_state`, and `rivalry_summaries` should each map to one table.
 - `media_uploads` should store metadata only; the file itself belongs in Supabase Storage.
 - Arrays such as `habitNotes`, `tellNotes`, and `allyIds` are acceptable for now because they are profile content, not query-heavy relational data. If they become editable at scale, they can move to child tables later.
 - Public ranking numbers and report metrics are currently treated as derived/view data, not base tables.
@@ -118,5 +166,5 @@ This project now separates core source records from page-specific display models
 ## Current alignment
 
 - The app now derives public HQ page data from normalized product records instead of page-specific blobs.
-- The Ops Console now seeds its session, recap, player, season, title, and media data from the same shared source layer.
+- The Ops Console now runs from a staged session engine that maps directly to canonical session, participant, match, outcome, award, recap, media, and publish-state records.
 - Display-only content still exists where it should: route metadata, atmospheric labels, and curated report/ranking snapshots.

@@ -1,10 +1,13 @@
 import type {
   AwardRecord,
   BadgeRecord,
+  GameRecord,
   IncidentRecord,
   MatchRecord,
   MediaUploadRecord,
+  OutcomeRecord,
   PlayerRecord,
+  PublishStateRecord,
   QuoteRecord,
   RecapRecord,
   RivalrySummaryRecord,
@@ -13,6 +16,18 @@ import type {
   SessionRecord,
   TitleRecord,
 } from '../types/product';
+
+export const games: GameRecord[] = [
+  {
+    id: 'among-us',
+    slug: 'among-us',
+    name: 'Among Us',
+    shortName: 'Among Us',
+    status: 'active',
+    summary: 'The flagship Olympus Prime gamesnight module for social deduction, room reads, and recap-worthy finishes.',
+    theme: 'Warm suspicion, player-color identity, and post-round memory.',
+  },
+];
 
 export const players: PlayerRecord[] = [
   {
@@ -206,6 +221,7 @@ export const seasons: SeasonRecord[] = [
 export const sessions: SessionRecord[] = [
   {
     id: 'session-03',
+    gameId: 'among-us',
     seasonId: 'season-08',
     label: 'Night 03 // Snack Speed',
     sessionNumber: 3,
@@ -220,6 +236,7 @@ export const sessions: SessionRecord[] = [
   },
   {
     id: 'session-04',
+    gameId: 'among-us',
     seasonId: 'season-08',
     label: 'Night 04 // Velvet Lies',
     sessionNumber: 4,
@@ -234,6 +251,7 @@ export const sessions: SessionRecord[] = [
   },
   {
     id: 'session-06',
+    gameId: 'among-us',
     seasonId: 'season-08',
     label: 'Night 06 // Hallway Gospel',
     sessionNumber: 6,
@@ -248,6 +266,7 @@ export const sessions: SessionRecord[] = [
   },
   {
     id: 'session-08',
+    gameId: 'among-us',
     seasonId: 'season-08',
     label: 'Night 08 // Soft Alibis',
     sessionNumber: 8,
@@ -262,6 +281,7 @@ export const sessions: SessionRecord[] = [
   },
   {
     id: 'session-09',
+    gameId: 'among-us',
     seasonId: 'season-08',
     label: 'Night 09 // Pressure Lights',
     sessionNumber: 9,
@@ -909,6 +929,25 @@ export const incidents: IncidentRecord[] = [
   },
 ];
 
+export const outcomes: OutcomeRecord[] = [
+  {
+    id: 'outcome-08',
+    sessionId: 'session-08',
+    winnerPlayerId: 'sol',
+    verdict: 'Crew recovered control after one loud final read and a silence that felt longer than it was.',
+    flaggedSummary: 'One title spelling needed correction before the report went public.',
+    status: 'published',
+  },
+  {
+    id: 'outcome-09',
+    sessionId: 'session-09',
+    winnerPlayerId: 'nova',
+    verdict: 'Outcome slot waiting for the room to finish writing itself.',
+    flaggedSummary: 'Keep one clean note ready for title checks and screenshot review.',
+    status: 'pending',
+  },
+];
+
 export const recaps: RecapRecord[] = [
   {
     id: 'recap-08',
@@ -935,6 +974,27 @@ export const recaps: RecapRecord[] = [
     verdict: 'Draft shell ready. Story still unwritten.',
     recommendation: 'Log the night first, assign titles second, then publish while the mood is still warm.',
     status: 'draft',
+  },
+];
+
+export const publishStates: PublishStateRecord[] = [
+  {
+    id: 'publish-08',
+    sessionId: 'session-08',
+    reportStatus: 'transmitted',
+    awardsStatus: 'transmitted',
+    mediaStatus: 'transmitted',
+    publicStatus: 'transmitted',
+    transmittedAt: '2026-04-04T22:15:00+01:00',
+  },
+  {
+    id: 'publish-09',
+    sessionId: 'session-09',
+    reportStatus: 'draft',
+    awardsStatus: 'draft',
+    mediaStatus: 'verified',
+    publicStatus: 'draft',
+    transmittedAt: null,
   },
 ];
 

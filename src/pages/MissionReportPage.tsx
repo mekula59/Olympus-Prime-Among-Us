@@ -1,20 +1,30 @@
 import type { CSSProperties } from 'react';
-import { reportMetrics, reportReadouts, zoneDebriefs } from '../data/hqData';
 import { ModuleFrame } from '../components/ModuleFrame';
 import { PageIntro } from '../components/PageIntro';
+import { usePublicSyncState } from '../hooks/usePublicSyncState';
 
 export function MissionReportPage() {
+  const { missionReport, shell, sync } = usePublicSyncState();
+
   return (
     <div className="page page--mission-report">
       <PageIntro
         eyebrow="Debrief dome"
         title="A polished report space quietly admitting the crew was chaos."
-        lede="This page turns the night into a debrief without sanding off the personality. Calm typography, rounded instrument rails, and enough warmth to keep the report from feeling corporate."
-        tags={['Calm shell', 'Messy truth', 'Post-round glow']}
+        lede={
+          sync.runtimeEnabled
+            ? `${shell.title} is now tied into the debrief dome, so this report reads from the session engine instead of pretending the night ended somewhere else.`
+            : 'This page turns the night into a debrief without sanding off the personality. Calm typography, rounded instrument rails, and enough warmth to keep the report from feeling corporate.'
+        }
+        tags={['Calm shell', sync.phaseLabel, 'Post-round glow']}
         aside={
           <div className="memory-orb memory-orb--compact">
             <p className="memory-orb__label">Official note</p>
-            <strong>Organized on paper. Still humming with last-round adrenaline.</strong>
+            <strong>
+              {sync.runtimeEnabled
+                ? missionReport.headline
+                : 'Organized on paper. Still humming with last-round adrenaline.'}
+            </strong>
           </div>
         }
       />
@@ -28,15 +38,12 @@ export function MissionReportPage() {
         <div className="debrief-chamber__layout">
           <div className="debrief-lantern">
             <span>Night verdict</span>
-            <strong>Too dramatic to forget. Too funny to file quietly.</strong>
-            <p>
-              The ship logged strong morale, aggressive side-eyes, and multiple moments
-              where the room briefly sounded like it had turned into a courtroom.
-            </p>
+            <strong>{missionReport.headline}</strong>
+            <p>{missionReport.summary}</p>
           </div>
 
           <div className="report-rail-stack">
-            {reportMetrics.map((metric) => (
+            {missionReport.metrics.map((metric) => (
               <article className={`report-rail report-rail--${metric.tone}`} key={metric.label}>
                 <div className="report-rail__header">
                   <h4>{metric.label}</h4>
@@ -63,7 +70,7 @@ export function MissionReportPage() {
           tone="cool"
         >
           <div className="debrief-grid">
-            {zoneDebriefs.map((debrief) => (
+            {missionReport.zoneDebriefs.map((debrief) => (
               <article className={`debrief-card debrief-card--${debrief.tone}`} key={debrief.zone}>
                 <span>{debrief.outcome}</span>
                 <h4>{debrief.zone}</h4>
@@ -80,7 +87,7 @@ export function MissionReportPage() {
           tone="warm"
         >
           <div className="report-readouts">
-            {reportReadouts.map((item) => (
+            {missionReport.readouts.map((item) => (
               <article className="report-readout" key={item.title}>
                 <span>{item.title}</span>
                 <p>{item.detail}</p>
@@ -96,15 +103,8 @@ export function MissionReportPage() {
           tone="warm"
         >
           <div className="report-closeout">
-            <p>
-              Olympus Prime maintained full crew morale despite a sharp rise in dramatic
-              accusations, suspiciously elegant defenses, and one final reveal that caused
-              a brief but understandable loss of composure across the room.
-            </p>
-            <p>
-              Recommendation for next session: preserve the exact same energy, but arrive
-              with extra charge cables and stronger confidence control.
-            </p>
+            <p>{missionReport.verdict}</p>
+            <p>{missionReport.recommendation}</p>
           </div>
         </ModuleFrame>
       </div>
