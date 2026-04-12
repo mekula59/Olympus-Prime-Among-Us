@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
-import { crewRankings, crewRibbons } from '../data/hqData';
+import { crewRankings, crewRibbons } from '../data/games/among-us/amongUsData';
 import { ModuleFrame } from '../components/ModuleFrame';
 import { PageIntro } from '../components/PageIntro';
 

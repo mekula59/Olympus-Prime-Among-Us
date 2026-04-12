@@ -1,9 +1,9 @@
 import { ModuleFrame } from '../components/ModuleFrame';
 import { PageIntro } from '../components/PageIntro';
-import { usePublicSyncState } from '../hooks/usePublicSyncState';
+import { useAmongUsPublicSyncState } from '../hooks/games/among-us/useAmongUsPublicSyncState';
 
 export function MissionLogsPage() {
-  const { missionLogs, shell, sync } = usePublicSyncState();
+  const { missionLogs, shell, sync } = useAmongUsPublicSyncState();
 
   return (
     <div className="page page--mission-logs">

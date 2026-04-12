@@ -2,10 +2,10 @@ import { useState } from 'react';
 import { ModuleFrame } from '../components/ModuleFrame';
 import { PageIntro } from '../components/PageIntro';
 import { ThresholdMarker } from '../components/ThresholdMarker';
-import { usePublicSyncState } from '../hooks/usePublicSyncState';
+import { useAmongUsPublicSyncState } from '../hooks/games/among-us/useAmongUsPublicSyncState';
 
 export function TransmissionReportsPage() {
-  const { transmissions, sync } = usePublicSyncState();
+  const { transmissions, sync } = useAmongUsPublicSyncState();
   const channelOptions = ['All channels', ...new Set(transmissions.map((item) => item.channel)), 'Standby'];
   const [activeChannel, setActiveChannel] = useState(channelOptions[0]);
   const visibleTransmissions =

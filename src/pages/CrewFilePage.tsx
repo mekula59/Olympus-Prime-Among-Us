@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { CSSProperties } from 'react';
-import { crewProfiles } from '../data/hqData';
+import { crewProfiles } from '../data/games/among-us/amongUsData';
 import { ModuleFrame } from '../components/ModuleFrame';
 import { PageIntro } from '../components/PageIntro';
 

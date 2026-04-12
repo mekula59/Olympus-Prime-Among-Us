@@ -1,4 +1,4 @@
-import { legendEntries } from '../data/hqData';
+import { legendEntries } from '../data/games/among-us/amongUsData';
 import { ModuleFrame } from '../components/ModuleFrame';
 import { PageIntro } from '../components/PageIntro';
 import { ThresholdMarker } from '../components/ThresholdMarker';

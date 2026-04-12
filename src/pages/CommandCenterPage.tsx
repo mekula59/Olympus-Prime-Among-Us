@@ -2,10 +2,10 @@ import { useState } from 'react';
 import type { CSSProperties } from 'react';
 import {
   commandZones,
-} from '../data/hqData';
+} from '../data/games/among-us/amongUsData';
 import { ModuleFrame } from '../components/ModuleFrame';
 import { PageIntro } from '../components/PageIntro';
-import { usePublicSyncState } from '../hooks/usePublicSyncState';
+import { useAmongUsPublicSyncState } from '../hooks/games/among-us/useAmongUsPublicSyncState';
 
 const simModes = [
   {
@@ -34,7 +34,7 @@ const simModes = [
 export function CommandCenterPage() {
   const [activeMode, setActiveMode] = useState<(typeof simModes)[number]['id']>('lobby');
   const [systemEvent, setSystemEvent] = useState('LOBBY LOADED');
-  const { commandCenter, shell, sync } = usePublicSyncState();
+  const { commandCenter, shell, sync } = useAmongUsPublicSyncState();
   const modeConfig = simModes.find((mode) => mode.id === activeMode) ?? simModes[0];
   const liveRoster = commandCenter.roomRoster.slice(0, 5);
   const liveWhispers =

@@ -2,7 +2,7 @@ import { ModuleFrame } from './components/ModuleFrame';
 import { AmongUsModuleHeader } from './components/shell/AmongUsModuleHeader';
 import { HubShell } from './components/shell/HubShell';
 import type { AppRouteId } from './config/routes';
-import { usePublicSyncState } from './hooks/usePublicSyncState';
+import { useAmongUsPublicSyncState } from './hooks/games/among-us/useAmongUsPublicSyncState';
 import { useHashRoute } from './hooks/useHashRoute';
 import { OpsConsolePage } from './pages/OpsConsolePage';
 import { AmongUsArchivePage } from './pages/games/among-us/AmongUsArchivePage';
@@ -120,7 +120,7 @@ function renderPage(routeId: AppRouteId) {
 
 function App() {
   const { path, route } = useHashRoute();
-  const { shell, sync } = usePublicSyncState();
+  const { shell, sync } = useAmongUsPublicSyncState();
 
   return (
     <div className={`app-shell app-shell--${route.id}`}>

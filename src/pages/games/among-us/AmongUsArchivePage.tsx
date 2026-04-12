@@ -5,8 +5,8 @@ import { ThresholdMarker } from '../../../components/ThresholdMarker';
 import {
   incidentNotes,
   legendEntries,
-} from '../../../data/hqData';
-import { usePublicSyncState } from '../../../hooks/usePublicSyncState';
+} from '../../../data/games/among-us/amongUsData';
+import { useAmongUsPublicSyncState } from '../../../hooks/games/among-us/useAmongUsPublicSyncState';
 
 const archiveModes = [
   { id: 'legends', label: 'Legends' },
@@ -15,7 +15,7 @@ const archiveModes = [
 ] as const;
 
 export function AmongUsArchivePage() {
-  const { transmissions } = usePublicSyncState();
+  const { transmissions } = useAmongUsPublicSyncState();
   const [activeMode, setActiveMode] = useState<(typeof archiveModes)[number]['id']>('legends');
   const [featuredLegend, ...legendShelf] = legendEntries;
   const visibleSignals = transmissions.slice(0, 4);

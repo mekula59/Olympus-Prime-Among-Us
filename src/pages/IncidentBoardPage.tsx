@@ -1,4 +1,4 @@
-import { incidentNotes } from '../data/hqData';
+import { incidentNotes } from '../data/games/among-us/amongUsData';
 import { ModuleFrame } from '../components/ModuleFrame';
 import { PageIntro } from '../components/PageIntro';
 import { ThresholdMarker } from '../components/ThresholdMarker';
