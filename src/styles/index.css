@@ -160,7 +160,9 @@ img {
 .app-shell--season-detail,
 .app-shell--yearbook,
 .app-shell--games,
-.app-shell--ops {
+.app-shell--ops,
+.app-shell--ops-session-new,
+.app-shell--ops-session-edit {
   --accent: #8fb0ff;
   --accent-soft: rgba(143, 176, 255, 0.14);
   --accent-secondary: #ffc978;
@@ -175,7 +177,8 @@ img {
 .app-shell--among-us-legends,
 .app-shell--among-us-incidents,
 .app-shell--among-us-transmissions,
-.app-shell--ops-among-us {
+.app-shell--ops-among-us,
+.app-shell--ops-among-us-session {
   --accent: #ff875f;
   --accent-soft: rgba(255, 135, 95, 0.18);
   --accent-secondary: #7ce0ff;

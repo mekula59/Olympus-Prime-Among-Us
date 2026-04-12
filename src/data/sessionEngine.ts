@@ -12,7 +12,7 @@ import type {
   SessionEngineStageId,
   SessionEngineStatusMap,
 } from '../types/sessionEngine';
-import { awardTemplates, correctionItems, opsPlayers, opsSeasons } from './opsData';
+import { awardTemplates, correctionItems, opsPlayers, opsSeasons } from './games/among-us/amongUsOpsData';
 import {
   getAwardsBySessionId,
   getLatestOperationalSession,
@@ -26,7 +26,7 @@ import {
   getSessionById,
 } from './productSelectors';
 
-const defaultOperationalSession = getLatestOperationalSession();
+const defaultOperationalSession = getLatestOperationalSession('among-us');
 const defaultSessionId = defaultOperationalSession?.id ?? 'session-09';
 
 export const sessionEngineStages: SessionEngineStageDefinition[] = [

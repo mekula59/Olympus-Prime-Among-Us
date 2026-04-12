@@ -16,7 +16,10 @@ export type AppRouteId =
   | 'among-us-incidents'
   | 'among-us-transmissions'
   | 'ops'
-  | 'ops-among-us';
+  | 'ops-session-new'
+  | 'ops-session-edit'
+  | 'ops-among-us'
+  | 'ops-among-us-session';
 
 export type AppRouteSection = 'hub' | 'games' | 'ops';
 export type AppRouteShell = 'hub' | 'among-us';
@@ -24,6 +27,7 @@ export type AppRouteShell = 'hub' | 'among-us';
 export interface AppRoute {
   id: AppRouteId;
   path: string;
+  matchPath?: RegExp;
   label: string;
   shortLabel: string;
   section: AppRouteSection;
@@ -222,6 +226,29 @@ export const appRoutes: AppRoute[] = [
     nav: 'hidden',
   },
   {
+    id: 'ops-session-new',
+    path: '/ops/sessions/new',
+    label: 'New Session',
+    shortLabel: 'New Session',
+    section: 'ops',
+    shell: 'hub',
+    stateLabel: 'New',
+    blurb: 'A lightweight generic session entry point for hosts creating a new gamesnight record.',
+    nav: 'hidden',
+  },
+  {
+    id: 'ops-session-edit',
+    path: '/ops/sessions/current',
+    matchPath: /^\/ops\/sessions\/[^/]+$/,
+    label: 'Session Editor',
+    shortLabel: 'Session',
+    section: 'ops',
+    shell: 'hub',
+    stateLabel: 'Edit',
+    blurb: 'A calm, broad session editor for recap, attendance, and publish readiness across games.',
+    nav: 'hidden',
+  },
+  {
     id: 'ops-among-us',
     path: '/ops/among-us',
     label: 'Among Us Ops',
@@ -230,6 +257,18 @@ export const appRoutes: AppRoute[] = [
     shell: 'among-us',
     stateLabel: 'Ops',
     blurb: 'The Among Us session engine for structured host entry, recap drafting, and transmit flow.',
+    nav: 'hidden',
+  },
+  {
+    id: 'ops-among-us-session',
+    path: '/ops/among-us/sessions/current',
+    matchPath: /^\/ops\/among-us\/sessions\/[^/]+$/,
+    label: 'Among Us Session Engine',
+    shortLabel: 'Session Engine',
+    section: 'ops',
+    shell: 'among-us',
+    stateLabel: 'Engine',
+    blurb: 'The staged Among Us ops engine for match logging, outcomes, awards, recap drafting, and transmit flow.',
     nav: 'hidden',
   },
 ];
@@ -245,7 +284,7 @@ export const legacyHashRedirects: Record<string, string> = {
   '/prime-legends-archive': '/games/among-us/legends',
   '/incident-board': '/games/among-us/incidents',
   '/transmission-reports': '/games/among-us/transmissions',
-  '/ops-console': '/ops/among-us',
+  '/ops-console': '/ops/among-us/sessions/session-09',
 };
 
 const routeByPath = new Map(appRoutes.map((route) => [route.path, route]));
@@ -254,12 +293,18 @@ export function normalizeAppPath(hash: string) {
   const cleaned = hash.replace(/^#/, '') || defaultAppPath;
   const prefixed = cleaned.startsWith('/') ? cleaned : `/${cleaned}`;
   const redirected = legacyHashRedirects[prefixed] ?? prefixed;
+  const direct = routeByPath.get(redirected);
 
-  return routeByPath.has(redirected) ? redirected : defaultAppPath;
+  if (direct) {
+    return direct.path;
+  }
+
+  const matched = appRoutes.find((route) => route.matchPath?.test(redirected));
+  return matched ? redirected : defaultAppPath;
 }
 
 export function getRouteByPath(path: string) {
-  return routeByPath.get(path) ?? routeByPath.get(defaultAppPath)!;
+  return routeByPath.get(path) ?? appRoutes.find((route) => route.matchPath?.test(path)) ?? routeByPath.get(defaultAppPath)!;
 }
 
 export const bottomNavRoutes = appRoutes.filter((route) => route.nav === 'bottom');

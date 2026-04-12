@@ -1,10 +1,8 @@
-import { ModuleFrame } from './components/ModuleFrame';
 import { AmongUsModuleHeader } from './components/shell/AmongUsModuleHeader';
 import { HubShell } from './components/shell/HubShell';
 import type { AppRouteId } from './config/routes';
 import { useAmongUsPublicSyncState } from './hooks/games/among-us/useAmongUsPublicSyncState';
 import { useHashRoute } from './hooks/useHashRoute';
-import { OpsConsolePage } from './pages/OpsConsolePage';
 import { AmongUsArchivePage } from './pages/games/among-us/AmongUsArchivePage';
 import { AmongUsIncidentsPage } from './pages/games/among-us/AmongUsIncidentsPage';
 import { AmongUsLegendsPage } from './pages/games/among-us/AmongUsLegendsPage';
@@ -21,49 +19,10 @@ import { PlayersPage } from './pages/hub/PlayersPage';
 import { SeasonDetailPage } from './pages/hub/SeasonDetailPage';
 import { SeasonsPage } from './pages/hub/SeasonsPage';
 import { YearbookPage } from './pages/hub/YearbookPage';
+import { AmongUsOpsSessionPage } from './pages/ops/among-us/AmongUsOpsSessionPage';
+import { OpsHomePage } from './pages/ops/OpsHomePage';
+import { SessionEditorPage } from './pages/ops/SessionEditorPage';
 import './styles/index.css';
-
-interface HubPlaceholderPageProps {
-  eyebrow: string;
-  title: string;
-  lede: string;
-  primaryHref: string;
-  primaryLabel: string;
-  secondaryHref?: string;
-  secondaryLabel?: string;
-}
-
-function HubPlaceholderPage({
-  eyebrow,
-  title,
-  lede,
-  primaryHref,
-  primaryLabel,
-  secondaryHref,
-  secondaryLabel,
-}: HubPlaceholderPageProps) {
-  return (
-    <div className="page page--hub-placeholder">
-      <ModuleFrame
-        eyebrow={eyebrow}
-        title={title}
-        lede={lede}
-        className="hub-placeholder"
-      >
-        <div className="hub-placeholder__actions">
-          <a className="primary-link" href={primaryHref}>
-            {primaryLabel}
-          </a>
-          {secondaryHref && secondaryLabel ? (
-            <a className="secondary-link" href={secondaryHref}>
-              {secondaryLabel}
-            </a>
-          ) : null}
-        </div>
-      </ModuleFrame>
-    </div>
-  );
-}
 
 function renderPage(routeId: AppRouteId) {
   switch (routeId) {
@@ -100,19 +59,13 @@ function renderPage(routeId: AppRouteId) {
     case 'among-us-transmissions':
       return <AmongUsTransmissionsPage />;
     case 'ops':
-      return (
-        <HubPlaceholderPage
-          eyebrow="Ops"
-          title="Broad Ops route reserved."
-          lede="This route will become the generic gamesnight entry and publish layer. The full staged session engine remains available under Among Us Ops during the transition."
-          primaryHref="#/ops/among-us"
-          primaryLabel="Open Among Us Ops"
-          secondaryHref="#/"
-          secondaryLabel="Back to Hub"
-        />
-      );
+      return <OpsHomePage />;
+    case 'ops-session-new':
+    case 'ops-session-edit':
+      return <SessionEditorPage />;
     case 'ops-among-us':
-      return <OpsConsolePage />;
+    case 'ops-among-us-session':
+      return <AmongUsOpsSessionPage />;
     default:
       return <AmongUsOverviewPage />;
   }
