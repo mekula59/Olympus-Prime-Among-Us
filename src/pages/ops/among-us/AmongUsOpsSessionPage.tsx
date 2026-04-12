@@ -1,6 +1,6 @@
 import { ModuleFrame } from '../../../components/ModuleFrame';
 import { currentHubOpsSessionId } from '../../../data/ops/hubOpsData';
-import { OpsConsolePage } from '../../OpsConsolePage';
+import { AmongUsOpsEnginePage } from './AmongUsOpsEnginePage';
 
 export function AmongUsOpsSessionPage() {
   return (
@@ -22,7 +22,7 @@ export function AmongUsOpsSessionPage() {
         </div>
       </ModuleFrame>
 
-      <OpsConsolePage />
+      <AmongUsOpsEnginePage />
     </div>
   );
 }
