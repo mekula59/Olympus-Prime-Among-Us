@@ -1,39 +1,60 @@
 # Design Direction
 
-## Core Idea
+## Product Shape
 
-Olympus Prime Gamesnight should feel like the memory of an *Among Us* session, not a literal clone of the game interface.
+Olympus Prime is now a `Gamesnight Hub`, not a standalone Among Us site.
 
-The site is built around:
+- Discord is the live layer.
+- The site is the memory layer.
+- The Hub shell stays broad, calm, and mobile-first.
+- Among Us carries the strongest nostalgia, but only inside its module.
 
-- low-light spaceship ambience
-- rounded, visor-like panels
-- warm warning colors mixed with electric cyan
-- copy that remembers suspicion, laughter, and chaos
-- a layout that feels like a transmission from a ship lounge instead of a dashboard
+## Core Experience Goals
 
-## Visual Cues
+- mobile-first screen design
+- Discord-linked usage first
+- one strong focal area per screen
+- clean vertical flow
+- warm, social memory instead of dashboard energy
+- fast comprehension on small screens
 
-- Deep-space navy background with soft red, amber, and cyan bloom
-- Chunky panel shapes that hint at portholes and ship consoles
-- Slightly condensed display typography and readable body copy
-- Floating status pills, subtle star maps, and animated glow layers
-- Card clusters that feel like snapshots from a shared ritual
+## Hub vs Among Us
 
-## Content Tone
+Hub layer
 
-The writing should sound human, vivid, and communal. It should suggest:
+- cleaner and calmer
+- broader community memory
+- recurring players, seasons, yearbook, games index
+- useful when opened from Discord links
 
-- emergency meetings
-- fake confidence
-- impossible accusations
-- last-round revenge
-- snacks, hot mics, and loud laughter
+Among Us module
+
+- more personality
+- stronger nostalgia cues
+- social-deduction tension
+- rankings, reports, session archive, long-tail lore
+
+## Visual Rules
+
+- Avoid polished SaaS or generic gaming-dashboard layouts.
+- Avoid over-literal control-room theatrics.
+- Use rounded, touch-friendly shapes and compact mobile spacing.
+- Keep the global shell restrained.
+- Let module-specific identity live locally inside the Among Us routes.
+
+## Interaction Rules
+
+- Important actions should feel like state changes, not generic website clicks.
+- Keep language short and practical.
+- Favor `load`, `active`, `verify`, `commit`, `transmit`, `standby`, and `flagged` over vague CTA copy.
+- Generic Ops should stay broad and lightweight.
+- Among Us Ops can keep the staged engine because it supports the flagship module directly.
 
 ## What To Avoid
 
-- generic esports dashboards
-- hard-edged cyberpunk overload
-- literal copies of copyrighted game art or UI
-- overly technical product language
-- sterile event-listing layouts with no atmosphere
+- treating the site like the primary community home
+- desktop-first multi-panel layouts
+- overly cinematic sci-fi framing
+- forced worldbuilding that hurts clarity
+- brittle dashboard patterns
+- copying copyrighted Among Us UI directly

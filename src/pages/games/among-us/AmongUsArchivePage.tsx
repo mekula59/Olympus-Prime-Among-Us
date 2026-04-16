@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { ModuleFrame } from '../../../components/ModuleFrame';
-import { PageIntro } from '../../../components/PageIntro';
-import { ThresholdMarker } from '../../../components/ThresholdMarker';
 import {
   incidentNotes,
   legendEntries,
@@ -23,26 +21,28 @@ export function AmongUsArchivePage() {
 
   return (
     <div className="page page--among-us-archive">
-      <PageIntro
-        eyebrow="Among Us archive"
-        title="Legends, incidents, and the signals left behind."
-        lede="This is the long-tail memory lane for the Among Us module. The loudest sessions become legends, the messiest moments become notes, and the best chatter keeps glowing in the archive."
-        tags={['Module archive', 'Replay memory', 'Among Us lore']}
-        aside={
-          <div className="memory-orb memory-orb--compact memory-orb--soft">
-            <p className="memory-orb__label">Archive mode</p>
-            <strong>{archiveModes.find((mode) => mode.id === activeMode)?.label}</strong>
-            <span>The module keeps the richer nostalgia here instead of pushing it into the whole Hub shell.</span>
-          </div>
-        }
-      />
+      <section className="module-screen-header" aria-label="Among Us archive">
+        <p className="module-screen-header__eyebrow">Among Us</p>
+        <h2>Archive</h2>
+        <p className="module-screen-header__lede">Legends, incidents, and signal fragments from the sessions people kept talking about.</p>
 
-      <ModuleFrame
-        eyebrow="Archive view"
-        title="One memory lane, three shelves"
-        lede="Switch between the main kinds of Among Us memory without leaving the module."
-        className="among-us-archive-switcher"
-      >
+        <div className="module-utility-row" aria-label="Archive summary">
+          <article>
+            <span>Mode</span>
+            <strong>{archiveModes.find((mode) => mode.id === activeMode)?.label}</strong>
+          </article>
+          <article>
+            <span>Legends</span>
+            <strong>{legendEntries.length}</strong>
+          </article>
+          <article>
+            <span>Signals</span>
+            <strong>{transmissions.length}</strong>
+          </article>
+        </div>
+      </section>
+
+      <ModuleFrame className="among-us-archive-switcher module-screen-module">
         <div className="system-switcher" role="tablist" aria-label="Archive modes">
           {archiveModes.map((mode) => (
             <button
@@ -62,11 +62,8 @@ export function AmongUsArchivePage() {
         <>
           {featuredLegend ? (
             <ModuleFrame
-              eyebrow="Featured relic"
-              title={featuredLegend.title}
-              lede={featuredLegend.result}
               tone={featuredLegend.tone}
-              className="legend-monument"
+              className="legend-monument module-screen-module"
             >
               <div className="legend-monument__layout">
                 <div className="legend-monument__seal">
@@ -82,23 +79,15 @@ export function AmongUsArchivePage() {
             </ModuleFrame>
           ) : null}
 
-          <ThresholdMarker
-            eyebrow="Vault shelf"
-            title="The rounds that got replayed until they stopped feeling ordinary."
-            detail="This lane keeps the richer nostalgia local to the Among Us module."
-            tone="hot"
-          />
-
           <div className="archive-grid among-us-archive-grid">
             {legendShelf.map((legend) => (
               <ModuleFrame
                 key={legend.title}
-                eyebrow={legend.season}
-                title={legend.title}
-                lede={legend.result}
                 tone={legend.tone}
-                className="legend-card"
+                className="legend-card module-screen-module"
               >
+                <span className="legend-card__eyebrow">{legend.season}</span>
+                <h3>{legend.title}</h3>
                 <p>{legend.myth}</p>
                 <blockquote>{legend.witness}</blockquote>
                 <span className="legend-card__relic">{legend.relic}</span>
@@ -110,18 +99,8 @@ export function AmongUsArchivePage() {
 
       {activeMode === 'incidents' ? (
         <>
-          <ThresholdMarker
-            eyebrow="Pinned lane"
-            title="The notes that stayed messy enough to keep."
-            detail="Incidents are useful because they preserve the social wobble, not just the final verdict."
-            tone="hot"
-          />
-
           <ModuleFrame
-            eyebrow="Pinned threads"
-            title="Among Us incident board"
-            lede="The archive version keeps the strongest cases and leaves the rest behind."
-            className="incident-board among-us-archive-panel"
+            className="incident-board among-us-archive-panel module-screen-module"
           >
             <div className="incident-grid">
               {visibleIncidents.map((note) => (
@@ -143,18 +122,8 @@ export function AmongUsArchivePage() {
 
       {activeMode === 'signals' ? (
         <>
-          <ThresholdMarker
-            eyebrow="Signal lane"
-            title="The afterglow lines worth hearing again."
-            detail="Signals are the archive shelf for chatter, recap lines, and room energy that still sounds alive later."
-            tone="cool"
-          />
-
           <ModuleFrame
-            eyebrow="Speaker wall"
-            title="Among Us signals"
-            lede="A focused relay stack for the module archive."
-            className="transmission-feed among-us-archive-panel"
+            className="transmission-feed among-us-archive-panel module-screen-module"
           >
             <div className="transmission-stack">
               {visibleSignals.map((item) => (

@@ -12,9 +12,6 @@ export type AppRouteId =
   | 'among-us-sessions'
   | 'among-us-reports'
   | 'among-us-archive'
-  | 'among-us-legends'
-  | 'among-us-incidents'
-  | 'among-us-transmissions'
   | 'ops'
   | 'ops-session-new'
   | 'ops-session-edit'
@@ -182,39 +179,6 @@ export const appRoutes: AppRoute[] = [
     nav: 'module',
   },
   {
-    id: 'among-us-legends',
-    path: '/games/among-us/legends',
-    label: 'Among Us Legends',
-    shortLabel: 'Legends',
-    section: 'games',
-    shell: 'among-us',
-    stateLabel: 'Legends',
-    blurb: 'A temporary compatibility route for the current legends page.',
-    nav: 'hidden',
-  },
-  {
-    id: 'among-us-incidents',
-    path: '/games/among-us/incidents',
-    label: 'Among Us Incidents',
-    shortLabel: 'Incidents',
-    section: 'games',
-    shell: 'among-us',
-    stateLabel: 'Incidents',
-    blurb: 'A temporary compatibility route for the current incident board.',
-    nav: 'hidden',
-  },
-  {
-    id: 'among-us-transmissions',
-    path: '/games/among-us/transmissions',
-    label: 'Among Us Transmissions',
-    shortLabel: 'Transmissions',
-    section: 'games',
-    shell: 'among-us',
-    stateLabel: 'Signals',
-    blurb: 'A temporary compatibility route for the current transmission feed.',
-    nav: 'hidden',
-  },
-  {
     id: 'ops',
     path: '/ops',
     label: 'Ops',
@@ -276,14 +240,9 @@ export const appRoutes: AppRoute[] = [
 export const defaultAppPath = '/';
 
 export const legacyHashRedirects: Record<string, string> = {
-  '/command-center': '/games/among-us',
-  '/crew-rankings': '/games/among-us/rankings',
-  '/crew-file': '/games/among-us/players',
-  '/mission-logs': '/games/among-us/sessions',
-  '/mission-report': '/games/among-us/reports',
-  '/prime-legends-archive': '/games/among-us/legends',
-  '/incident-board': '/games/among-us/incidents',
-  '/transmission-reports': '/games/among-us/transmissions',
+  '/prime-legends-archive': '/games/among-us/archive',
+  '/incident-board': '/games/among-us/archive',
+  '/transmission-reports': '/games/among-us/archive',
   '/ops-console': '/ops/among-us/sessions/session-09',
 };
 

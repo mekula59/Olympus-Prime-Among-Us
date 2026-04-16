@@ -1,27 +1,4 @@
-export type RouteId =
-  | 'command-center'
-  | 'crew-rankings'
-  | 'crew-file'
-  | 'mission-logs'
-  | 'mission-report'
-  | 'prime-legends-archive'
-  | 'incident-board'
-  | 'transmission-reports'
-  | 'ops-console';
-
-export type RouteGroup = 'HQ' | 'Records' | 'Ops';
 export type Tone = 'warm' | 'cool' | 'hot' | 'quiet';
-
-export interface RouteConfig {
-  id: RouteId;
-  label: string;
-  shortLabel: string;
-  group: RouteGroup;
-  deck: string;
-  eyebrow: string;
-  blurb: string;
-  cue: string;
-}
 
 export interface CommandStat {
   label: string;
@@ -34,7 +11,7 @@ export interface ZoneFeature {
   name: string;
   mood: string;
   description: string;
-  destination: RouteId;
+  destination: string;
   tone: Tone;
 }
 

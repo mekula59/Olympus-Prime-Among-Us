@@ -99,54 +99,6 @@ img {
   background-size: min(1320px, 100%);
 }
 
-.app-shell--command-center {
-  --accent: #ff875f;
-  --accent-soft: rgba(255, 135, 95, 0.18);
-  --accent-secondary: #7ce0ff;
-}
-
-.app-shell--crew-rankings {
-  --accent: #ffc978;
-  --accent-soft: rgba(255, 201, 120, 0.16);
-  --accent-secondary: #ff8d72;
-}
-
-.app-shell--crew-file {
-  --accent: #7ce0ff;
-  --accent-soft: rgba(124, 224, 255, 0.16);
-  --accent-secondary: #a2ffd1;
-}
-
-.app-shell--mission-logs {
-  --accent: #7ce0ff;
-  --accent-soft: rgba(124, 224, 255, 0.14);
-  --accent-secondary: #ffc978;
-}
-
-.app-shell--mission-report {
-  --accent: #ffc978;
-  --accent-soft: rgba(255, 201, 120, 0.14);
-  --accent-secondary: #7ce0ff;
-}
-
-.app-shell--prime-legends-archive {
-  --accent: #ff8d72;
-  --accent-soft: rgba(255, 141, 114, 0.16);
-  --accent-secondary: #ffd46f;
-}
-
-.app-shell--incident-board {
-  --accent: #ff7f88;
-  --accent-soft: rgba(255, 127, 136, 0.18);
-  --accent-secondary: #7ce0ff;
-}
-
-.app-shell--transmission-reports {
-  --accent: #8fd8ff;
-  --accent-soft: rgba(143, 216, 255, 0.18);
-  --accent-secondary: #ffc978;
-}
-
 .app-shell--ops-console {
   --accent: #aab2d0;
   --accent-soft: rgba(170, 178, 208, 0.14);
@@ -2861,27 +2813,6 @@ img {
   opacity: 1;
 }
 
-.app-shell--command-center .page-stage::before {
-  background: radial-gradient(circle, rgba(255, 135, 95, 0.2), transparent 72%);
-}
-
-.app-shell--crew-rankings .page-stage::before {
-  background: radial-gradient(circle, rgba(255, 201, 120, 0.2), transparent 72%);
-}
-
-.app-shell--crew-file .page-stage::before {
-  background: radial-gradient(circle, rgba(124, 224, 255, 0.18), transparent 72%);
-}
-
-.app-shell--mission-logs .page-stage::before,
-.app-shell--transmission-reports .page-stage::before {
-  background: radial-gradient(circle, rgba(143, 216, 255, 0.18), transparent 72%);
-}
-
-.app-shell--incident-board .page-stage::before {
-  background: radial-gradient(circle, rgba(255, 127, 136, 0.19), transparent 72%);
-}
-
 .app-shell--ops-console .page-stage::before {
   background: radial-gradient(circle, rgba(170, 178, 208, 0.14), transparent 72%);
 }
@@ -4566,4 +4497,1728 @@ img {
     width: min(100%, 1120px);
     margin: 0.35rem auto 0;
   }
+}
+
+/* UI reset: calmer Hub, lighter Among Us, mobile-first by default */
+
+:root {
+  --surface: rgba(15, 19, 31, 0.72);
+  --surface-strong: rgba(13, 16, 27, 0.9);
+  --surface-soft: rgba(255, 255, 255, 0.035);
+  --line: rgba(255, 255, 255, 0.07);
+  --line-bright: rgba(255, 255, 255, 0.1);
+  --shadow: 0 18px 40px rgba(1, 3, 10, 0.24);
+  --shadow-soft: 0 10px 24px rgba(1, 3, 10, 0.16);
+}
+
+body {
+  background:
+    radial-gradient(circle at 18% 10%, rgba(255, 122, 99, 0.1), transparent 18%),
+    radial-gradient(circle at 84% 8%, rgba(124, 222, 255, 0.08), transparent 18%),
+    linear-gradient(180deg, #0d1224 0%, #090d18 42%, #060810 100%);
+}
+
+body::before {
+  opacity: 0.35;
+  background-size: 140px 140px;
+}
+
+body::after {
+  opacity: 0.26;
+}
+
+.app-shell {
+  padding: 0.75rem 0.75rem 6rem;
+  background-size: min(1120px, 100%);
+}
+
+.ambient {
+  opacity: 0.42;
+  filter: blur(40px);
+}
+
+.hq-layout,
+.hq-layout--mobile {
+  display: block;
+  width: min(100%, 46rem);
+  margin: 0 auto;
+}
+
+.mobile-shell,
+.page-stage,
+.page-stage--mobile {
+  border: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  background: transparent;
+}
+
+.mobile-shell {
+  display: grid;
+  gap: 0.85rem;
+  padding: 0.15rem 0 0.5rem;
+}
+
+.mobile-shell__bar {
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.brand-mark {
+  padding: 0.2rem 0;
+  gap: 0.7rem;
+}
+
+.brand-mark img {
+  width: 2.65rem;
+  height: 2.65rem;
+}
+
+.brand-mark span {
+  gap: 0;
+  font-size: 0.76rem;
+  letter-spacing: 0.12em;
+}
+
+.brand-mark strong {
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+}
+
+.mobile-shell__status {
+  min-width: 0;
+  padding: 0.55rem 0.75rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.mobile-shell__status span {
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+}
+
+.mobile-shell__status strong {
+  font-size: 0.82rem;
+}
+
+.mobile-shell__hero {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.35rem 0 0;
+}
+
+.mobile-shell__copy {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.mobile-shell__hero h1 {
+  max-width: 11ch;
+  font-size: clamp(1.9rem, 8vw, 2.7rem);
+  line-height: 0.96;
+  letter-spacing: -0.04em;
+}
+
+.mobile-shell__hero p:last-child {
+  max-width: 34rem;
+  margin: 0;
+  font-size: 0.98rem;
+  color: color-mix(in srgb, var(--text) 72%, var(--muted));
+}
+
+.mobile-shell__meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem;
+}
+
+.mobile-shell__meta-card {
+  display: grid;
+  gap: 0.18rem;
+  padding: 0.85rem 0.95rem;
+  border-radius: 1.15rem;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.mobile-shell__meta-card span {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.mobile-shell__meta-card strong {
+  font-size: 0.98rem;
+  line-height: 1.15;
+}
+
+.mobile-shell__whisper {
+  padding: 0.15rem 0 0;
+  border: 0;
+  background: transparent;
+}
+
+.mobile-shell__whisper span {
+  display: block;
+  margin-bottom: 0.25rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--warm);
+}
+
+.mobile-shell__whisper p {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.page-stage,
+.page-stage--mobile {
+  padding: 0.25rem 0 0;
+  border-radius: 0;
+  overflow: visible;
+}
+
+.page-stage::before,
+.page-stage::after {
+  display: none;
+}
+
+.page {
+  gap: 0.9rem;
+}
+
+.page-intro {
+  grid-template-columns: 1fr;
+  gap: 0.7rem;
+  padding: 0.15rem 0 0.1rem;
+}
+
+.page-intro__copy {
+  display: grid;
+  gap: 0.42rem;
+}
+
+.page-intro h2 {
+  max-width: 12ch;
+  font-size: clamp(1.7rem, 7vw, 2.35rem);
+  line-height: 0.98;
+}
+
+.page-intro__lede {
+  margin: 0;
+  max-width: 34rem;
+  font-size: 0.96rem;
+}
+
+.page-intro__aside {
+  justify-content: flex-start;
+}
+
+.section-kicker {
+  margin: 0;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+}
+
+.page-tags {
+  gap: 0.45rem;
+  margin-top: 0.35rem;
+}
+
+.page-tag {
+  padding: 0.34rem 0.65rem;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow: none;
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+}
+
+.memory-orb {
+  min-height: 0;
+  width: min(100%, 22rem);
+  gap: 0.45rem;
+  padding: 0.95rem 1rem;
+  border: 0;
+  border-radius: 1.3rem;
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow: none;
+}
+
+.memory-orb--compact,
+.memory-orb--soft,
+.memory-orb--system {
+  min-height: 0;
+  border-radius: 1.3rem;
+}
+
+.memory-orb strong {
+  font-size: 1.05rem;
+  line-height: 1.15;
+}
+
+.module {
+  padding: 1rem;
+  border: 0;
+  border-radius: 1.35rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.02)),
+    var(--surface);
+  box-shadow: var(--shadow-soft);
+  backdrop-filter: blur(12px);
+  transform: none;
+}
+
+.module:hover {
+  transform: none;
+  border-color: transparent;
+  box-shadow: var(--shadow-soft);
+}
+
+.module__header {
+  margin-bottom: 0.8rem;
+}
+
+.module__body {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.module h3 {
+  font-size: clamp(1.2rem, 5vw, 1.65rem);
+  line-height: 1.04;
+}
+
+.module__lede {
+  margin: 0.35rem 0 0;
+  font-size: 0.92rem;
+}
+
+.module--warm,
+.module--cool,
+.module--hot {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.02)),
+    var(--surface);
+}
+
+.hub-two-up,
+.command-hero-grid,
+.two-up-grid,
+.command-console__grid,
+.ops-engine-grid,
+.report-rail-stack,
+.transmission-layout,
+.incident-layout,
+.logs-layout {
+  grid-template-columns: 1fr;
+}
+
+.hub-feature-stack,
+.hub-player-grid,
+.hub-game-list,
+.hub-memory-list,
+.hub-directory,
+.hub-season-list,
+.hub-yearbook-grid,
+.hub-stat-row {
+  gap: 0.65rem;
+}
+
+.hub-feature,
+.hub-game-card,
+.hub-memory-item,
+.hub-directory-card,
+.hub-season-card,
+.hub-yearbook-card,
+.hub-player-card,
+.hub-stat-row article {
+  padding: 0.95rem 1rem;
+  border: 0;
+  border-radius: 1.15rem;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: none;
+}
+
+.hub-feature strong,
+.hub-game-card strong,
+.hub-season-card strong,
+.hub-yearbook-card strong,
+.hub-directory-card strong,
+.hub-player-card strong,
+.hub-profile-card__hero strong,
+.hub-stat-row strong {
+  font-size: 1rem;
+}
+
+.hub-feature p,
+.hub-game-card p,
+.hub-memory-item p,
+.hub-directory-card p,
+.hub-season-card p,
+.hub-yearbook-card p,
+.hub-player-card p,
+.hub-profile-card__summary {
+  font-size: 0.92rem;
+}
+
+.bottom-dock {
+  left: max(0.75rem, env(safe-area-inset-left));
+  right: max(0.75rem, env(safe-area-inset-right));
+  bottom: max(0.75rem, env(safe-area-inset-bottom));
+  padding: 0.45rem;
+  border: 0;
+  border-radius: 1.25rem;
+  background: rgba(10, 13, 23, 0.9);
+  box-shadow: 0 14px 30px rgba(1, 3, 10, 0.28);
+  backdrop-filter: blur(16px);
+}
+
+.bottom-dock__scroll {
+  gap: 0.45rem;
+}
+
+.bottom-dock__item {
+  min-width: 0;
+  padding: 0.72rem 0.8rem 0.78rem;
+  border: 0;
+  border-radius: 1rem;
+  background: transparent;
+  box-shadow: none;
+}
+
+.bottom-dock__item span {
+  font-size: 0.58rem;
+  letter-spacing: 0.08em;
+  opacity: 0.8;
+}
+
+.bottom-dock__item strong {
+  font-size: 0.82rem;
+}
+
+.bottom-dock__item--active {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.among-us-module-header {
+  display: grid;
+  gap: 0.7rem;
+  padding: 0.75rem 0 0.2rem;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.among-us-module-header__copy {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.among-us-module-header__copy h2 {
+  font-size: 1.25rem;
+  line-height: 1.04;
+}
+
+.among-us-module-header__copy p:last-child {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.among-us-module-header__nav {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.05rem;
+}
+
+.among-us-chip {
+  flex: 0 0 auto;
+  min-width: 0;
+  padding: 0.72rem 0.85rem;
+  border: 0;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow: none;
+}
+
+.among-us-chip--active {
+  background: rgba(255, 135, 95, 0.14);
+}
+
+.system-switcher,
+.relay-chip-row {
+  gap: 0.5rem;
+  padding-bottom: 0.05rem;
+}
+
+.system-switch,
+.relay-chip,
+.ops-button,
+.primary-link,
+.secondary-link {
+  min-height: 2.9rem;
+  border: 0;
+  border-radius: 1rem;
+  box-shadow: none;
+}
+
+.system-switch {
+  padding: 0.78rem 0.9rem;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.system-switch--active {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.ops-engine-layout {
+  grid-template-columns: 1fr;
+}
+
+.ops-engine-rail {
+  order: 2;
+}
+
+.ops-engine-stage {
+  order: 1;
+}
+
+.engine-stage-list {
+  gap: 0.55rem;
+}
+
+.engine-stage {
+  padding: 0.78rem 0.88rem;
+  border-radius: 1rem;
+  border: 0;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: none;
+}
+
+.engine-stage--active {
+  background: rgba(255, 255, 255, 0.085);
+}
+
+@media (min-width: 720px) {
+  .app-shell {
+    padding: 1rem 1rem 6.5rem;
+  }
+
+  .mobile-shell__meta {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .mobile-shell__whisper {
+    max-width: 42rem;
+  }
+
+  .hub-two-up {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 960px) {
+  .hq-layout,
+  .hq-layout--mobile {
+    width: min(100%, 54rem);
+  }
+
+  .mobile-shell__hero h1 {
+    font-size: 2.8rem;
+  }
+
+  .page-intro h2 {
+    font-size: 2.55rem;
+  }
+}
+
+.page--hub-players {
+  gap: 0.75rem;
+}
+
+.page--hub-home,
+.page--hub-seasons,
+.page--hub-yearbook,
+.page--hub-games {
+  gap: 0.75rem;
+}
+
+.hub-screen-header {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.15rem 0 0.1rem;
+}
+
+.hub-screen-header__eyebrow {
+  margin: 0;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--warm);
+}
+
+.hub-screen-header h2 {
+  margin: 0;
+  font-family: 'Avenir Next', 'Segoe UI', 'Trebuchet MS', sans-serif;
+  font-size: clamp(1.55rem, 7vw, 2.1rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.hub-screen-header__lede {
+  margin: 0;
+  max-width: 32rem;
+  font-size: 0.94rem;
+  color: var(--muted);
+}
+
+.hub-utility-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin-top: 0.15rem;
+}
+
+.hub-utility-row article {
+  display: grid;
+  gap: 0.12rem;
+  padding: 0.75rem 0.8rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.hub-utility-row span {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.hub-utility-row strong {
+  font-size: 0.95rem;
+  line-height: 1.14;
+}
+
+.hub-directory-module {
+  padding: 0.5rem;
+  background: transparent;
+  box-shadow: none;
+}
+
+.hub-directory-module .module__body {
+  gap: 0.55rem;
+}
+
+.hub-directory {
+  gap: 0.55rem;
+}
+
+.hub-directory-card {
+  gap: 0.55rem;
+  padding: 0.9rem 0.95rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.hub-directory-card__head {
+  gap: 0.7rem;
+  align-items: center;
+}
+
+.hub-player-card__token {
+  width: 0.95rem;
+  height: 0.95rem;
+  box-shadow: none;
+}
+
+.hub-directory-card strong {
+  font-size: 0.98rem;
+  line-height: 1.15;
+}
+
+.hub-directory-card__head p {
+  margin-top: 0.1rem;
+  font-size: 0.84rem;
+}
+
+.hub-directory-card__meta {
+  gap: 0.4rem;
+  margin-top: 0;
+}
+
+.hub-directory-card__meta span {
+  font-size: 0.72rem;
+}
+
+.page--hub-players .module__header {
+  display: none;
+}
+
+.page--hub-home .module__header,
+.page--hub-seasons .module__header,
+.page--hub-yearbook .module__header,
+.page--hub-games .module__header {
+  display: none;
+}
+
+.hub-primary-module,
+.hub-list-module {
+  padding: 0.4rem;
+  background: transparent;
+  box-shadow: none;
+}
+
+.hub-primary-module .module__body,
+.hub-list-module .module__body {
+  gap: 0.55rem;
+}
+
+.hub-feature--primary {
+  gap: 0.35rem;
+  padding: 1rem;
+  border-radius: 1.05rem;
+}
+
+.hub-feature--primary strong {
+  font-size: 1.12rem;
+}
+
+.hub-feature--primary p {
+  font-size: 0.93rem;
+}
+
+.hub-player-grid {
+  gap: 0.55rem;
+}
+
+.hub-player-card,
+.hub-game-card,
+.hub-memory-item,
+.hub-season-card,
+.hub-yearbook-card {
+  gap: 0.42rem;
+  padding: 0.95rem;
+  border-radius: 1rem;
+}
+
+.hub-player-card p,
+.hub-game-card p,
+.hub-memory-item p,
+.hub-season-card p,
+.hub-yearbook-card p {
+  font-size: 0.9rem;
+}
+
+.hub-player-card small,
+.hub-game-card small,
+.hub-season-card small,
+.hub-yearbook-card span,
+.hub-memory-item span {
+  font-size: 0.68rem;
+  letter-spacing: 0.11em;
+}
+
+.hub-two-up--compact {
+  gap: 0.65rem;
+}
+
+@media (min-width: 720px) {
+  .hub-utility-row {
+    width: fit-content;
+    min-width: 28rem;
+  }
+}
+
+.module-screen-header {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.1rem 0 0.05rem;
+}
+
+.module-screen-header__eyebrow {
+  margin: 0;
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--accent) 72%, var(--warm));
+}
+
+.module-screen-header h2 {
+  margin: 0;
+  font-family: 'Avenir Next', 'Segoe UI', 'Trebuchet MS', sans-serif;
+  font-size: clamp(1.6rem, 7vw, 2.15rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.module-screen-header__lede {
+  margin: 0;
+  max-width: 34rem;
+  font-size: 0.94rem;
+  color: var(--muted);
+}
+
+.module-utility-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin-top: 0.15rem;
+}
+
+.module-utility-row article {
+  display: grid;
+  gap: 0.12rem;
+  padding: 0.78rem 0.82rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.module-utility-row span {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.module-utility-row strong {
+  font-size: 0.95rem;
+  line-height: 1.14;
+}
+
+.module-screen-module .module__header {
+  display: none;
+}
+
+.module-screen-module {
+  padding: 0.5rem;
+  background: transparent;
+  box-shadow: none;
+}
+
+.module-screen-module .module__body {
+  gap: 0.6rem;
+}
+
+.page--command-center,
+.page--crew-rankings,
+.page--crew-file,
+.page--mission-logs,
+.page--mission-report,
+.page--among-us-archive {
+  gap: 0.8rem;
+}
+
+.page--mission-logs .stacked-side-modules,
+.page--mission-report .two-up-grid,
+.page--command-center .command-flow-stack {
+  gap: 0.7rem;
+}
+
+.legend-card__eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+@media (min-width: 720px) {
+  .module-utility-row {
+    width: fit-content;
+    min-width: 28rem;
+  }
+}
+
+/* === Design quality pass — typography, visual weight, mobile rhythm === */
+
+/* Body font: move to cleaner modern sans */
+:root {
+  font-family: 'Inter', -apple-system, 'Segoe UI', system-ui, sans-serif;
+}
+
+/* Hub screen header — stronger hierarchy */
+.hub-screen-header {
+  gap: 0.55rem;
+}
+
+.hub-screen-header__eyebrow {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+}
+
+.hub-screen-header h2 {
+  font-size: clamp(1.65rem, 7vw, 2.2rem);
+  font-weight: 600;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+}
+
+.hub-screen-header__lede {
+  font-size: 0.97rem;
+  color: color-mix(in srgb, var(--text) 78%, var(--muted));
+}
+
+/* Hub utility row — stronger values, better spacing */
+.hub-utility-row article {
+  padding: 0.82rem 0.92rem;
+}
+
+.hub-utility-row span {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+}
+
+.hub-utility-row strong {
+  font-size: 1.02rem;
+  font-weight: 600;
+}
+
+/* Section kicker — slightly more legible */
+.section-kicker {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  font-weight: 500;
+}
+
+/* Hub card titles — clearer hierarchy */
+.hub-feature strong,
+.hub-game-card strong,
+.hub-season-card strong,
+.hub-yearbook-card strong,
+.hub-player-card strong,
+.hub-stat-row strong {
+  font-size: 1.04rem;
+  font-weight: 600;
+}
+
+.hub-directory-card strong {
+  font-size: 1.04rem;
+  font-weight: 600;
+}
+
+/* Featured card — slightly more presence */
+.hub-feature--primary {
+  padding: 1.05rem 1.1rem;
+}
+
+.hub-feature--primary strong {
+  font-size: 1.15rem;
+}
+
+/* Module lede — more readable, less muted */
+.module__lede {
+  margin-top: 0.3rem;
+  font-size: 0.95rem;
+  color: color-mix(in srgb, var(--text) 68%, var(--muted));
+}
+
+/* Page intro headings — correct over-tight line-height */
+.page-intro h2 {
+  line-height: 1.06;
+}
+
+.page-intro__lede {
+  font-size: 0.98rem;
+}
+
+/* Bottom dock — more visible active state */
+.bottom-dock__item--active {
+  background: color-mix(in srgb, var(--accent) 20%, rgba(255, 255, 255, 0.05));
+}
+
+.bottom-dock__item--active strong {
+  color: var(--text);
+}
+
+/* Among Us chips — better rhythm and active clarity */
+.among-us-chip {
+  gap: 0.18rem;
+  padding: 0.74rem 0.9rem;
+}
+
+.among-us-chip span {
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+}
+
+.among-us-chip strong {
+  font-size: 0.92rem;
+}
+
+.among-us-chip--active strong {
+  color: var(--accent);
+}
+
+/* Among Us module header — slightly stronger */
+.among-us-module-header__copy h2 {
+  font-size: 1.38rem;
+  font-weight: 600;
+}
+
+/* System switcher buttons — cleaner label */
+.system-switch span {
+  font-size: 0.63rem;
+  letter-spacing: 0.12em;
+}
+
+/* Board strip rank — consistent, doesn't break at 10+ */
+.board-strip > span:first-child {
+  font-size: 0.76rem;
+  color: var(--muted);
+  min-width: 1.6rem;
+  letter-spacing: 0.04em;
+}
+
+/* Module h3 — tighter letter-spacing for condensed stack */
+.module h3 {
+  letter-spacing: -0.03em;
+  line-height: 1.06;
+}
+
+/* Directory card layout — slightly more breathing room */
+.hub-directory-card {
+  gap: 0.6rem;
+  padding: 1rem;
+}
+
+.hub-directory-card__head p {
+  font-size: 0.87rem;
+}
+
+/* Player color tokens — slightly larger for better tap-friendliness */
+.hub-player-card__token {
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Page body text — slightly improved reading weight */
+.hub-feature p,
+.hub-game-card p,
+.hub-memory-item p,
+.hub-directory-card p,
+.hub-player-card p {
+  font-size: 0.93rem;
+  color: color-mix(in srgb, var(--text) 62%, var(--muted));
+}
+
+/* === Screen-by-screen layout quality pass === */
+
+/* Hub screen-header: h2 + lede removed from all hub pages.
+   Now just eyebrow → utility row. Pull the gap tight. */
+.hub-screen-header {
+  gap: 0.35rem;
+}
+
+/* Remove the top-margin I added in the earlier pass — gap handles it now */
+.hub-utility-row {
+  margin-top: 0;
+}
+
+/* Game card: strong is now the game name (primary headline).
+   Old structure had span = name (tiny label), strong = latest session.
+   Now inverted correctly: strong = name, small.hub-game-card__latest = session. */
+.hub-game-card strong {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.1;
+  color: var(--text);
+}
+
+/* Latest session footer label inside game card */
+.hub-game-card__latest {
+  display: block;
+  margin-top: 0.1rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* Players directory: clip long bio text to 2 lines.
+   Full bio lives on the profile page — index only needs a hint. */
+.hub-directory-card__summary {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+/* System switcher state labels: remove ALL-CAPS shouting.
+   "Active / Load" reads more naturally than "ACTIVE / LOAD". */
+.system-switch span {
+  text-transform: none;
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+
+.system-switch--active span {
+  text-transform: none;
+  color: var(--warm);
+}
+
+/* Zone cards: LOAD label removed from JSX so cards can be shorter */
+.zone-map--system .zone-card {
+  min-height: 7rem;
+}
+
+/* Top slot: eyebrow label removed — give remaining content more room */
+.top-slot {
+  gap: 0.72rem;
+}
+
+/* === Interaction pass — press states, motion, live feedback === */
+
+@keyframes page-enter {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes content-enter {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes row-enter {
+  from { opacity: 0; transform: translateX(-4px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Page entry — fires on each route mount via key={currentPath} on <main> */
+.page {
+  animation: page-enter 0.22s ease-out both;
+  will-change: opacity, transform;
+}
+
+/* Hub hero card — depth and press */
+.hub-hero-card {
+  transition: transform 0.14s ease-out, border-color 0.18s, box-shadow 0.2s;
+}
+
+.hub-hero-card:hover {
+  box-shadow: 0 0 0 1px rgba(255, 201, 120, 0.28), 0 8px 24px rgba(255, 122, 99, 0.1);
+}
+
+.hub-hero-card:active {
+  transform: scale(0.98);
+  transition-duration: 0.07s;
+}
+
+/* Hub row press — player color glow on touch */
+.hub-player-row,
+.hub-game-row {
+  transition: background 0.12s ease, transform 0.1s ease-out;
+}
+
+.hub-player-row:active {
+  transform: scale(0.99);
+  background: color-mix(in srgb, var(--player-color, var(--muted)) 12%, rgba(255, 255, 255, 0.04));
+  transition-duration: 0.07s;
+}
+
+.hub-game-row:active {
+  transform: scale(0.99);
+  background: rgba(255, 255, 255, 0.07);
+  transition-duration: 0.07s;
+}
+
+/* Row list stagger — items arrive in sequence */
+.hub-row-list > * {
+  animation: row-enter 0.22s ease-out both;
+}
+
+.hub-row-list > *:nth-child(1)  { animation-delay: 0ms; }
+.hub-row-list > *:nth-child(2)  { animation-delay: 35ms; }
+.hub-row-list > *:nth-child(3)  { animation-delay: 68ms; }
+.hub-row-list > *:nth-child(4)  { animation-delay: 98ms; }
+.hub-row-list > *:nth-child(5)  { animation-delay: 125ms; }
+.hub-row-list > *:nth-child(6)  { animation-delay: 148ms; }
+.hub-row-list > *:nth-child(7)  { animation-delay: 168ms; }
+.hub-row-list > *:nth-child(8)  { animation-delay: 185ms; }
+.hub-row-list > *:nth-child(n+9) { animation-delay: 200ms; }
+
+/* System switch — smooth mode transitions */
+.system-switch {
+  transition: background 0.18s ease, box-shadow 0.18s, transform 0.09s ease-out;
+}
+
+.system-switch--active {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.system-switch:active {
+  transform: scale(0.94);
+  transition-duration: 0.07s;
+}
+
+/* Among Us chip press */
+.among-us-chip {
+  transition: background 0.16s ease, transform 0.09s ease-out;
+}
+
+.among-us-chip:active {
+  transform: scale(0.94);
+  transition-duration: 0.07s;
+}
+
+/* Board strip — smooth transitions and player-color press */
+.board-strip {
+  transition: background 0.16s ease, border-color 0.18s, transform 0.09s ease-out;
+}
+
+/* Replace existing translateY hover/active with scale */
+.board-strip:hover,
+.board-strip:focus-visible {
+  transform: none;
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.board-strip:active {
+  transform: scale(0.97);
+  transition-duration: 0.07s;
+}
+
+/* Focus panel content — animates in when player changes (key={focusPlayer.id}) */
+.focus-panel__content {
+  display: grid;
+  gap: 0.75rem;
+  animation: content-enter 0.2s ease-out both;
+}
+
+/* Meeting core — animates in when mode changes (key={activeMode}) */
+.meeting-core {
+  animation: content-enter 0.18s ease-out both;
+}
+
+/* Bottom nav — sliding indicator pill */
+.bottom-dock__scroll {
+  position: relative;
+  overflow: hidden;
+  padding: 0;
+  gap: 0;
+  border-radius: 1rem;
+}
+
+.bottom-dock__indicator {
+  position: absolute;
+  top: 0.28rem;
+  bottom: 0.28rem;
+  left: 0;
+  width: calc(100% / var(--total-items, 5));
+  border-radius: 0.78rem;
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateX(calc(var(--active-index, 0) * 100%));
+  transition: transform 0.32s cubic-bezier(0.34, 1.56, 0.64, 1);
+  pointer-events: none;
+  will-change: transform;
+}
+
+.bottom-dock__item {
+  flex: 1;
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  padding: 0.72rem 0.5rem 0.78rem;
+  transition: color 0.15s, transform 0.09s ease-out;
+}
+
+.bottom-dock__item:active {
+  transform: scale(0.88);
+  transition-duration: 0.07s;
+}
+
+.bottom-dock__item--active {
+  background: transparent;
+}
+
+.bottom-dock__item--active strong {
+  color: var(--accent);
+}
+
+/* Interaction reset: crisp touch feedback, no ambient loops */
+
+.ambient--one,
+.ambient--two,
+.ambient--three {
+  animation: none;
+}
+
+.bottom-dock__indicator {
+  opacity: 0.96;
+}
+
+.bottom-dock__item,
+.hub-feature,
+.hub-player-card,
+.hub-directory-card,
+.hub-game-card,
+.hub-memory-item,
+.hub-season-card,
+.hub-yearbook-card,
+.system-switch,
+.among-us-chip,
+.board-strip,
+.zone-card,
+.relay-chip,
+.engine-stage,
+.ops-button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.bottom-dock__item,
+.system-switch,
+.among-us-chip,
+.board-strip,
+.zone-card,
+.relay-chip,
+.engine-stage,
+.ops-button,
+.hub-feature,
+.hub-player-card,
+.hub-directory-card,
+.hub-game-card,
+.hub-memory-item,
+.hub-season-card,
+.hub-yearbook-card {
+  will-change: transform, background-color, box-shadow;
+}
+
+.bottom-dock__item {
+  transition: color 0.12s ease, transform 0.08s ease-out;
+}
+
+.bottom-dock__item:active {
+  transform: scale(0.92);
+}
+
+.hub-feature,
+.hub-player-card,
+.hub-directory-card,
+.hub-game-card,
+.hub-memory-item,
+.hub-season-card,
+.hub-yearbook-card {
+  transition: background-color 0.14s ease, transform 0.08s ease-out, box-shadow 0.16s ease;
+}
+
+.hub-feature:active,
+.hub-player-card:active,
+.hub-directory-card:active,
+.hub-game-card:active,
+.hub-memory-item:active,
+.hub-season-card:active,
+.hub-yearbook-card:active {
+  transform: scale(0.985);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.hub-feature-stack > *,
+.hub-player-grid > *,
+.hub-directory > *,
+.hub-game-list > *,
+.hub-memory-list > *,
+.hub-season-list > *,
+.hub-yearbook-grid > * {
+  animation: row-enter 0.18s ease-out both;
+}
+
+.hub-feature-stack > *:nth-child(1),
+.hub-player-grid > *:nth-child(1),
+.hub-directory > *:nth-child(1),
+.hub-game-list > *:nth-child(1),
+.hub-memory-list > *:nth-child(1),
+.hub-season-list > *:nth-child(1),
+.hub-yearbook-grid > *:nth-child(1) { animation-delay: 0ms; }
+
+.hub-feature-stack > *:nth-child(2),
+.hub-player-grid > *:nth-child(2),
+.hub-directory > *:nth-child(2),
+.hub-game-list > *:nth-child(2),
+.hub-memory-list > *:nth-child(2),
+.hub-season-list > *:nth-child(2),
+.hub-yearbook-grid > *:nth-child(2) { animation-delay: 24ms; }
+
+.hub-feature-stack > *:nth-child(3),
+.hub-player-grid > *:nth-child(3),
+.hub-directory > *:nth-child(3),
+.hub-game-list > *:nth-child(3),
+.hub-memory-list > *:nth-child(3),
+.hub-season-list > *:nth-child(3),
+.hub-yearbook-grid > *:nth-child(3) { animation-delay: 48ms; }
+
+.hub-feature-stack > *:nth-child(4),
+.hub-player-grid > *:nth-child(4),
+.hub-directory > *:nth-child(4),
+.hub-game-list > *:nth-child(4),
+.hub-memory-list > *:nth-child(4),
+.hub-season-list > *:nth-child(4),
+.hub-yearbook-grid > *:nth-child(4) { animation-delay: 72ms; }
+
+.hub-feature-stack > *:nth-child(5),
+.hub-player-grid > *:nth-child(5),
+.hub-directory > *:nth-child(5),
+.hub-game-list > *:nth-child(5),
+.hub-memory-list > *:nth-child(5),
+.hub-season-list > *:nth-child(5),
+.hub-yearbook-grid > *:nth-child(5) { animation-delay: 96ms; }
+
+.hub-feature-stack > *:nth-child(n+6),
+.hub-player-grid > *:nth-child(n+6),
+.hub-directory > *:nth-child(n+6),
+.hub-game-list > *:nth-child(n+6),
+.hub-memory-list > *:nth-child(n+6),
+.hub-season-list > *:nth-child(n+6),
+.hub-yearbook-grid > *:nth-child(n+6) { animation-delay: 110ms; }
+
+.system-switch {
+  transition: background-color 0.12s ease, transform 0.08s ease-out, box-shadow 0.14s ease;
+}
+
+.system-switch:active {
+  transform: scale(0.95);
+}
+
+.system-switch--active {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.among-us-chip {
+  transition: background-color 0.12s ease, transform 0.08s ease-out, color 0.12s ease;
+}
+
+.among-us-chip:active {
+  transform: scale(0.95);
+}
+
+.board-strip,
+.zone-card,
+.relay-chip,
+.engine-stage,
+.ops-button {
+  transition: background-color 0.12s ease, transform 0.08s ease-out, border-color 0.14s ease;
+}
+
+.board-strip:active,
+.zone-card:active,
+.relay-chip:active,
+.engine-stage:active,
+.ops-button:active {
+  transform: scale(0.97);
+}
+
+.board-list > * {
+  animation: content-enter 0.16s ease-out both;
+}
+
+.board-list > *:nth-child(1) { animation-delay: 0ms; }
+.board-list > *:nth-child(2) { animation-delay: 16ms; }
+.board-list > *:nth-child(3) { animation-delay: 32ms; }
+.board-list > *:nth-child(4) { animation-delay: 48ms; }
+.board-list > *:nth-child(5) { animation-delay: 64ms; }
+.board-list > *:nth-child(n+6) { animation-delay: 78ms; }
+
+.system-stack,
+.system-feed,
+.focus-panel__content,
+.meeting-core {
+  animation: content-enter 0.16s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ambient--one,
+  .ambient--two,
+  .ambient--three,
+  .page,
+  .page > *,
+  .hub-feature-stack > *,
+  .hub-player-grid > *,
+  .hub-directory > *,
+  .hub-game-list > *,
+  .hub-memory-list > *,
+  .hub-season-list > *,
+  .hub-yearbook-grid > *,
+  .board-list > *,
+  .system-stack,
+  .system-feed,
+  .focus-panel__content,
+  .meeting-core {
+    animation: none !important;
+  }
+
+  .bottom-dock__item,
+  .hub-feature,
+  .hub-player-card,
+  .hub-directory-card,
+  .hub-game-card,
+  .hub-memory-item,
+  .hub-season-card,
+  .hub-yearbook-card,
+  .system-switch,
+  .among-us-chip,
+  .board-strip,
+  .zone-card,
+  .relay-chip,
+  .engine-stage,
+  .ops-button {
+    transition: none !important;
+  }
+}
+
+/* === Structural redesign — topbar, page-header, row-based hub lists === */
+
+/* Topbar: replace full-height mobile-shell with a minimal fixed strip */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.6rem 0 0.5rem;
+}
+
+.topbar__section {
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* Page-header: each hub page owns its title directly in content flow */
+.page-header {
+  padding: 0.35rem 0 0.1rem;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: clamp(1.65rem, 7vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+}
+
+.page-header p {
+  margin: 0.28rem 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* Hub hero card: dominant featured card with warm accent */
+.hub-hero-card {
+  display: block;
+  padding: 1.25rem 1.15rem 1.1rem;
+  border-radius: 1.2rem;
+  border: 1px solid rgba(255, 201, 120, 0.18);
+  background:
+    linear-gradient(135deg, rgba(255, 201, 120, 0.1) 0%, rgba(255, 122, 99, 0.07) 100%),
+    rgba(255, 255, 255, 0.03);
+  transition: border-color 0.15s;
+}
+
+.hub-hero-card:hover {
+  border-color: rgba(255, 201, 120, 0.3);
+}
+
+.hub-hero-card__label {
+  display: block;
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--warm);
+  margin-bottom: 0.45rem;
+}
+
+.hub-hero-card strong {
+  display: block;
+  font-size: clamp(1.15rem, 5vw, 1.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.hub-hero-card p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* Hub row list: flat mobile-native list container */
+.hub-row-list {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1.1rem;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+/* Hub player row: left color accent strip, row layout */
+.hub-player-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem 0.85rem 0.9rem;
+  border-left: 3px solid var(--player-color, var(--muted));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: transparent;
+  transition: background 0.12s;
+  text-decoration: none;
+  color: inherit;
+}
+
+.hub-player-row:last-child {
+  border-bottom: 0;
+}
+
+.hub-player-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.hub-player-row__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.hub-player-row__info strong {
+  display: block;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.hub-player-row__info p {
+  margin: 0.1rem 0 0;
+  font-size: 0.78rem;
+  color: var(--muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hub-player-row__badge {
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.04em;
+  flex-shrink: 0;
+}
+
+/* Full player row variant (Players page) */
+.hub-player-row--full .hub-player-row__info p {
+  white-space: normal;
+}
+
+.hub-player-row__meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.15rem;
+  flex-shrink: 0;
+}
+
+.hub-player-row__meta small {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+/* Hub game row: simple headline + label row */
+.hub-game-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  text-decoration: none;
+  color: inherit;
+  transition: background 0.12s;
+}
+
+.hub-game-row:last-child {
+  border-bottom: 0;
+}
+
+.hub-game-row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.hub-game-row__info {
+  flex: 1;
+  min-width: 0;
+}
+
+.hub-game-row__info strong {
+  display: block;
+  font-size: 0.98rem;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.hub-game-row__info p {
+  margin: 0.1rem 0 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* When game-row is used without __info wrapper (Home page) */
+.hub-game-row > strong {
+  flex: 1;
+  font-size: 0.98rem;
+  font-weight: 600;
+}
+
+.hub-game-row > small {
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  flex-shrink: 0;
+}
+
+/* Hub memory row: minimal label + detail, cool accent */
+.hub-memory-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.hub-memory-row:last-child {
+  border-bottom: 0;
+}
+
+.hub-memory-row span {
+  font-size: 0.66rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cool);
+}
+
+.hub-memory-row p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+/* Bottom nav active: accent text, no tint background */
+.bottom-dock__item--active {
+  background: transparent;
+}
+
+.bottom-dock__item--active strong {
+  color: var(--accent);
 }

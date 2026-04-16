@@ -1,22 +1,31 @@
 import { ModuleFrame } from '../../components/ModuleFrame';
-import { PageIntro } from '../../components/PageIntro';
 import { yearbookEntries } from '../../data/hub/hubSelectors';
 
 export function YearbookPage() {
   return (
     <div className="page page--hub-yearbook">
-      <PageIntro
-        eyebrow="Yearbook"
-        title="The moments Olympus Prime keeps."
-        lede="This is the hall-of-fame layer for quotes, titles, and story fragments that deserve a calmer home than chat history."
-        tags={['Hall of fame', 'Quotes', 'Yearly memory']}
-      />
+      <section className="hub-screen-header" aria-label="Yearbook overview">
+        <p className="hub-screen-header__eyebrow">Yearbook</p>
+        <h2>Hall of fame</h2>
+        <p className="hub-screen-header__lede">The moments, lines, and titles worth keeping outside the Discord scroll.</p>
 
-      <ModuleFrame
-        eyebrow="Highlights"
-        title="What the yearbook remembers first"
-        lede="Tasteful, compact, and mobile-first. Big memory energy without forcing a gimmick."
-      >
+        <div className="hub-utility-row" aria-label="Yearbook summary">
+          <article>
+            <span>Entries</span>
+            <strong>{yearbookEntries.length}</strong>
+          </article>
+          <article>
+            <span>Latest</span>
+            <strong>{yearbookEntries[0]?.title ?? 'No entry yet'}</strong>
+          </article>
+          <article>
+            <span>Type</span>
+            <strong>Quotes & moments</strong>
+          </article>
+        </div>
+      </section>
+
+      <ModuleFrame className="hub-list-module">
         <div className="hub-yearbook-grid">
           {yearbookEntries.map((entry) => (
             <article className={`hub-yearbook-card hub-yearbook-card--${entry.tone}`} key={entry.title}>

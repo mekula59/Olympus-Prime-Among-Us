@@ -1,5 +1,5 @@
 import type { Tone } from '../../types/hq';
-import { crewRankings } from '../hqData';
+import { crewRankings } from '../games/among-us/amongUsData';
 import {
   getAwardsBySessionId,
   getBadgeById,

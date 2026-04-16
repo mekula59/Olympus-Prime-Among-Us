@@ -1,17 +1,13 @@
 import { AmongUsModuleHeader } from './components/shell/AmongUsModuleHeader';
 import { HubShell } from './components/shell/HubShell';
 import type { AppRouteId } from './config/routes';
-import { useAmongUsPublicSyncState } from './hooks/games/among-us/useAmongUsPublicSyncState';
 import { useHashRoute } from './hooks/useHashRoute';
 import { AmongUsArchivePage } from './pages/games/among-us/AmongUsArchivePage';
-import { AmongUsIncidentsPage } from './pages/games/among-us/AmongUsIncidentsPage';
-import { AmongUsLegendsPage } from './pages/games/among-us/AmongUsLegendsPage';
 import { AmongUsOverviewPage } from './pages/games/among-us/AmongUsOverviewPage';
 import { AmongUsPlayersPage } from './pages/games/among-us/AmongUsPlayersPage';
 import { AmongUsRankingsPage } from './pages/games/among-us/AmongUsRankingsPage';
 import { AmongUsReportPage } from './pages/games/among-us/AmongUsReportPage';
 import { AmongUsSessionsPage } from './pages/games/among-us/AmongUsSessionsPage';
-import { AmongUsTransmissionsPage } from './pages/games/among-us/AmongUsTransmissionsPage';
 import { GamesPage } from './pages/hub/GamesPage';
 import { HomePage } from './pages/hub/HomePage';
 import { PlayerProfilePage } from './pages/hub/PlayerProfilePage';
@@ -52,12 +48,6 @@ function renderPage(routeId: AppRouteId) {
       return <AmongUsReportPage />;
     case 'among-us-archive':
       return <AmongUsArchivePage />;
-    case 'among-us-legends':
-      return <AmongUsLegendsPage />;
-    case 'among-us-incidents':
-      return <AmongUsIncidentsPage />;
-    case 'among-us-transmissions':
-      return <AmongUsTransmissionsPage />;
     case 'ops':
       return <OpsHomePage />;
     case 'ops-session-new':
@@ -73,7 +63,6 @@ function renderPage(routeId: AppRouteId) {
 
 function App() {
   const { path, route } = useHashRoute();
-  const { shell, sync } = useAmongUsPublicSyncState();
 
   return (
     <div className={`app-shell app-shell--${route.id}`}>
@@ -84,11 +73,6 @@ function App() {
       <HubShell
         currentPath={path}
         currentRoute={route}
-        shellTitle={shell.title}
-        shellDetail={route.section === 'hub' ? route.blurb : shell.detail}
-        shellStatus={route.section === 'hub' ? route.stateLabel : sync.phaseLabel}
-        noteTitle="Discord first"
-        noteDetail="Discord remains the live home for Olympus Prime. The site is shifting into the memory, identity, archive, and recap layer."
         moduleHeader={
           route.path.startsWith('/games/among-us') ? <AmongUsModuleHeader currentPath={path} /> : null
         }

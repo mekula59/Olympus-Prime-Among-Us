@@ -11,8 +11,7 @@ export function AmongUsModuleHeader({ currentPath }: AmongUsModuleHeaderProps) {
         <p className="section-kicker">Featured Game</p>
         <h2>Among Us</h2>
         <p>
-          The flagship Olympus Prime memory module for sharp reads, clean betrayals, and sessions
-          worth replaying after Discord has already moved on.
+          Sharp reads, color memory, and the sessions people keep retelling after Discord has moved on.
         </p>
       </div>
 

@@ -1,22 +1,33 @@
 import { ModuleFrame } from '../../components/ModuleFrame';
-import { PageIntro } from '../../components/PageIntro';
 import { hubSeasonCards } from '../../data/hub/hubSelectors';
 
 export function SeasonsPage() {
+  const activeSeason = hubSeasonCards.find((season) => season.status === 'active') ?? hubSeasonCards[0];
+
   return (
     <div className="page page--hub-seasons">
-      <PageIntro
-        eyebrow="Seasons"
-        title="The archive backbone for recurring nights."
-        lede="Seasons belong above any one game. They organize the rhythm of gamesnight, the sessions inside it, and the memory that survives after Discord has moved on."
-        tags={['Archive first', 'Cross-game', 'Season memory']}
-      />
+      <section className="hub-screen-header" aria-label="Seasons overview">
+        <p className="hub-screen-header__eyebrow">Seasons</p>
+        <h2>Season archive</h2>
+        <p className="hub-screen-header__lede">A simple index of active and past seasons across Olympus Prime gamesnights.</p>
 
-      <ModuleFrame
-        eyebrow="Season index"
-        title="Current and upcoming seasons"
-        lede="A stacked archive made for quick mobile reading."
-      >
+        <div className="hub-utility-row" aria-label="Season summary">
+          <article>
+            <span>Total</span>
+            <strong>{hubSeasonCards.length}</strong>
+          </article>
+          <article>
+            <span>Active</span>
+            <strong>{activeSeason?.code ?? 'None'}</strong>
+          </article>
+          <article>
+            <span>Current</span>
+            <strong>{activeSeason?.currentWeek ?? 'No season yet'}</strong>
+          </article>
+        </div>
+      </section>
+
+      <ModuleFrame className="hub-list-module">
         <div className="hub-season-list">
           {hubSeasonCards.map((season) => (
             <a className="hub-season-card" href="#/seasons/current" key={season.id}>

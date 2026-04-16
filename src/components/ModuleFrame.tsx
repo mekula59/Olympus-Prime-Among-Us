@@ -27,7 +27,7 @@ export function ModuleFrame({
           {lede ? <p className="module__lede">{lede}</p> : null}
         </header>
       ) : null}
-      {children}
+      <div className="module__body">{children}</div>
     </section>
   );
 }

@@ -1,8 +1,78 @@
-# Olympus Prime Gamesnight HQ
+# Olympus Prime Gamesnight Hub
 
-Olympus Prime Gamesnight HQ is a modern React + TypeScript frontend experience built around the memory of playing *Among Us*: warm ship lights, emergency-meeting tension, suspicious confidence, and the exact kind of laughter that turns one round into hallway folklore.
+Olympus Prime Gamesnight Hub is a mobile-first React + TypeScript frontend for a Discord-first community.
 
-This is no longer a starter landing page. It is a navigable HQ experience with multiple in-world destinations, each designed to feel like a distinct room inside the same ship.
+Discord remains the live home for planning, reminders, banter, and real-time session energy. The site is the companion layer: memory, player identity, season archive, rankings, recaps, and yearbook.
+
+Among Us is the flagship game module inside the Hub, not the whole product.
+
+## Product Framing
+
+- `Discord first`: scheduling, chatter, reactions, live coordination
+- `Site second`: archive, recap, rankings, profiles, yearbook
+- `Hub first`: broad Olympus Prime layer across recurring gamesnights
+- `Among Us flagship`: the richest game-specific memory module inside `Games`
+
+## Current Route Map
+
+Hub routes
+
+- `#/`
+- `#/players`
+- `#/players/profile`
+- `#/seasons`
+- `#/seasons/current`
+- `#/yearbook`
+- `#/games`
+
+Among Us routes
+
+- `#/games/among-us`
+- `#/games/among-us/rankings`
+- `#/games/among-us/players`
+- `#/games/among-us/sessions`
+- `#/games/among-us/reports`
+- `#/games/among-us/archive`
+
+Ops routes
+
+- `#/ops`
+- `#/ops/sessions/new`
+- `#/ops/sessions/:sessionId`
+- `#/ops/among-us`
+- `#/ops/among-us/sessions/:sessionId`
+
+## Architecture Overview
+
+App shell
+
+- The global shell is calm, broad, and Hub-first.
+- Among Us-specific styling is scoped to the module routes.
+- Navigation uses hash routes for simple static deployment.
+
+Data model
+
+- Canonical source records live in [src/data/productSource.ts](/Users/mekula/olympus-prime-amongus-hq/src/data/productSource.ts)
+- Shared selectors live in [src/data/productSelectors.ts](/Users/mekula/olympus-prime-amongus-hq/src/data/productSelectors.ts)
+- Hub-level derived selectors live in [src/data/hub/hubSelectors.ts](/Users/mekula/olympus-prime-amongus-hq/src/data/hub/hubSelectors.ts)
+- Among Us module data lives in [src/data/games/among-us/amongUsData.ts](/Users/mekula/olympus-prime-amongus-hq/src/data/games/among-us/amongUsData.ts)
+
+Ops split
+
+- Generic Hub Ops stays lightweight and broad:
+  - [src/pages/ops/OpsHomePage.tsx](/Users/mekula/olympus-prime-amongus-hq/src/pages/ops/OpsHomePage.tsx)
+  - [src/pages/ops/SessionEditorPage.tsx](/Users/mekula/olympus-prime-amongus-hq/src/pages/ops/SessionEditorPage.tsx)
+- Among Us Ops keeps the staged session engine:
+  - [src/pages/ops/among-us/AmongUsOpsSessionPage.tsx](/Users/mekula/olympus-prime-amongus-hq/src/pages/ops/among-us/AmongUsOpsSessionPage.tsx)
+  - [src/pages/ops/among-us/AmongUsOpsEnginePage.tsx](/Users/mekula/olympus-prime-amongus-hq/src/pages/ops/among-us/AmongUsOpsEnginePage.tsx)
+
+## Mobile-First Guidance
+
+- Design for phone screens first.
+- Prefer one strong focal area per screen.
+- Keep actions thumb-friendly and obvious.
+- Avoid spread-out desktop panel layouts.
+- Treat Discord-linked visits as the main usage pattern: the page should make sense fast, often in one scroll.
 
 ## Stack
 
@@ -10,22 +80,6 @@ This is no longer a starter landing page. It is a navigable HQ experience with m
 - TypeScript
 - Vite
 - Plain CSS with a custom visual system
-
-## Experience Overview
-
-The HQ currently includes:
-
-- `Command Center`: the public-facing homepage and emotional core of the ship
-- `Crew Rankings`: a lore-first podium gallery instead of a plain leaderboard
-- `Crew File`: interactive dossier-style player profiles
-- `Mission Logs`: a corridor of remembered round-by-round moments
-- `Mission Report`: a calmer debrief space with atmospheric gauges and recap panels
-- `Prime Legends Archive`: a vault for the rounds that became house lore
-- `Incident Board`: an evidence-wall style internal record room
-- `Transmission Reports`: announcements and lobby chatter drifting through the relay lounge
-- `Ops Console`: a quieter, more practical host/admin shell
-
-Navigation is handled in-app with hash routes, so each section behaves like a page while still shipping as a simple frontend app.
 
 ## Project Structure
 
@@ -38,6 +92,7 @@ Navigation is handled in-app with hash routes, so each section behaves like a pa
 │   └── assets/
 ├── src/
 │   ├── components/
+│   ├── config/
 │   ├── data/
 │   ├── hooks/
 │   ├── pages/
@@ -56,44 +111,31 @@ Navigation is handled in-app with hash routes, so each section behaves like a pa
 
 ## Getting Started
 
-1. Install dependencies:
+1. Install dependencies
 
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
-2. Start the development server:
+2. Start the dev server
 
-   ```bash
-   npm run dev
-   ```
+```bash
+npm run dev
+```
 
-3. Build for production:
+3. Build for production
 
-   ```bash
-   npm run build
-   ```
+```bash
+npm run build
+```
 
-4. Run a TypeScript check:
+4. Run type checks
 
-   ```bash
-   npm run typecheck
-   ```
+```bash
+npm run typecheck
+```
 
-## Design Overview
+## Docs
 
-- The site uses a nostalgic sci-fi palette with warm warning lights, cool visor blues, and soft nebula haze.
-- Layouts lean on rounded windows, cockpit-style panels, porthole-like modules, pinned notes, relay bubbles, and layered gradients.
-- Each page is treated like a real zone in Olympus Prime, not a reused dashboard template.
-- Copy is written like a remembered gamesnight instead of a feature list.
-- The design references the feeling of *Among Us* without trying to recreate the game UI directly.
-- The admin-facing `Ops Console` is intentionally calmer and more practical than the public zones while staying inside the same visual world.
-
-See [docs/design-direction.md](./docs/design-direction.md) for the visual and content direction behind the build.
-See [docs/product-data-model.md](./docs/product-data-model.md) for the normalized product schema and view-model split.
-
-## Suggested Next Steps
-
-- Add a real RSVP workflow or connect the CTA to your community platform.
-- Swap placeholder event copy with Olympus Prime’s real schedule and hosts.
-- Add motion polish or a CMS if the site will evolve beyond a landing page.
+- Design direction: [docs/design-direction.md](/Users/mekula/olympus-prime-amongus-hq/docs/design-direction.md)
+- Product data model: [docs/product-data-model.md](/Users/mekula/olympus-prime-amongus-hq/docs/product-data-model.md)
