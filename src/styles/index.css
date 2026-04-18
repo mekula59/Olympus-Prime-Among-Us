@@ -6461,17 +6461,102 @@ body::after {
   white-space: normal;
 }
 
+.hub-player-row--full {
+  min-height: 4.7rem;
+  padding-top: 0.95rem;
+  padding-bottom: 0.95rem;
+}
+
+.hub-player-row--full::after {
+  display: none;
+}
+
+.hub-player-row__lead {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.72rem;
+  min-width: 0;
+  flex: 1;
+}
+
+.hub-player-row__token {
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 0.82rem;
+  background:
+    radial-gradient(circle at 32% 28%, rgba(255, 255, 255, 0.24), transparent 32%),
+    var(--player-color);
+  box-shadow:
+    inset -8px -8px 0 rgba(0, 0, 0, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+  flex: none;
+}
+
+.hub-player-row--full .hub-player-row__info strong {
+  font-size: 1rem;
+  letter-spacing: -0.015em;
+}
+
+.hub-player-row--full .hub-player-row__info p {
+  margin-top: 0.14rem;
+  font-size: 0.8rem;
+  line-height: 1.3;
+}
+
 .hub-player-row__meta {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 0.15rem;
+  gap: 0.35rem;
   flex-shrink: 0;
 }
 
-.hub-player-row__meta small {
-  font-size: 0.72rem;
-  color: var(--muted);
+.hub-player-row__history {
+  display: grid;
+  justify-items: end;
+  gap: 0.08rem;
+  min-width: 4.4rem;
+}
+
+.hub-player-row__history span {
+  font-size: 0.56rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--muted) 88%, white);
+}
+
+.hub-player-row__history strong {
+  font-size: 0.76rem;
+  font-weight: 650;
+  line-height: 1.25;
+  text-align: right;
+  color: var(--text);
+}
+
+.page--hub-players .hub-row-list {
+  background: rgba(255, 255, 255, 0.026);
+}
+
+.page--hub-players .hub-player-row {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--player-color) 10%, transparent), transparent 22%),
+    transparent;
+}
+
+.page--hub-players .hub-player-row:hover,
+.page--hub-players .hub-player-row:focus-visible {
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--player-color) 14%, transparent), transparent 24%),
+    rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.025);
+}
+
+.page--hub-players .hub-player-row:active {
+  transform: scale(0.993);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--player-color) 18%, transparent), transparent 24%),
+    rgba(255, 255, 255, 0.062);
 }
 
 /* Hub game row: simple headline + label row */

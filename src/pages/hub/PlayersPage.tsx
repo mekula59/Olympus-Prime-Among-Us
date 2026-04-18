@@ -17,13 +17,22 @@ export function PlayersPage() {
             key={player.id}
             style={{ '--player-color': player.colorHex } as CSSProperties}
           >
-            <div className="hub-player-row__info">
-              <strong>{player.callsign}</strong>
-              <p>{player.role} · {player.title}</p>
+            <div className="hub-player-row__lead">
+              <span className="hub-player-row__token" aria-hidden="true" />
+              <div className="hub-player-row__info">
+                <strong>{player.callsign}</strong>
+                <p>{player.role} · {player.title}</p>
+              </div>
             </div>
             <div className="hub-player-row__meta">
-              <small>{player.attendanceCount} nights</small>
-              <small>{player.lastSeen}</small>
+              <div className="hub-player-row__history">
+                <span>Nights</span>
+                <strong>{player.attendanceCount}</strong>
+              </div>
+              <div className="hub-player-row__history">
+                <span>Last seen</span>
+                <strong>{player.lastSeen}</strong>
+              </div>
             </div>
           </a>
         ))}
