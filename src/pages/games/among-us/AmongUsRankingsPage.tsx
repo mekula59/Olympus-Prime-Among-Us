@@ -70,9 +70,11 @@ export function AmongUsRankingsPage() {
         <div className="system-switcher" role="tablist" aria-label="Ranking modes">
           {boardModes.map((mode) => (
             <button
+              aria-selected={mode.id === boardMode}
               className={`system-switch ${mode.id === boardMode ? 'system-switch--active' : ''}`}
               key={mode.id}
               onClick={() => switchBoardMode(mode.id)}
+              role="tab"
               type="button"
             >
               <span>{mode.id === boardMode ? 'Active' : 'Load'}</span>
@@ -82,7 +84,11 @@ export function AmongUsRankingsPage() {
         </div>
 
         <div className="rank-console__grid">
-          <div className="top-slot" style={{ '--player-color': champion.colorHex } as CSSProperties}>
+          <div
+            className="top-slot"
+            key={`${boardMode}-${champion.id}`}
+            style={{ '--player-color': champion.colorHex } as CSSProperties}
+          >
             <div className="top-slot__token" />
             <strong>{champion.callsign}</strong>
             <small>{champion.colorName}</small>

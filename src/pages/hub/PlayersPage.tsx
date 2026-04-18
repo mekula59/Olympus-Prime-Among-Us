@@ -2,13 +2,11 @@ import type { CSSProperties } from 'react';
 import { hubPlayerCards } from '../../data/hub/hubSelectors';
 
 export function PlayersPage() {
-  const returningCount = hubPlayerCards.filter((player) => player.attendanceCount >= 3).length;
-
   return (
     <div className="page page--hub-players">
       <div className="page-header">
         <h1>Players</h1>
-        <p>{hubPlayerCards.length} crew · {returningCount} returning</p>
+        <p>See who keeps showing up, who the room remembers, and where to jump back into their history.</p>
       </div>
 
       <div className="hub-row-list">

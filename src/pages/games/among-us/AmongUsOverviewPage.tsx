@@ -73,9 +73,11 @@ export function AmongUsOverviewPage() {
         <div className="system-switcher" role="tablist" aria-label="Command states">
           {simModes.map((mode) => (
             <button
+              aria-selected={mode.id === activeMode}
               className={`system-switch ${mode.id === activeMode ? 'system-switch--active' : ''}`}
               key={mode.id}
               onClick={() => loadMode(mode.id)}
+              role="tab"
               type="button"
             >
               <span>{mode.id === activeMode ? 'Active' : 'Load'}</span>
@@ -107,7 +109,7 @@ export function AmongUsOverviewPage() {
           </div>
 
           <div className="system-stack" key={`stats-${activeMode}`}>
-            {commandCenter.commandStats.slice(0, 3).map((stat) => (
+            {commandCenter.commandStats.slice(0, 2).map((stat) => (
               <article className={`system-card system-card--${stat.tone}`} key={stat.label}>
                 <span>{stat.label}</span>
                 <strong>{stat.value}</strong>

@@ -5,7 +5,7 @@ export function GamesPage() {
     <div className="page page--hub-games">
       <div className="page-header">
         <h1>Games</h1>
-        <p>{hubGameCards.length} tracked · {hubGameCards[0]?.name ?? 'Among Us'} flagship</p>
+        <p>Open the strongest active game modules and jump straight to the sessions people still reference.</p>
       </div>
 
       <div className="hub-row-list">
@@ -15,7 +15,10 @@ export function GamesPage() {
               <strong>{game.name}</strong>
               <p>{game.summary}</p>
             </div>
-            <small>{game.latestLabel}</small>
+            <div className="hub-game-row__meta">
+              <span>Latest</span>
+              <small>{game.latestLabel}</small>
+            </div>
           </a>
         ))}
       </div>

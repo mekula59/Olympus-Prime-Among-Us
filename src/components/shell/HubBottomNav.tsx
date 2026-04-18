@@ -37,6 +37,7 @@ export function HubBottomNav({ currentPath }: HubBottomNavProps) {
             className={`bottom-dock__item ${isActive(route.path, currentPath) ? 'bottom-dock__item--active' : ''}`}
             href={`#${route.path}`}
             key={route.id}
+            aria-current={isActive(route.path, currentPath) ? 'page' : undefined}
           >
             <strong>{route.shortLabel}</strong>
           </a>
