@@ -69,6 +69,21 @@ export interface HubGameCard {
   tone: Tone;
 }
 
+export interface HubProfilePresenceItem {
+  label: string;
+  value: string;
+}
+
+export interface HubProfileMemoryItem {
+  label: string;
+  value: string;
+}
+
+export interface HubProfileTimelineItem {
+  label: string;
+  detail: string;
+}
+
 function getAttendanceCount(playerId: string) {
   return sessionParticipants.filter((participant) => participant.playerId === playerId).length;
 }
@@ -178,6 +193,44 @@ export const currentProfileMoments = currentProfilePlayer
       {
         label: 'Known for',
         value: getPlayerById(currentProfilePlayer.id)?.signatureMove ?? currentProfilePlayer.summary,
+      },
+    ]
+  : [];
+
+export const currentProfilePresence: HubProfilePresenceItem[] = currentProfilePlayer
+  ? [
+      {
+        label: 'Presence',
+        value: `${currentProfilePlayer.attendanceCount} nights logged`,
+      },
+      {
+        label: 'Last seen',
+        value: currentProfilePlayer.lastSeen,
+      },
+      {
+        label: 'Shared world',
+        value: 'Among Us leads this history',
+      },
+    ]
+  : [];
+
+export const currentProfileTimeline: HubProfileTimelineItem[] = currentProfilePlayer
+  ? [
+      {
+        label: 'How they show up',
+        detail: getPlayerById(currentProfilePlayer.id)?.statusNote ?? currentProfilePlayer.summary,
+      },
+      {
+        label: 'Known for',
+        detail: getPlayerById(currentProfilePlayer.id)?.signatureMove ?? currentProfilePlayer.summary,
+      },
+      {
+        label: 'Still remembered with',
+        detail:
+          getPlayerById(currentProfilePlayer.id)?.allyIds
+            .map((allyId) => getPlayerById(allyId)?.callsign)
+            .filter((callsign): callsign is string => Boolean(callsign))
+            .join(' · ') || 'No recurring allies logged yet',
       },
     ]
   : [];
