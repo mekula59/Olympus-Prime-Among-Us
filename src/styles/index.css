@@ -7295,6 +7295,209 @@ body::after {
     rgba(255, 255, 255, 0.026);
 }
 
+.page--hub-seasons {
+  gap: 0.95rem;
+}
+
+.hub-seasons-scene,
+.hub-seasons-archive {
+  display: grid;
+  gap: 0.62rem;
+}
+
+.hub-seasons-scene .page-header {
+  padding-top: 0.15rem;
+}
+
+.hub-seasons-feature {
+  display: grid;
+  gap: 0.7rem;
+  padding: 1rem 1.02rem;
+  border-radius: 1.28rem;
+  text-decoration: none;
+  color: inherit;
+  background:
+    radial-gradient(circle at top right, rgba(124, 224, 255, 0.1), transparent 28%),
+    rgba(255, 255, 255, 0.032);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.045),
+    0 14px 30px rgba(4, 8, 16, 0.12);
+  transition: transform 0.12s ease, box-shadow 0.16s ease;
+}
+
+.hub-seasons-feature:hover,
+.hub-seasons-feature:focus-visible {
+  transform: translateY(-1px);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.055),
+    0 18px 36px rgba(4, 8, 16, 0.15);
+}
+
+.hub-seasons-feature:active {
+  transform: scale(0.993);
+}
+
+.hub-seasons-feature__topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+}
+
+.hub-seasons-feature__topline span,
+.hub-seasons-feature__topline small {
+  font-size: 0.6rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.hub-seasons-feature__topline span {
+  color: color-mix(in srgb, var(--cool) 82%, white);
+}
+
+.hub-seasons-feature__topline small {
+  color: color-mix(in srgb, var(--muted) 82%, white);
+}
+
+.hub-seasons-feature__body {
+  display: grid;
+  gap: 0.22rem;
+}
+
+.hub-seasons-feature__body strong {
+  font-size: clamp(1.28rem, 6vw, 1.7rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.04;
+}
+
+.hub-seasons-feature__body p {
+  margin: 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: var(--muted);
+}
+
+.hub-seasons-feature__meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.hub-seasons-feature__meta article {
+  display: grid;
+  gap: 0.12rem;
+  min-width: 0;
+  padding: 0.72rem 0.76rem;
+  border-radius: 0.92rem;
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.hub-seasons-feature__meta span {
+  font-size: 0.56rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--muted) 84%, white);
+}
+
+.hub-seasons-feature__meta strong {
+  font-size: 0.78rem;
+  line-height: 1.28;
+  letter-spacing: -0.01em;
+}
+
+.hub-seasons-archive__stack {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.hub-season-chapter {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.72rem;
+  padding: 0.88rem 0.92rem;
+  border-radius: 1rem;
+  text-decoration: none;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.026);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  transition: transform 0.1s ease, background-color 0.14s ease, box-shadow 0.14s ease;
+}
+
+.hub-season-chapter:hover,
+.hub-season-chapter:focus-visible {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.034);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 10px 20px rgba(4, 8, 16, 0.08);
+}
+
+.hub-season-chapter:active {
+  transform: scale(0.993);
+}
+
+.hub-season-chapter__rail {
+  width: 0.26rem;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(124, 224, 255, 0.4), rgba(124, 224, 255, 0.08));
+}
+
+.hub-season-chapter__content {
+  display: grid;
+  gap: 0.18rem;
+  min-width: 0;
+}
+
+.hub-season-chapter__topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.hub-season-chapter__topline span,
+.hub-season-chapter__topline small {
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hub-season-chapter__topline span {
+  color: color-mix(in srgb, var(--muted) 84%, white);
+}
+
+.hub-season-chapter__topline small {
+  color: color-mix(in srgb, var(--muted) 76%, white);
+}
+
+.hub-season-chapter__content strong {
+  font-size: 0.98rem;
+  font-weight: 650;
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+
+.hub-season-chapter__content p {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.42;
+  color: var(--muted);
+}
+
+.hub-season-chapter__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.42rem;
+  margin-top: 0.08rem;
+}
+
+.hub-season-chapter__meta small {
+  font-size: 0.72rem;
+  color: color-mix(in srgb, var(--muted) 90%, white);
+}
+
 /* === Launcher redesign — shell, live dock, opening scene, world destinations === */
 
 .hq-layout--mobile {
