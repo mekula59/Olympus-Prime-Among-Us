@@ -7139,6 +7139,162 @@ body::after {
   color: color-mix(in srgb, var(--muted) 92%, white);
 }
 
+.page--hub-yearbook {
+  gap: 0.95rem;
+}
+
+.hub-yearbook-scene,
+.hub-yearbook-fragments {
+  display: grid;
+  gap: 0.62rem;
+}
+
+.hub-yearbook-scene .page-header {
+  padding-top: 0.15rem;
+}
+
+.hub-yearbook-feature {
+  display: grid;
+  gap: 0.75rem;
+  padding: 1.02rem 1.02rem 1rem;
+  border-radius: 1.28rem;
+  background:
+    radial-gradient(circle at top left, rgba(255, 201, 120, 0.11), transparent 28%),
+    rgba(255, 255, 255, 0.03);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.045),
+    0 14px 30px rgba(4, 8, 16, 0.12);
+  transition: transform 0.12s ease, box-shadow 0.16s ease;
+}
+
+.hub-yearbook-feature:active {
+  transform: scale(0.994);
+}
+
+.hub-yearbook-feature__topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.65rem;
+}
+
+.hub-yearbook-feature__topline span,
+.hub-yearbook-feature__topline small {
+  font-size: 0.6rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.hub-yearbook-feature__topline span {
+  color: var(--warm);
+}
+
+.hub-yearbook-feature__topline small {
+  color: color-mix(in srgb, var(--muted) 82%, white);
+}
+
+.hub-yearbook-feature blockquote {
+  margin: 0;
+  font-size: clamp(1.15rem, 5vw, 1.45rem);
+  line-height: 1.38;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.hub-yearbook-feature__footer {
+  display: grid;
+  gap: 0.16rem;
+}
+
+.hub-yearbook-feature__footer strong {
+  font-size: 0.88rem;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.hub-yearbook-feature__footer p {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.38;
+  color: var(--muted);
+}
+
+.hub-yearbook-feature--warm {
+  background:
+    radial-gradient(circle at top left, rgba(255, 201, 120, 0.13), transparent 28%),
+    rgba(255, 255, 255, 0.032);
+}
+
+.hub-yearbook-feature--cool {
+  background:
+    radial-gradient(circle at top left, rgba(124, 224, 255, 0.12), transparent 28%),
+    rgba(255, 255, 255, 0.03);
+}
+
+.hub-yearbook-feature--hot {
+  background:
+    radial-gradient(circle at top left, rgba(255, 122, 99, 0.14), transparent 28%),
+    rgba(255, 255, 255, 0.032);
+}
+
+.hub-yearbook-fragments__stack {
+  display: grid;
+  gap: 0.58rem;
+}
+
+.hub-yearbook-fragment {
+  display: grid;
+  gap: 0.18rem;
+  padding: 0.88rem 0.94rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.026);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+  transition: transform 0.1s ease, background-color 0.14s ease;
+}
+
+.hub-yearbook-fragment:active {
+  transform: scale(0.994);
+}
+
+.hub-yearbook-fragment span {
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--muted) 86%, white);
+}
+
+.hub-yearbook-fragment strong {
+  font-size: 0.9rem;
+  font-weight: 650;
+  line-height: 1.26;
+  letter-spacing: -0.015em;
+}
+
+.hub-yearbook-fragment p {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.42;
+  color: var(--muted);
+}
+
+.hub-yearbook-fragment--warm {
+  background:
+    linear-gradient(180deg, rgba(255, 201, 120, 0.05), transparent 85%),
+    rgba(255, 255, 255, 0.026);
+}
+
+.hub-yearbook-fragment--cool {
+  background:
+    linear-gradient(180deg, rgba(124, 224, 255, 0.05), transparent 85%),
+    rgba(255, 255, 255, 0.026);
+}
+
+.hub-yearbook-fragment--hot {
+  background:
+    linear-gradient(180deg, rgba(255, 122, 99, 0.05), transparent 85%),
+    rgba(255, 255, 255, 0.026);
+}
+
 /* === Launcher redesign — shell, live dock, opening scene, world destinations === */
 
 .hq-layout--mobile {
