@@ -54,6 +54,9 @@ Data model
 
 - Canonical source records live in [src/data/productSource.ts](/Users/mekula/olympus-prime-amongus-hq/src/data/productSource.ts)
 - Shared selectors live in [src/data/productSelectors.ts](/Users/mekula/olympus-prime-amongus-hq/src/data/productSelectors.ts)
+- Runtime persistence currently flows through a stable repository facade in [src/data/productRepository.ts](/Users/mekula/olympus-prime-amongus-hq/src/data/productRepository.ts)
+- The current local adapter lives in [src/data/repositories/localProductRepository.ts](/Users/mekula/olympus-prime-amongus-hq/src/data/repositories/localProductRepository.ts)
+- The Supabase repository scaffold lives in [src/data/repositories/supabaseProductRepository.ts](/Users/mekula/olympus-prime-amongus-hq/src/data/repositories/supabaseProductRepository.ts)
 - Hub-level derived selectors live in [src/data/hub/hubSelectors.ts](/Users/mekula/olympus-prime-amongus-hq/src/data/hub/hubSelectors.ts)
 - Among Us module data lives in [src/data/games/among-us/amongUsData.ts](/Users/mekula/olympus-prime-amongus-hq/src/data/games/among-us/amongUsData.ts)
 
@@ -139,3 +142,4 @@ npm run typecheck
 
 - Design direction: [docs/design-direction.md](/Users/mekula/olympus-prime-amongus-hq/docs/design-direction.md)
 - Product data model: [docs/product-data-model.md](/Users/mekula/olympus-prime-amongus-hq/docs/product-data-model.md)
+- Supabase repository migration: [docs/supabase-repository-migration.md](/Users/mekula/olympus-prime-amongus-hq/docs/supabase-repository-migration.md)

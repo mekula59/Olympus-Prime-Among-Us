@@ -13,6 +13,13 @@ Shared selectors
 
 - [src/data/productSelectors.ts](/Users/mekula/olympus-prime-amongus-hq/src/data/productSelectors.ts)
 
+Repository boundary
+
+- facade: [src/data/productRepository.ts](/Users/mekula/olympus-prime-amongus-hq/src/data/productRepository.ts)
+- contract: [src/types/productRepository.ts](/Users/mekula/olympus-prime-amongus-hq/src/types/productRepository.ts)
+- local adapter: [src/data/repositories/localProductRepository.ts](/Users/mekula/olympus-prime-amongus-hq/src/data/repositories/localProductRepository.ts)
+- Supabase scaffold: [src/data/repositories/supabaseProductRepository.ts](/Users/mekula/olympus-prime-amongus-hq/src/data/repositories/supabaseProductRepository.ts)
+
 Hub selectors
 
 - [src/data/hub/hubSelectors.ts](/Users/mekula/olympus-prime-amongus-hq/src/data/hub/hubSelectors.ts)
