@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
-import { crewProfiles } from '../../../data/games/among-us/amongUsData';
+import { useAmongUsModuleData } from '../../../data/games/among-us/amongUsData';
 import { ModuleFrame } from '../../../components/ModuleFrame';
 
 const fileModes = [
@@ -10,10 +10,21 @@ const fileModes = [
 ] as const;
 
 export function AmongUsPlayersPage() {
+  const { crewProfiles } = useAmongUsModuleData();
   const [activeCrewId, setActiveCrewId] = useState(crewProfiles[0]?.id ?? '');
   const [fileMode, setFileMode] = useState<(typeof fileModes)[number]['id']>('read');
   const [fileEvent, setFileEvent] = useState('FILE LOADED');
   const activeProfile = crewProfiles.find((profile) => profile.id === activeCrewId) ?? crewProfiles[0];
+
+  useEffect(() => {
+    if (!crewProfiles.length) {
+      return;
+    }
+
+    if (!activeCrewId || !crewProfiles.some((profile) => profile.id === activeCrewId)) {
+      setActiveCrewId(crewProfiles[0].id);
+    }
+  }, [activeCrewId, crewProfiles]);
 
   if (!activeProfile) {
     return null;

@@ -1,9 +1,12 @@
 import { ModuleFrame } from '../../components/ModuleFrame';
 import { PageIntro } from '../../components/PageIntro';
-import { currentAmongUsOpsSessionId } from '../../data/games/among-us/amongUsOpsData';
-import { currentHubOpsSessionId, opsSummaryCards } from '../../data/ops/hubOpsData';
+import { useAmongUsOpsData } from '../../data/games/among-us/amongUsOpsData';
+import { useHubOpsData } from '../../data/ops/hubOpsData';
 
 export function OpsHomePage() {
+  const { currentHubOpsSessionId, opsSummaryCards } = useHubOpsData();
+  const { currentAmongUsOpsSessionId } = useAmongUsOpsData();
+
   return (
     <div className="page page--ops-home">
       <PageIntro

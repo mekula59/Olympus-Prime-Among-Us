@@ -1,15 +1,5 @@
 import { useMemo } from 'react';
-import {
-  bridgeReadouts as seededBridgeReadouts,
-  commandStats as seededCommandStats,
-  commandWhispers as seededCommandWhispers,
-  crewRankings,
-  missionLogs as seededMissionLogs,
-  reportMetrics as seededReportMetrics,
-  reportReadouts as seededReportReadouts,
-  transmissions as seededTransmissions,
-  zoneDebriefs as seededZoneDebriefs,
-} from '../../../data/games/among-us/amongUsData';
+import { useAmongUsModuleData } from '../../../data/games/among-us/amongUsData';
 import { getPlayerById } from '../../../data/productSelectors';
 import type {
   CommandStat,
@@ -31,6 +21,7 @@ function formatStageStatus(status: string) {
 }
 
 export function useAmongUsPublicSyncState() {
+  const seeded = useAmongUsModuleData();
   const engine = useSessionEngine();
   const { draft, derived, eventLabel } = engine;
 
@@ -60,7 +51,7 @@ export function useAmongUsPublicSyncState() {
 
     const roomRoster: CrewRanking[] = checkedInPlayers.length
       ? checkedInPlayers.map((player, index) => {
-          const seededRank = crewRankings.find((entry) => entry.id === player.id);
+          const seededRank = seeded.crewRankings.find((entry) => entry.id === player.id);
 
           return {
             id: player.id,
@@ -77,7 +68,7 @@ export function useAmongUsPublicSyncState() {
             tone: seededRank?.tone ?? 'cool',
           };
         })
-      : crewRankings.slice(0, 5);
+      : seeded.crewRankings.slice(0, 5);
 
     const commandStats: CommandStat[] = runtimeEnabled
       ? [
@@ -103,7 +94,7 @@ export function useAmongUsPublicSyncState() {
             tone: draft.outcome.flaggedSummary ? 'hot' : 'warm',
           },
         ]
-      : seededCommandStats;
+      : seeded.commandStats;
 
     const bridgeReadouts: Readout[] = runtimeEnabled
       ? [
@@ -123,7 +114,7 @@ export function useAmongUsPublicSyncState() {
                 : `Transmit lane is ${formatStageStatus(derived.statuses.transmit)}.`,
           },
         ]
-      : seededBridgeReadouts;
+      : seeded.bridgeReadouts;
 
     const commandWhispers: Readout[] = runtimeEnabled
       ? [
@@ -137,7 +128,7 @@ export function useAmongUsPublicSyncState() {
             })),
           { title: 'Engine event', detail: eventLabel },
         ].slice(0, 4)
-      : seededCommandWhispers;
+      : seeded.commandWhispers;
 
     const missionLogs: MissionLog[] =
       runtimeEnabled && draft.matches.length > 0
@@ -154,7 +145,7 @@ export function useAmongUsPublicSyncState() {
                 : 'Logged in the session engine and waiting on final transmit.'),
             tone: match.tone,
           }))
-        : seededMissionLogs;
+      : seeded.missionLogs;
 
     const reportMetrics: ReportMetric[] = runtimeEnabled
       ? [
@@ -185,7 +176,7 @@ export function useAmongUsPublicSyncState() {
             tone: isTransmitted ? 'hot' : 'cool',
           },
         ]
-      : seededReportMetrics;
+      : seeded.reportMetrics;
 
     const zoneDebriefs: ZoneDebrief[] =
       runtimeEnabled && draft.matches.length > 0
@@ -196,7 +187,7 @@ export function useAmongUsPublicSyncState() {
             detail: match.summary,
             tone: match.tone,
           }))
-        : seededZoneDebriefs;
+      : seeded.zoneDebriefs;
 
     const reportReadouts: Readout[] = runtimeEnabled
       ? [
@@ -220,7 +211,7 @@ export function useAmongUsPublicSyncState() {
               'Once the report verifies, this line becomes the thing everyone remembers on the way into the next night.',
           },
         ]
-      : seededReportReadouts;
+      : seeded.reportReadouts;
 
     const transmissions: Transmission[] = runtimeEnabled
       ? [
@@ -251,9 +242,9 @@ export function useAmongUsPublicSyncState() {
             body: draft.recap.summary || draft.recap.highlight || 'The recap shell is live, but the final note is still being shaped.',
             tone: 'warm',
           },
-          ...seededTransmissions,
+          ...seeded.transmissions,
         ]
-      : seededTransmissions;
+      : seeded.transmissions;
 
     return {
       engine,
@@ -295,5 +286,5 @@ export function useAmongUsPublicSyncState() {
       },
       transmissions,
     };
-  }, [derived, draft, engine, eventLabel]);
+  }, [derived, draft, engine, eventLabel, seeded]);
 }

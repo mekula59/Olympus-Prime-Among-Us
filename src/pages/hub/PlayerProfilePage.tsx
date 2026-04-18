@@ -1,12 +1,14 @@
 import type { CSSProperties } from 'react';
-import {
-  currentProfileMoments,
-  currentProfilePlayer,
-  currentProfilePresence,
-  currentProfileTimeline,
-} from '../../data/hub/hubSelectors';
+import { useHubViewModel } from '../../data/hub/hubSelectors';
 
 export function PlayerProfilePage() {
+  const {
+    currentProfileMoments,
+    currentProfilePlayer,
+    currentProfilePresence,
+    currentProfileTimeline,
+  } = useHubViewModel();
+
   if (!currentProfilePlayer) {
     return null;
   }

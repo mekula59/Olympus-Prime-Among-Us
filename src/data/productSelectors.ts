@@ -1,131 +1,113 @@
-import {
-  awards,
-  badges,
-  games,
-  incidents,
-  matches,
-  mediaUploads,
-  outcomes,
-  players,
-  publishStates,
-  quotes,
-  recaps,
-  rivalrySummaries,
-  seasons,
-  sessionParticipants,
-  sessions,
-  titles,
-} from './productSource';
+import type { QuoteContext } from '../types/product';
+import { getRuntimeProductData } from './runtimeProductStore';
 
 function byNewestDate<T extends { scheduledAt: string }>(left: T, right: T) {
   return new Date(right.scheduledAt).getTime() - new Date(left.scheduledAt).getTime();
 }
 
-export const playerMap = new Map(players.map((player) => [player.id, player]));
-export const gameMap = new Map(games.map((game) => [game.id, game]));
-export const seasonMap = new Map(seasons.map((season) => [season.id, season]));
-export const sessionMap = new Map(sessions.map((session) => [session.id, session]));
-export const badgeMap = new Map(badges.map((badge) => [badge.id, badge]));
-export const titleMap = new Map(titles.map((title) => [title.id, title]));
-export const recapBySessionId = new Map(recaps.map((recap) => [recap.sessionId, recap]));
-export const outcomeBySessionId = new Map(outcomes.map((outcome) => [outcome.sessionId, outcome]));
-export const publishStateBySessionId = new Map(
-  publishStates.map((publishState) => [publishState.sessionId, publishState]),
-);
-
 export function getPlayerById(playerId: string) {
-  return playerMap.get(playerId);
+  return getRuntimeProductData().players.find((player) => player.id === playerId);
 }
 
 export function getGameById(gameId: string) {
-  return gameMap.get(gameId);
+  return getRuntimeProductData().games.find((game) => game.id === gameId);
 }
 
 export function getSeasonById(seasonId: string) {
-  return seasonMap.get(seasonId);
+  return getRuntimeProductData().seasons.find((season) => season.id === seasonId);
 }
 
 export function getSessionById(sessionId: string) {
-  return sessionMap.get(sessionId);
+  return getRuntimeProductData().sessions.find((session) => session.id === sessionId);
 }
 
 export function getBadgeById(badgeId: string | null) {
-  return badgeId ? badgeMap.get(badgeId) ?? null : null;
+  if (!badgeId) {
+    return null;
+  }
+
+  return getRuntimeProductData().badges.find((badge) => badge.id === badgeId) ?? null;
 }
 
 export function getTitleById(titleId: string | null) {
-  return titleId ? titleMap.get(titleId) ?? null : null;
+  if (!titleId) {
+    return null;
+  }
+
+  return getRuntimeProductData().titles.find((title) => title.id === titleId) ?? null;
 }
 
 export function getRecapBySessionId(sessionId: string) {
-  return recapBySessionId.get(sessionId) ?? null;
+  return getRuntimeProductData().recaps.find((recap) => recap.sessionId === sessionId) ?? null;
 }
 
 export function getOutcomeBySessionId(sessionId: string) {
-  return outcomeBySessionId.get(sessionId) ?? null;
+  return getRuntimeProductData().outcomes.find((outcome) => outcome.sessionId === sessionId) ?? null;
 }
 
 export function getPublishStateBySessionId(sessionId: string) {
-  return publishStateBySessionId.get(sessionId) ?? null;
+  return getRuntimeProductData().publishStates.find((publishState) => publishState.sessionId === sessionId) ?? null;
 }
 
 export function getMatchesBySessionId(sessionId: string) {
-  return matches
-    .filter((match) => match.sessionId === sessionId)
+  return getRuntimeProductData()
+    .matches.filter((match) => match.sessionId === sessionId)
     .sort((left, right) => left.sequence - right.sequence);
 }
 
 export function getParticipantsBySessionId(sessionId: string) {
-  return sessionParticipants.filter((participant) => participant.sessionId === sessionId);
+  return getRuntimeProductData().sessionParticipants.filter(
+    (participant) => participant.sessionId === sessionId,
+  );
 }
 
 export function getAwardsBySessionId(sessionId: string) {
-  return awards.filter((award) => award.sessionId === sessionId);
+  return getRuntimeProductData().awards.filter((award) => award.sessionId === sessionId);
 }
 
-export function getQuotesByContext(context: (typeof quotes)[number]['context']) {
-  return quotes.filter((quote) => quote.context === context);
+export function getQuotesByContext(context: QuoteContext) {
+  return getRuntimeProductData().quotes.filter((quote) => quote.context === context);
 }
 
 export function getQuotesBySessionId(sessionId: string) {
-  return quotes.filter((quote) => quote.sessionId === sessionId);
+  return getRuntimeProductData().quotes.filter((quote) => quote.sessionId === sessionId);
 }
 
 export function getQuotesForPlayer(playerId: string) {
-  return quotes.filter((quote) => quote.playerId === playerId);
+  return getRuntimeProductData().quotes.filter((quote) => quote.playerId === playerId);
 }
 
 export function getIncidentsBySessionId(sessionId: string) {
-  return incidents.filter((incident) => incident.sessionId === sessionId);
+  return getRuntimeProductData().incidents.filter((incident) => incident.sessionId === sessionId);
 }
 
 export function getMediaBySessionId(sessionId: string) {
-  return mediaUploads
-    .filter((item) => item.sessionId === sessionId)
+  return getRuntimeProductData()
+    .mediaUploads.filter((item) => item.sessionId === sessionId)
     .sort((left, right) => left.sortOrder - right.sortOrder);
 }
 
 export function getRivalriesForPlayer(playerId: string) {
-  return rivalrySummaries.filter(
+  return getRuntimeProductData().rivalrySummaries.filter(
     (rivalry) => rivalry.playerAId === playerId || rivalry.playerBId === playerId,
   );
 }
 
 export function getLatestPublishedSession() {
-  return sessions
-    .filter((session) => session.status === 'published')
+  return getRuntimeProductData()
+    .sessions.filter((session) => session.status === 'published')
     .sort(byNewestDate)[0];
 }
 
 export function getLatestPublishedSessionByGameId(gameId: string) {
-  return sessions
-    .filter((session) => session.gameId === gameId && session.status === 'published')
+  return getRuntimeProductData()
+    .sessions.filter((session) => session.gameId === gameId && session.status === 'published')
     .sort(byNewestDate)[0];
 }
 
 export function getLatestOperationalSession(gameId?: string) {
-  return sessions
-    .filter(
+  return getRuntimeProductData()
+    .sessions.filter(
       (session) =>
         (!gameId || session.gameId === gameId) &&
         (session.status === 'draft' || session.status === 'logged' || session.status === 'planned'),
@@ -134,16 +116,16 @@ export function getLatestOperationalSession(gameId?: string) {
 }
 
 export function getSessionsByGameId(gameId: string) {
-  return sessions.filter((session) => session.gameId === gameId).sort(byNewestDate);
+  return getRuntimeProductData().sessions.filter((session) => session.gameId === gameId).sort(byNewestDate);
 }
 
 export function getLatestSessionForPlayer(playerId: string) {
-  const playerSessionIds = sessionParticipants
-    .filter((participant) => participant.playerId === playerId)
+  const playerSessionIds = getRuntimeProductData()
+    .sessionParticipants.filter((participant) => participant.playerId === playerId)
     .map((participant) => participant.sessionId);
 
-  return sessions
-    .filter((session) => playerSessionIds.includes(session.id))
+  return getRuntimeProductData()
+    .sessions.filter((session) => playerSessionIds.includes(session.id))
     .sort(byNewestDate)[0];
 }
 
@@ -158,7 +140,7 @@ export function getBadgeNameForPlayer(playerId: string) {
 }
 
 export function getLegendMatches() {
-  return matches.filter((match) => match.legendCandidate).sort((left, right) => {
+  return getRuntimeProductData().matches.filter((match) => match.legendCandidate).sort((left, right) => {
     const leftSession = getSessionById(left.sessionId);
     const rightSession = getSessionById(right.sessionId);
     if (!leftSession || !rightSession) {

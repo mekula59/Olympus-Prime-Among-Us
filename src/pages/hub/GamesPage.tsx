@@ -1,6 +1,7 @@
-import { hubGameCards } from '../../data/hub/hubSelectors';
+import { useHubViewModel } from '../../data/hub/hubSelectors';
 
 export function GamesPage() {
+  const { hubGameCards } = useHubViewModel();
   const flagshipGame = hubGameCards.find((game) => game.slug === 'among-us') ?? hubGameCards[0];
   const supportingGames = hubGameCards.filter((game) => game.id !== flagshipGame?.id);
 

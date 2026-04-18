@@ -1,6 +1,7 @@
-import { hubSeasonCards } from '../../data/hub/hubSelectors';
+import { useHubViewModel } from '../../data/hub/hubSelectors';
 
 export function SeasonsPage() {
+  const { hubSeasonCards } = useHubViewModel();
   const activeSeason = hubSeasonCards.find((season) => season.status === 'active') ?? hubSeasonCards[0];
   const previousSeasons = hubSeasonCards.filter((season) => season.id !== activeSeason?.id);
 

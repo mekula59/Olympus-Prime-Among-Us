@@ -1,11 +1,10 @@
 import { ModuleFrame } from '../../components/ModuleFrame';
 import { PageIntro } from '../../components/PageIntro';
-import {
-  currentSeasonDetail,
-  currentSeasonSessions,
-} from '../../data/hub/hubSelectors';
+import { useHubViewModel } from '../../data/hub/hubSelectors';
 
 export function SeasonDetailPage() {
+  const { currentSeasonDetail, currentSeasonSessions } = useHubViewModel();
+
   if (!currentSeasonDetail) {
     return null;
   }

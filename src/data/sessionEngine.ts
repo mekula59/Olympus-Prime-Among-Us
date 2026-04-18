@@ -1,4 +1,5 @@
-import { useMemo, useReducer } from 'react';
+import { useEffect, useMemo, useReducer } from 'react';
+import type { CorrectionItem } from '../types/ops';
 import type {
   AttendanceStatus,
   QuoteRecord,
@@ -12,7 +13,8 @@ import type {
   SessionEngineStageId,
   SessionEngineStatusMap,
 } from '../types/sessionEngine';
-import { awardTemplates, correctionItems, opsPlayers, opsSeasons } from './games/among-us/amongUsOpsData';
+import { persistSessionEngineDraft } from './productRepository';
+import { getAmongUsOpsData } from './games/among-us/amongUsOpsData';
 import {
   getAwardsBySessionId,
   getLatestOperationalSession,
@@ -26,8 +28,9 @@ import {
   getSessionById,
 } from './productSelectors';
 
-const defaultOperationalSession = getLatestOperationalSession('among-us');
-const defaultSessionId = defaultOperationalSession?.id ?? 'session-09';
+function getDefaultSessionId() {
+  return getLatestOperationalSession('among-us')?.id ?? 'session-09';
+}
 
 export const sessionEngineStages: SessionEngineStageDefinition[] = [
   {
@@ -85,10 +88,11 @@ interface SessionEngineState {
   activeStageId: SessionEngineStageId;
   eventLabel: string;
   draft: SessionEngineDraft;
-  corrections: typeof correctionItems;
+  corrections: CorrectionItem[];
 }
 
 type SessionEngineAction =
+  | { type: 'load_session'; sessionId: string }
   | { type: 'activate_stage'; stageId: SessionEngineStageId }
   | { type: 'update_session'; field: keyof SessionRecord; value: string | number | null }
   | { type: 'toggle_participant'; playerId: string }
@@ -159,7 +163,16 @@ function getStageEvent(stageId: SessionEngineStageId) {
 }
 
 function engineReducer(state: SessionEngineState, action: SessionEngineAction): SessionEngineState {
+  const { opsPlayers, awardTemplates } = getAmongUsOpsData(state.draft.session.id);
+
   switch (action.type) {
+    case 'load_session':
+      return {
+        activeStageId: 'boot',
+        eventLabel: 'SESSION ENGINE STANDBY',
+        draft: buildInitialDraft(action.sessionId),
+        corrections: getAmongUsOpsData(action.sessionId).correctionItems.map((item) => ({ ...item })),
+      };
     case 'activate_stage':
       return { ...state, activeStageId: action.stageId, eventLabel: getStageEvent(action.stageId) };
     case 'update_session':
@@ -392,7 +405,7 @@ function engineReducer(state: SessionEngineState, action: SessionEngineAction): 
   }
 }
 
-function getEngineStatuses(draft: SessionEngineDraft, corrections: typeof correctionItems): SessionEngineStatusMap {
+function getEngineStatuses(draft: SessionEngineDraft, corrections: CorrectionItem[]): SessionEngineStatusMap {
   const checkedInCount = draft.participants.filter(
     (participant) => participant.attendanceStatus === 'present' || participant.attendanceStatus === 'host',
   ).length;
@@ -427,13 +440,26 @@ function getEngineStatuses(draft: SessionEngineDraft, corrections: typeof correc
   };
 }
 
-export function useSessionEngine(sessionId = defaultSessionId) {
+export function useSessionEngine(sessionId = getDefaultSessionId()) {
+  const resolvedSessionId = sessionId || getDefaultSessionId();
   const [state, dispatch] = useReducer(engineReducer, {
     activeStageId: 'boot' as SessionEngineStageId,
     eventLabel: 'SESSION ENGINE STANDBY',
-    draft: buildInitialDraft(sessionId),
-    corrections: correctionItems.map((item) => ({ ...item })),
+    draft: buildInitialDraft(resolvedSessionId),
+    corrections: getAmongUsOpsData(resolvedSessionId).correctionItems.map((item) => ({ ...item })),
   });
+
+  const { opsPlayers, opsSeasons, awardTemplates } = getAmongUsOpsData(state.draft.session.id);
+
+  useEffect(() => {
+    if (state.draft.session.id !== resolvedSessionId) {
+      dispatch({ type: 'load_session', sessionId: resolvedSessionId });
+    }
+  }, [resolvedSessionId, state.draft.session.id]);
+
+  useEffect(() => {
+    persistSessionEngineDraft(state.draft);
+  }, [state.draft]);
 
   const statuses = useMemo(
     () => getEngineStatuses(state.draft, state.corrections),

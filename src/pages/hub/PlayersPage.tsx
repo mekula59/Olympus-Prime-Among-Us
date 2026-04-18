@@ -1,7 +1,9 @@
 import type { CSSProperties } from 'react';
-import { hubPlayerCards } from '../../data/hub/hubSelectors';
+import { useHubViewModel } from '../../data/hub/hubSelectors';
 
 export function PlayersPage() {
+  const { hubPlayerCards } = useHubViewModel();
+
   return (
     <div className="page page--hub-players">
       <div className="page-header">

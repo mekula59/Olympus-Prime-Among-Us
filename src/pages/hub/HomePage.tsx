@@ -1,12 +1,8 @@
-import {
-  currentSeasonDetail,
-  featuredPlayers,
-  hubGameCards,
-  hubHomeFeatures,
-  yearbookEntries,
-} from '../../data/hub/hubSelectors';
+import { useHubViewModel } from '../../data/hub/hubSelectors';
 
 export function HomePage() {
+  const { currentSeasonDetail, featuredPlayers, hubGameCards, hubHomeFeatures, yearbookEntries } =
+    useHubViewModel();
   const primaryFeature = hubHomeFeatures[0];
   const supportingFeatures = hubHomeFeatures.slice(1, 3);
   const flagshipGame = hubGameCards.find((game) => game.slug === 'among-us') ?? hubGameCards[0];

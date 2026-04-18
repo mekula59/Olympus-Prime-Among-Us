@@ -1,8 +1,14 @@
 import { ModuleFrame } from '../../../components/ModuleFrame';
-import { currentHubOpsSessionId } from '../../../data/ops/hubOpsData';
+import { getAmongUsOpsSessionIdFromPath } from '../../../config/routes';
+import { useHubOpsData } from '../../../data/ops/hubOpsData';
+import { useHashRoute } from '../../../hooks/useHashRoute';
 import { AmongUsOpsEnginePage } from './AmongUsOpsEnginePage';
 
 export function AmongUsOpsSessionPage() {
+  const { path } = useHashRoute();
+  const currentSessionId = getAmongUsOpsSessionIdFromPath(path) ?? undefined;
+  const { currentHubOpsSessionId } = useHubOpsData(currentSessionId);
+
   return (
     <div className="page page--ops-among-us-session">
       <ModuleFrame

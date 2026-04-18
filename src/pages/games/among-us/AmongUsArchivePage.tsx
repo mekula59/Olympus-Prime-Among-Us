@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import { ModuleFrame } from '../../../components/ModuleFrame';
-import {
-  incidentNotes,
-  legendEntries,
-} from '../../../data/games/among-us/amongUsData';
+import { useAmongUsModuleData } from '../../../data/games/among-us/amongUsData';
 import { useAmongUsPublicSyncState } from '../../../hooks/games/among-us/useAmongUsPublicSyncState';
 
 const archiveModes = [
@@ -13,6 +10,7 @@ const archiveModes = [
 ] as const;
 
 export function AmongUsArchivePage() {
+  const { incidentNotes, legendEntries } = useAmongUsModuleData();
   const { transmissions } = useAmongUsPublicSyncState();
   const [activeMode, setActiveMode] = useState<(typeof archiveModes)[number]['id']>('legends');
   const [featuredLegend, ...legendShelf] = legendEntries;

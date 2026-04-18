@@ -1,6 +1,7 @@
-import { yearbookEntries } from '../../data/hub/hubSelectors';
+import { useHubViewModel } from '../../data/hub/hubSelectors';
 
 export function YearbookPage() {
+  const { yearbookEntries } = useHubViewModel();
   const featuredMemory = yearbookEntries[1] ?? yearbookEntries[0];
   const memoryFragments = yearbookEntries.filter((entry) => entry.title !== featuredMemory?.title);
 

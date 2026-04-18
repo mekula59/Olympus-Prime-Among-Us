@@ -1,12 +1,68 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ModuleFrame } from '../../components/ModuleFrame';
 import { PageIntro } from '../../components/PageIntro';
-import { currentAmongUsOpsSessionId } from '../../data/games/among-us/amongUsOpsData';
-import { opsRecapDraft, opsSessionDraft } from '../../data/ops/hubOpsData';
+import { getOpsSessionIdFromPath } from '../../config/routes';
+import { createSessionDraftRecord, saveGenericSessionEditor } from '../../data/productRepository';
+import { useAmongUsOpsData } from '../../data/games/among-us/amongUsOpsData';
+import { useHubOpsData } from '../../data/ops/hubOpsData';
+import { useHashRoute } from '../../hooks/useHashRoute';
 
 export function SessionEditorPage() {
-  const [sessionForm, setSessionForm] = useState(opsSessionDraft);
-  const [recapForm, setRecapForm] = useState(opsRecapDraft);
+  const { path, route } = useHashRoute();
+  const sessionId = getOpsSessionIdFromPath(path);
+  const hubOpsData = useHubOpsData(sessionId ?? undefined);
+  const amongUsOpsData = useAmongUsOpsData();
+  const [sessionForm, setSessionForm] = useState(hubOpsData.opsSessionDraft);
+  const [recapForm, setRecapForm] = useState(hubOpsData.opsRecapDraft);
+
+  useEffect(() => {
+    if (route.id !== 'ops-session-new') {
+      return;
+    }
+
+    const createdSession = createSessionDraftRecord();
+    window.location.hash = `#/ops/sessions/${createdSession.id}`;
+  }, [route.id]);
+
+  useEffect(() => {
+    setSessionForm(hubOpsData.opsSessionDraft);
+    setRecapForm(hubOpsData.opsRecapDraft);
+  }, [hubOpsData.opsRecapDraft, hubOpsData.opsSessionDraft]);
+
+  useEffect(() => {
+    if (!sessionId) {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      saveGenericSessionEditor(sessionId, {
+        sessionName: sessionForm.sessionName,
+        date: sessionForm.date,
+        room: sessionForm.room,
+        mode: sessionForm.mode,
+        notes: sessionForm.notes,
+        headline: recapForm.headline,
+        summary: recapForm.summary,
+        highlight: recapForm.highlight,
+        publishNote: recapForm.publishNote,
+      });
+    }, 120);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [recapForm, sessionForm, sessionId]);
+
+  if (route.id === 'ops-session-new' || !sessionId) {
+    return (
+      <div className="page page--session-editor">
+        <PageIntro
+          eyebrow="Session editor"
+          title="Opening a fresh session shell."
+          lede="Ops is creating a real draft record first so the new session can be edited, resumed, and published from the same source of truth."
+          tags={['Creating', 'Source first', 'Persistent']}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="page page--session-editor">
@@ -73,7 +129,7 @@ export function SessionEditorPage() {
           <div className="ops-preview-card">
             <div className="ops-preview-card__header">
               <span>Broad session view</span>
-              <strong className="ops-chip-status ops-chip-status--editing">Draft</strong>
+              <strong className="ops-chip-status ops-chip-status--editing">Saved</strong>
             </div>
             <h3>{sessionForm.sessionName}</h3>
             <ul className="ops-preview-list">
@@ -110,13 +166,29 @@ export function SessionEditorPage() {
             />
           </label>
           <div className="hub-placeholder__actions">
-            <a className="primary-link" href={`#/ops/among-us/sessions/${currentAmongUsOpsSessionId}`}>
+            <a className="primary-link" href={`#/ops/among-us/sessions/${sessionId}`}>
               Open Among Us Engine
             </a>
             <a className="secondary-link" href="#/ops">
               Back to Ops Home
             </a>
           </div>
+        </div>
+      </ModuleFrame>
+
+      <ModuleFrame
+        eyebrow="Ready next"
+        title="Flagship engine status"
+        lede="Open the staged engine when the session needs awards, match logging, outcome resolution, and final transmit."
+        tone="cool"
+      >
+        <div className="hub-game-list">
+          {amongUsOpsData.opsWorkflowSteps.map((step) => (
+            <article className="hub-game-card hub-game-card--cool" key={step.id}>
+              <span>{step.title}</span>
+              <strong>{step.detail}</strong>
+            </article>
+          ))}
         </div>
       </ModuleFrame>
     </div>

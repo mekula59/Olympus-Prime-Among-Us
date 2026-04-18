@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { CSSProperties } from 'react';
-import { crewRankings, crewRibbons } from '../../../data/games/among-us/amongUsData';
+import { useAmongUsModuleData } from '../../../data/games/among-us/amongUsData';
 import { ModuleFrame } from '../../../components/ModuleFrame';
 
 const boardModes = [
@@ -10,6 +10,7 @@ const boardModes = [
 ] as const;
 
 export function AmongUsRankingsPage() {
+  const { crewRankings, crewRibbons } = useAmongUsModuleData();
   const [boardMode, setBoardMode] = useState<(typeof boardModes)[number]['id']>('reads');
   const [focusId, setFocusId] = useState(crewRankings[0]?.id ?? '');
 
@@ -30,6 +31,16 @@ export function AmongUsRankingsPage() {
 
   const champion = sortedRankings[0];
   const focusPlayer = sortedRankings.find((entry) => entry.id === focusId) ?? champion;
+
+  useEffect(() => {
+    if (!crewRankings.length) {
+      return;
+    }
+
+    if (!focusId || !crewRankings.some((entry) => entry.id === focusId)) {
+      setFocusId(crewRankings[0].id);
+    }
+  }, [crewRankings, focusId]);
 
   if (!champion || !focusPlayer) {
     return null;

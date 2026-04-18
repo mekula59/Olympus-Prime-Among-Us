@@ -268,3 +268,15 @@ export function getRouteByPath(path: string) {
 
 export const bottomNavRoutes = appRoutes.filter((route) => route.nav === 'bottom');
 export const amongUsModuleRoutes = appRoutes.filter((route) => route.nav === 'module');
+
+export function getOpsSessionIdFromPath(path: string) {
+  if (path === '/ops/sessions/new') {
+    return null;
+  }
+
+  return path.match(/^\/ops\/sessions\/([^/]+)$/)?.[1] ?? null;
+}
+
+export function getAmongUsOpsSessionIdFromPath(path: string) {
+  return path.match(/^\/ops\/among-us\/sessions\/([^/]+)$/)?.[1] ?? null;
+}

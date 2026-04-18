@@ -4,6 +4,8 @@ import {
   useContext,
   type PropsWithChildren,
 } from 'react';
+import { getAmongUsOpsSessionIdFromPath } from '../config/routes';
+import { useHashRoute } from './useHashRoute';
 import {
   sessionEngineStageEntityMap,
   sessionEngineStages,
@@ -15,7 +17,9 @@ type SessionEngineStore = ReturnType<typeof useSessionEngineState>;
 const SessionEngineContext = createContext<SessionEngineStore | null>(null);
 
 export function SessionEngineProvider({ children }: PropsWithChildren) {
-  const engine = useSessionEngineState();
+  const { path } = useHashRoute();
+  const sessionId = getAmongUsOpsSessionIdFromPath(path) ?? undefined;
+  const engine = useSessionEngineState(sessionId);
 
   return createElement(SessionEngineContext.Provider, { value: engine }, children);
 }

@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import type { CSSProperties } from 'react';
-import {
-  commandZones,
-} from '../../../data/games/among-us/amongUsData';
+import { useAmongUsModuleData } from '../../../data/games/among-us/amongUsData';
 import { ModuleFrame } from '../../../components/ModuleFrame';
 import { useAmongUsPublicSyncState } from '../../../hooks/games/among-us/useAmongUsPublicSyncState';
 
@@ -32,6 +30,7 @@ const simModes = [
 
 export function AmongUsOverviewPage() {
   const [activeMode, setActiveMode] = useState<(typeof simModes)[number]['id']>('lobby');
+  const { commandZones } = useAmongUsModuleData();
   const { commandCenter, sync } = useAmongUsPublicSyncState();
   const modeConfig = simModes.find((mode) => mode.id === activeMode) ?? simModes[0];
   const liveRoster = commandCenter.roomRoster.slice(0, 5);
