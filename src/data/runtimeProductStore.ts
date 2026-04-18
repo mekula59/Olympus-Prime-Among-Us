@@ -35,6 +35,8 @@ import {
   sessions as seededSessions,
   titles,
 } from './productSource';
+import { isSupabaseConfigured } from '../lib/supabase';
+import { fetchSupabaseCanonicalProductData } from './repositories/supabaseCanonicalData';
 
 const STORAGE_KEY = 'olympus-prime.runtime-product-records.v1';
 
@@ -72,8 +74,29 @@ const emptyRuntimeData: RuntimeMutableProductData = {
   mediaUploads: [],
 };
 
+const seededCanonicalProductData: RuntimeProductData = {
+  games,
+  players,
+  seasons,
+  badges,
+  titles,
+  incidents,
+  rivalrySummaries,
+  sessions: [...seededSessions].sort(sortSessionsByNewest),
+  matches: [...seededMatches],
+  sessionParticipants: [...seededSessionParticipants],
+  awards: [...seededAwards],
+  quotes: [...seededQuotes],
+  outcomes: [...seededOutcomes],
+  recaps: [...seededRecaps],
+  publishStates: [...seededPublishStates],
+  mediaUploads: [...seededMediaUploads],
+};
+
 let runtimeSnapshotCache: RuntimeMutableProductData | null = null;
 let runtimeRevision = 0;
+let canonicalBaseOverride: RuntimeProductData | null = null;
+let canonicalHydrationRequested = false;
 const listeners = new Set<() => void>();
 
 function cloneRuntimeData(snapshot: RuntimeMutableProductData): RuntimeMutableProductData {
@@ -154,6 +177,70 @@ function sortSessionsByNewest(left: SessionRecord, right: SessionRecord) {
   return new Date(right.scheduledAt).getTime() - new Date(left.scheduledAt).getTime();
 }
 
+function getCanonicalBaseData() {
+  return canonicalBaseOverride ?? seededCanonicalProductData;
+}
+
+function mergeCanonicalProductData(
+  base: RuntimeProductData,
+  runtime: RuntimeMutableProductData,
+): RuntimeProductData {
+  return {
+    games: base.games,
+    players: base.players,
+    seasons: base.seasons,
+    badges: base.badges,
+    titles: base.titles,
+    incidents: base.incidents,
+    rivalrySummaries: base.rivalrySummaries,
+    sessions: mergeById(base.sessions, runtime.sessions).sort(sortSessionsByNewest),
+    matches: mergeById(base.matches, runtime.matches),
+    sessionParticipants: mergeById(base.sessionParticipants, runtime.sessionParticipants),
+    awards: mergeById(base.awards, runtime.awards),
+    quotes: mergeById(base.quotes, runtime.quotes),
+    outcomes: mergeById(base.outcomes, runtime.outcomes),
+    recaps: mergeById(base.recaps, runtime.recaps),
+    publishStates: mergeById(base.publishStates, runtime.publishStates),
+    mediaUploads: mergeById(base.mediaUploads, runtime.mediaUploads),
+  };
+}
+
+function setCanonicalBaseOverride(nextBase: RuntimeProductData) {
+  const currentSerialized = canonicalBaseOverride ? JSON.stringify(canonicalBaseOverride) : null;
+  const nextSerialized = JSON.stringify(nextBase);
+
+  if (currentSerialized === nextSerialized) {
+    return;
+  }
+
+  canonicalBaseOverride = nextBase;
+  runtimeRevision += 1;
+  listeners.forEach((listener) => listener());
+}
+
+function ensureSupabaseCanonicalHydration() {
+  if (
+    import.meta.env.VITE_PRODUCT_REPOSITORY_DRIVER !== 'supabase' ||
+    !isSupabaseConfigured() ||
+    canonicalHydrationRequested ||
+    typeof window === 'undefined'
+  ) {
+    return;
+  }
+
+  canonicalHydrationRequested = true;
+
+  void fetchSupabaseCanonicalProductData()
+    .then((remoteData) => {
+      if (remoteData) {
+        setCanonicalBaseOverride(remoteData);
+      }
+    })
+    .catch(() => {
+      canonicalHydrationRequested = false;
+    });
+}
+
 export function subscribeRuntimeProductStore(listener: () => void) {
   listeners.add(listener);
 
@@ -164,25 +251,9 @@ export function subscribeRuntimeProductStore(listener: () => void) {
 
 export function getRuntimeProductData(): RuntimeProductData {
   const runtime = readRuntimeSnapshot();
+  ensureSupabaseCanonicalHydration();
 
-  return {
-    games,
-    players,
-    seasons,
-    badges,
-    titles,
-    incidents,
-    rivalrySummaries,
-    sessions: mergeById(seededSessions, runtime.sessions).sort(sortSessionsByNewest),
-    matches: mergeById(seededMatches, runtime.matches),
-    sessionParticipants: mergeById(seededSessionParticipants, runtime.sessionParticipants),
-    awards: mergeById(seededAwards, runtime.awards),
-    quotes: mergeById(seededQuotes, runtime.quotes),
-    outcomes: mergeById(seededOutcomes, runtime.outcomes),
-    recaps: mergeById(seededRecaps, runtime.recaps),
-    publishStates: mergeById(seededPublishStates, runtime.publishStates),
-    mediaUploads: mergeById(seededMediaUploads, runtime.mediaUploads),
-  };
+  return mergeCanonicalProductData(getCanonicalBaseData(), runtime);
 }
 
 export function useRuntimeProductData() {
@@ -280,4 +351,8 @@ export function replaceRuntimeSessionBundle(bundle: RuntimeSessionBundle) {
       ...bundle.media,
     ],
   });
+}
+
+export function getSeedCanonicalProductData() {
+  return seededCanonicalProductData;
 }

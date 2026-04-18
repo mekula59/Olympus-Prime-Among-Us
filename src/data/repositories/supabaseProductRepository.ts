@@ -1,6 +1,8 @@
 import type { ProductRepository } from '../../types/productRepository';
 import { createSupabaseClientScaffold, isSupabaseConfigured } from '../../lib/supabase';
 import { localProductRepository } from './localProductRepository';
+import { getRuntimeProductData } from '../runtimeProductStore';
+import { fetchSupabaseCanonicalProductData } from './supabaseCanonicalData';
 
 function notReadyError(method: string) {
   return new Error(
@@ -23,7 +25,8 @@ export const supabaseProductRepository: ProductRepository = {
     throw notReadyError('getDefaultHubOpsSessionId');
   },
   getCanonicalProductData() {
-    throw notReadyError('getCanonicalProductData');
+    void fetchSupabaseCanonicalProductData().catch(() => null);
+    return getRuntimeProductData();
   },
 };
 
