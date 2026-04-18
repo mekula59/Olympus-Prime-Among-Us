@@ -49,6 +49,8 @@ export interface GameRecord {
   name: string;
   shortName: string;
   status: GameStatus;
+  isFlagship: boolean;
+  modulePath: string | null;
   summary: string;
   theme: string;
 }

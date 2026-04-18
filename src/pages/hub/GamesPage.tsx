@@ -3,7 +3,10 @@ import { useHubViewModel } from '../../data/hub/hubSelectors';
 export function GamesPage() {
   const { hubGameCards } = useHubViewModel();
   const flagshipGame = hubGameCards.find((game) => game.slug === 'among-us') ?? hubGameCards[0];
-  const supportingGames = hubGameCards.filter((game) => game.id !== flagshipGame?.id);
+  const supportingFlagships = hubGameCards.filter(
+    (game) => game.isFlagship && game.id !== flagshipGame?.id,
+  );
+  const supportingGames = hubGameCards.filter((game) => !game.isFlagship);
 
   return (
     <div className="page page--hub-games">
@@ -14,7 +17,7 @@ export function GamesPage() {
         </div>
 
         {flagshipGame ? (
-          <a className="hub-games-flagship" href={flagshipGame.href}>
+          <a className="hub-games-flagship" href={flagshipGame.href ?? '#/games'}>
             <div className="hub-games-flagship__topline">
               <span>Flagship world</span>
               <small>Open now</small>
@@ -39,6 +42,35 @@ export function GamesPage() {
         ) : null}
       </section>
 
+      {supportingFlagships.length ? (
+        <section className="hub-games-secondary" aria-label="Other flagship worlds">
+          <div className="hub-home-section__header">
+            <span>Other flagship worlds</span>
+          </div>
+
+          <div className="hub-games-secondary__stack">
+            {supportingFlagships.map((game) => (
+              <article className="hub-games-card hub-games-card--flagship" key={game.id}>
+                <div className="hub-games-card__topline">
+                  <span>Flagship world</span>
+                  <small>{game.latestLabel}</small>
+                </div>
+
+                <div className="hub-games-card__body">
+                  <strong>{game.name}</strong>
+                  <p>{game.summary}</p>
+                </div>
+
+                <div className="hub-games-card__meta">
+                  <span>Status</span>
+                  <small>Core Olympus Prime world</small>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
       <section className="hub-games-secondary" aria-label="Other worlds to enter">
         <div className="hub-home-section__header">
           <span>Other worlds</span>
@@ -46,7 +78,7 @@ export function GamesPage() {
 
         <div className="hub-games-secondary__stack">
           {supportingGames.map((game) => (
-            <a className="hub-games-card" href={game.href} key={game.id}>
+            <a className="hub-games-card" href={game.href ?? '#/games'} key={game.id}>
               <div className="hub-games-card__topline">
                 <span>{game.theme}</span>
                 <small>Enter</small>

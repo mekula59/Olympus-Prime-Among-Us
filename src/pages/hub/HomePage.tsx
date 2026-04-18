@@ -6,6 +6,7 @@ export function HomePage() {
   const primaryFeature = hubHomeFeatures[0];
   const supportingFeatures = hubHomeFeatures.slice(1, 3);
   const flagshipGame = hubGameCards.find((game) => game.slug === 'among-us') ?? hubGameCards[0];
+  const leapWorld = hubGameCards.find((game) => game.slug === 'leap-of-legends');
   const worldLinks: Array<{
     id: string;
     title: string;
@@ -23,6 +24,16 @@ export function HomePage() {
       badge: 'Flagship world',
       state: 'Live memory lane',
       featured: true,
+    },
+    {
+      id: 'leap-of-legends',
+      title: 'Leap of Legends',
+      detail:
+        leapWorld?.summary ??
+        'A flagship Olympus Prime world for momentum swings, remembered finishes, and chapter-level nights.',
+      href: leapWorld?.href ?? '#/games',
+      badge: 'Flagship world',
+      state: leapWorld?.latestLabel ?? 'Core world history',
     },
     {
       id: 'players',
@@ -62,6 +73,7 @@ export function HomePage() {
   const deeperActions = [
     { label: 'Read latest recap', href: primaryFeature?.href ?? '#/games/among-us/reports' },
     { label: 'Open Among Us', href: flagshipGame?.href ?? '#/games/among-us' },
+    { label: 'Browse game worlds', href: '#/games' },
     { label: 'Browse players', href: '#/players' },
     { label: 'View season archive', href: '#/seasons' },
   ];

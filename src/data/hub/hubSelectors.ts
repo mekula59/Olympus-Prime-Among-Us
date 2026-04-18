@@ -63,10 +63,12 @@ export interface HubGameCard {
   id: string;
   slug: string;
   name: string;
+  shortName: string;
   summary: string;
   theme: string;
   latestLabel: string;
-  href: string;
+  href: string | null;
+  isFlagship: boolean;
   tone: Tone;
 }
 
@@ -143,11 +145,10 @@ export function getHubViewModel(): HubViewModel {
       tone: 'cool',
     },
     {
-      label: 'Featured game',
+      label: 'Flagship world',
       title: getGameById('among-us')?.name ?? 'Among Us',
       detail:
-        getGameById('among-us')?.summary ??
-        'The flagship social-deduction module inside Olympus Prime Gamesnight Hub.',
+        'Among Us leads the live module layer right now, with Leap of Legends now represented beside it as a core Olympus Prime world.',
       href: '#/games/among-us',
       tone: 'hot',
     },
@@ -325,11 +326,13 @@ export function getHubViewModel(): HubViewModel {
       id: game.id,
       slug: game.slug,
       name: game.name,
+      shortName: game.shortName,
       summary: game.summary,
       theme: game.theme,
       latestLabel: latestGameRecap?.headline ?? latestGameSession?.label ?? 'No published session yet',
-      href: `#/games/${game.slug}`,
-      tone: game.id === 'among-us' ? 'hot' : 'cool',
+      href: game.modulePath ? `#${game.modulePath}` : null,
+      isFlagship: game.isFlagship,
+      tone: game.id === 'among-us' ? 'hot' : game.isFlagship ? 'warm' : 'cool',
     };
   });
 

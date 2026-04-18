@@ -24,8 +24,21 @@ export const games: GameRecord[] = [
     name: 'Among Us',
     shortName: 'Among Us',
     status: 'active',
+    isFlagship: true,
+    modulePath: '/games/among-us',
     summary: 'The flagship Olympus Prime gamesnight module for social deduction, room reads, and recap-worthy finishes.',
     theme: 'Warm suspicion, player-color identity, and post-round memory.',
+  },
+  {
+    id: 'leap-of-legends',
+    slug: 'leap-of-legends',
+    name: 'Leap of Legends',
+    shortName: 'Leap',
+    status: 'active',
+    isFlagship: true,
+    modulePath: null,
+    summary: 'A flagship Olympus Prime game world for big swings, remembered plays, and community nights that feel chapter-worthy the second they end.',
+    theme: 'Momentum, comeback energy, and remembered finishes that keep getting replayed.',
   },
 ];
 
@@ -250,6 +263,21 @@ export const sessions: SessionRecord[] = [
     hostNotes: 'Everyone left impressed and slightly offended by how polite the winning lie sounded.',
   },
   {
+    id: 'session-05-leap',
+    gameId: 'leap-of-legends',
+    seasonId: 'season-08',
+    label: 'Leap Night 05 // Legend Window',
+    sessionNumber: 5,
+    scheduledAt: '2026-03-27T19:00:00+01:00',
+    venue: 'Launch room',
+    format: 'Flagship challenge night',
+    hostPlayerId: 'remy',
+    status: 'published',
+    attendanceCount: 8,
+    winningPlayerId: 'sol',
+    hostNotes: 'Big swings, loud resets, and one finishing sequence the room kept replaying after call.',
+  },
+  {
     id: 'session-06',
     gameId: 'among-us',
     seasonId: 'season-08',
@@ -412,6 +440,46 @@ export const matches: MatchRecord[] = [
 ];
 
 export const sessionParticipants: SessionParticipantRecord[] = [
+  {
+    id: 'participant-05-leap-sol',
+    sessionId: 'session-05-leap',
+    playerId: 'sol',
+    attendanceStatus: 'present',
+    finishStatus: 'winner',
+    playedMatches: 4,
+    winCount: 1,
+    note: 'Closed the night with the finishing run everybody kept replaying afterward.',
+  },
+  {
+    id: 'participant-05-leap-nova',
+    sessionId: 'session-05-leap',
+    playerId: 'nova',
+    attendanceStatus: 'present',
+    finishStatus: 'survived',
+    playedMatches: 4,
+    winCount: 0,
+    note: 'Framed the comeback beats in a way that made the replay conversation louder.',
+  },
+  {
+    id: 'participant-05-leap-remy',
+    sessionId: 'session-05-leap',
+    playerId: 'remy',
+    attendanceStatus: 'host',
+    finishStatus: 'spectated',
+    playedMatches: 4,
+    winCount: 0,
+    note: 'Kept the room moving and the reset energy high through every swing.',
+  },
+  {
+    id: 'participant-05-leap-ivy',
+    sessionId: 'session-05-leap',
+    playerId: 'ivy',
+    attendanceStatus: 'present',
+    finishStatus: 'survived',
+    playedMatches: 4,
+    winCount: 0,
+    note: 'Turned one mid-night reversal into the comeback beat people kept retelling.',
+  },
   {
     id: 'participant-08-nova',
     sessionId: 'session-08',
@@ -931,6 +999,14 @@ export const incidents: IncidentRecord[] = [
 
 export const outcomes: OutcomeRecord[] = [
   {
+    id: 'outcome-05-leap',
+    sessionId: 'session-05-leap',
+    winnerPlayerId: 'sol',
+    verdict: 'Leap of Legends turned into a momentum night, and Sol closed the room before the comeback energy had time to cool off.',
+    flaggedSummary: 'One reversal in the middle of the night is still being argued as the moment Leap fully became Olympus Prime canon.',
+    status: 'published',
+  },
+  {
     id: 'outcome-08',
     sessionId: 'session-08',
     winnerPlayerId: 'sol',
@@ -949,6 +1025,19 @@ export const outcomes: OutcomeRecord[] = [
 ];
 
 export const recaps: RecapRecord[] = [
+  {
+    id: 'recap-05-leap',
+    sessionId: 'session-05-leap',
+    headline: 'Leap of Legends opened its legend window.',
+    summary:
+      'Leap Night 05 gave Olympus Prime one of its clearest “we are building something here” sessions: loud momentum, one remembered comeback, and a finish people replayed before the night had even ended.',
+    highlight:
+      '“That was the kind of finish people start referencing before everyone has even left call.”',
+    publishNote: 'Logged as a flagship-world recap and held in the Hub memory lane even before the full Leap module arrives.',
+    verdict: 'A real Olympus Prime world now, not a side entry.',
+    recommendation: 'Keep surfacing Leap of Legends at the Hub layer so it reads as a core world, not a future add-on.',
+    status: 'published',
+  },
   {
     id: 'recap-08',
     sessionId: 'session-08',
@@ -978,6 +1067,15 @@ export const recaps: RecapRecord[] = [
 ];
 
 export const publishStates: PublishStateRecord[] = [
+  {
+    id: 'publish-05-leap',
+    sessionId: 'session-05-leap',
+    reportStatus: 'transmitted',
+    awardsStatus: 'transmitted',
+    mediaStatus: 'transmitted',
+    publicStatus: 'transmitted',
+    transmittedAt: '2026-03-27T23:12:00+01:00',
+  },
   {
     id: 'publish-08',
     sessionId: 'session-08',
