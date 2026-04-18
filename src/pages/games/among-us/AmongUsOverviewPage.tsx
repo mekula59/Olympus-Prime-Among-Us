@@ -32,9 +32,10 @@ const simModes = [
 
 export function AmongUsOverviewPage() {
   const [activeMode, setActiveMode] = useState<(typeof simModes)[number]['id']>('lobby');
-  const { commandCenter, shell, sync } = useAmongUsPublicSyncState();
+  const { commandCenter, sync } = useAmongUsPublicSyncState();
   const modeConfig = simModes.find((mode) => mode.id === activeMode) ?? simModes[0];
   const liveRoster = commandCenter.roomRoster.slice(0, 5);
+  const nextZones = commandZones.slice(0, 4);
   const liveWhispers =
     activeMode === 'lobby'
       ? commandCenter.commandWhispers.slice(0, 2)
@@ -51,7 +52,7 @@ export function AmongUsOverviewPage() {
       <section className="module-screen-header" aria-label="Among Us live room">
         <p className="module-screen-header__eyebrow">Among Us</p>
         <h2>Live room</h2>
-        <p className="module-screen-header__lede">Check the current phase, room mood, and active crew before the next round starts.</p>
+        <p className="module-screen-header__lede">See the current phase, the room read, and where to jump next before the next round starts.</p>
 
         <div className="module-utility-row" aria-label="Among Us live summary">
           <article>
@@ -69,7 +70,7 @@ export function AmongUsOverviewPage() {
         </div>
       </section>
 
-      <ModuleFrame tone="warm" className="command-console command-console--mobile module-screen-module">
+      <ModuleFrame tone="warm" className={`command-console command-console--mobile command-console--${activeMode} module-screen-module`}>
         <div className="system-switcher" role="tablist" aria-label="Command states">
           {simModes.map((mode) => (
             <button
@@ -80,7 +81,7 @@ export function AmongUsOverviewPage() {
               role="tab"
               type="button"
             >
-              <span>{mode.id === activeMode ? 'Active' : 'Load'}</span>
+              <span>{mode.id === activeMode ? 'Live' : 'Switch'}</span>
               <strong>{mode.title}</strong>
             </button>
           ))}
@@ -120,7 +121,24 @@ export function AmongUsOverviewPage() {
         </div>
       </ModuleFrame>
 
-      <div className="command-flow-stack">
+      <ModuleFrame className="zone-map zone-map--system zone-map--overview module-screen-module">
+        <div className="module-inline-heading">
+          <span>Next stops</span>
+          <strong>Check the board, crew files, or archive next.</strong>
+        </div>
+
+        <div className="zone-grid zone-grid--system">
+          {nextZones.map((zone) => (
+            <a className={`zone-card zone-card--${zone.tone}`} href={`#${zone.destination}`} key={zone.name}>
+              <span>{zone.mood}</span>
+              <h4>{zone.name}</h4>
+              <p>{zone.description}</p>
+            </a>
+          ))}
+        </div>
+      </ModuleFrame>
+
+      <div className="command-flow-stack command-flow-stack--secondary">
         <ModuleFrame className="crew-slot-board module-screen-module">
           <div className="crew-slot-grid">
             {liveRoster.map((player) => (
@@ -157,18 +175,6 @@ export function AmongUsOverviewPage() {
           </div>
         </ModuleFrame>
       </div>
-
-      <ModuleFrame className="zone-map zone-map--system module-screen-module">
-        <div className="zone-grid zone-grid--system">
-          {commandZones.map((zone) => (
-            <a className={`zone-card zone-card--${zone.tone}`} href={`#${zone.destination}`} key={zone.name}>
-              <span>{zone.mood}</span>
-              <h4>{zone.name}</h4>
-              <p>{zone.description}</p>
-            </a>
-          ))}
-        </div>
-      </ModuleFrame>
     </div>
   );
 }

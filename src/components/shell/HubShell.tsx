@@ -12,22 +12,29 @@ interface HubShellProps {
 export function HubShell({ currentPath, currentRoute, moduleHeader, children }: HubShellProps) {
   return (
     <>
-      <div className="hq-layout hq-layout--mobile">
-        <header className="topbar">
-          <a className="brand-mark" href="#/" aria-label="Olympus Prime Gamesnight Hub">
-            <img src="/assets/olympus-signal.svg" alt="" />
-            <span>
-              Olympus Prime
-              <strong>Gamesnight Hub</strong>
-            </span>
-          </a>
+      <div className={`hq-layout hq-layout--mobile hq-layout--${currentRoute.shell}`}>
+        <header className={`topbar topbar--${currentRoute.section}`}>
+          <div className="topbar__identity">
+            <a className="brand-mark" href="#/" aria-label="Olympus Prime Gamesnight Hub">
+              <img src="/assets/olympus-signal.svg" alt="" />
+              <span>
+                Olympus Prime
+                <strong>Gamesnight Hub</strong>
+              </span>
+            </a>
 
-          <span className="topbar__section">{currentRoute.section}</span>
+            <p className="topbar__subcopy">Discord runs the night. The Hub keeps the world alive after it.</p>
+          </div>
+
+          <div className="topbar__status" aria-label="Current layer">
+            <span className="topbar__section">{currentRoute.section}</span>
+            <strong>{currentRoute.stateLabel}</strong>
+          </div>
         </header>
 
         {moduleHeader}
 
-        <main className="page-stage page-stage--mobile" key={currentPath}>
+        <main className={`page-stage page-stage--mobile page-stage--${currentRoute.shell}`} key={currentPath}>
           {children}
         </main>
       </div>

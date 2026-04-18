@@ -1,27 +1,69 @@
 import { hubGameCards } from '../../data/hub/hubSelectors';
 
 export function GamesPage() {
+  const flagshipGame = hubGameCards.find((game) => game.slug === 'among-us') ?? hubGameCards[0];
+  const supportingGames = hubGameCards.filter((game) => game.id !== flagshipGame?.id);
+
   return (
     <div className="page page--hub-games">
-      <div className="page-header">
-        <h1>Games</h1>
-        <p>Open the strongest active game modules and jump straight to the sessions people still reference.</p>
-      </div>
+      <section className="hub-games-launch" aria-label="Game world selection">
+        <div className="page-header">
+          <h1>Choose a world.</h1>
+          <p>Open the strongest Olympus Prime game worlds and step into the one the community is most alive in right now.</p>
+        </div>
 
-      <div className="hub-row-list">
-        {hubGameCards.map((game) => (
-          <a className="hub-game-row" href={game.href} key={game.id}>
-            <div className="hub-game-row__info">
-              <strong>{game.name}</strong>
-              <p>{game.summary}</p>
+        {flagshipGame ? (
+          <a className="hub-games-flagship" href={flagshipGame.href}>
+            <div className="hub-games-flagship__topline">
+              <span>Flagship world</span>
+              <small>Open now</small>
             </div>
-            <div className="hub-game-row__meta">
-              <span>Latest</span>
-              <small>{game.latestLabel}</small>
+
+            <div className="hub-games-flagship__body">
+              <strong>{flagshipGame.name}</strong>
+              <p>{flagshipGame.summary}</p>
+            </div>
+
+            <div className="hub-games-flagship__meta">
+              <article>
+                <span>Latest</span>
+                <strong>{flagshipGame.latestLabel}</strong>
+              </article>
+              <article>
+                <span>Why enter</span>
+                <strong>Olympus Prime’s strongest active memory world.</strong>
+              </article>
             </div>
           </a>
-        ))}
-      </div>
+        ) : null}
+      </section>
+
+      <section className="hub-games-secondary" aria-label="Other worlds to enter">
+        <div className="hub-home-section__header">
+          <span>Other worlds</span>
+        </div>
+
+        <div className="hub-games-secondary__stack">
+          {supportingGames.map((game) => (
+            <a className="hub-games-card" href={game.href} key={game.id}>
+              <div className="hub-games-card__topline">
+                <span>{game.theme}</span>
+                <small>Enter</small>
+              </div>
+
+              <div className="hub-games-card__body">
+                <strong>{game.name}</strong>
+                <p>{game.summary}</p>
+              </div>
+
+              <div className="hub-games-card__meta">
+                <span>Latest</span>
+                <small>{game.latestLabel}</small>
+              </div>
+            </a>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
