@@ -17,33 +17,10 @@ import type {
   TitleRecord,
 } from '../../types/product';
 import type { RuntimeProductData } from '../runtimeProductStore';
-import { getSupabaseConfig, isSupabaseConfigured } from '../../lib/supabase';
+import { isSupabaseConfigured } from '../../lib/supabase';
+import { fetchSupabaseTable } from './supabaseRest';
 
 type SupabaseRow = Record<string, unknown>;
-
-function requestHeaders() {
-  const config = getSupabaseConfig();
-
-  return {
-    apikey: config.anonKey,
-    Authorization: `Bearer ${config.anonKey}`,
-    Accept: 'application/json',
-    'Accept-Profile': config.schema,
-  };
-}
-
-async function fetchTable(table: string) {
-  const config = getSupabaseConfig();
-  const response = await fetch(`${config.url}/rest/v1/${table}?select=*`, {
-    headers: requestHeaders(),
-  });
-
-  if (!response.ok) {
-    throw new Error(`Supabase read failed for ${table}: ${response.status}`);
-  }
-
-  return (await response.json()) as SupabaseRow[];
-}
 
 function asString(value: unknown, fallback = '') {
   return typeof value === 'string' ? value : fallback;
@@ -328,25 +305,25 @@ export async function fetchSupabaseCanonicalProductData(): Promise<RuntimeProduc
     mediaRows,
     rivalryRows,
   ] = await Promise.all([
-    fetchTable('games'),
-    fetchTable('seasons'),
-    fetchTable('badges'),
-    fetchTable('titles'),
-    fetchTable('players'),
-    fetchTable('player_allies'),
-    fetchTable('player_habits'),
-    fetchTable('player_tells'),
-    fetchTable('sessions'),
-    fetchTable('session_participants'),
-    fetchTable('matches'),
-    fetchTable('outcomes'),
-    fetchTable('awards'),
-    fetchTable('quotes'),
-    fetchTable('incidents'),
-    fetchTable('recaps'),
-    fetchTable('publish_states'),
-    fetchTable('media_uploads'),
-    fetchTable('rivalry_summaries'),
+    fetchSupabaseTable('games'),
+    fetchSupabaseTable('seasons'),
+    fetchSupabaseTable('badges'),
+    fetchSupabaseTable('titles'),
+    fetchSupabaseTable('players'),
+    fetchSupabaseTable('player_allies'),
+    fetchSupabaseTable('player_habits'),
+    fetchSupabaseTable('player_tells'),
+    fetchSupabaseTable('sessions'),
+    fetchSupabaseTable('session_participants'),
+    fetchSupabaseTable('matches'),
+    fetchSupabaseTable('outcomes'),
+    fetchSupabaseTable('awards'),
+    fetchSupabaseTable('quotes'),
+    fetchSupabaseTable('incidents'),
+    fetchSupabaseTable('recaps'),
+    fetchSupabaseTable('publish_states'),
+    fetchSupabaseTable('media_uploads'),
+    fetchSupabaseTable('rivalry_summaries'),
   ]);
 
   if (!gameRows.length || !playerRows.length || !seasonRows.length) {
