@@ -42,6 +42,7 @@ Initial SQL scaffold:
 
 - [supabase/migrations/0001_canonical_product_schema.sql](/Users/mekula/olympus-prime-amongus-hq/supabase/migrations/0001_canonical_product_schema.sql)
 - [supabase/migrations/0002_auth_rls_read_phase.sql](/Users/mekula/olympus-prime-amongus-hq/supabase/migrations/0002_auth_rls_read_phase.sql)
+- [supabase/migrations/0003_owner_admin_write_policies.sql](/Users/mekula/olympus-prime-amongus-hq/supabase/migrations/0003_owner_admin_write_policies.sql)
 
 It mirrors the canonical product model:
 
@@ -90,3 +91,13 @@ The second migration adds the first safe auth/security layer without changing th
   - authenticated workspace-member reads
 
 Write policies are intentionally deferred to the next phase.
+
+## Auth / RLS Write Phase
+
+The third migration adds owner/admin write policies without changing repository signatures:
+
+- editors can write only to sessions they own
+- admins can write to all sessions
+- child-table writes derive from parent session ownership/admin role
+
+Public published reads and authenticated workspace-member reads remain unchanged.
