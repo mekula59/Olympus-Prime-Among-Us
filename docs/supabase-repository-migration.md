@@ -41,6 +41,7 @@ The facade currently defaults to `local`. It only switches to `supabase` when:
 Initial SQL scaffold:
 
 - [supabase/migrations/0001_canonical_product_schema.sql](/Users/mekula/olympus-prime-amongus-hq/supabase/migrations/0001_canonical_product_schema.sql)
+- [supabase/migrations/0002_auth_rls_read_phase.sql](/Users/mekula/olympus-prime-amongus-hq/supabase/migrations/0002_auth_rls_read_phase.sql)
 
 It mirrors the canonical product model:
 
@@ -74,3 +75,18 @@ After that:
 2. move `saveGenericSessionEditor` to Supabase
 3. move `persistSessionEngineDraft` to a bundled upsert strategy
 4. keep local runtime state as optimistic UI / cache, not source of truth
+
+## Auth / RLS Read Phase
+
+The second migration adds the first safe auth/security layer without changing the repository facade:
+
+- `profiles`
+- `workspace_memberships`
+- session ownership / audit columns
+- helper auth functions
+- read-first RLS policies for:
+  - public reference data
+  - published public session-derived data
+  - authenticated workspace-member reads
+
+Write policies are intentionally deferred to the next phase.

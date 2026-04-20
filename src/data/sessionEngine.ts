@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useReducer } from 'react';
+import { useAuthState } from '../auth/authStore';
 import type { CorrectionItem } from '../types/ops';
 import type {
   AttendanceStatus,
@@ -13,7 +14,7 @@ import type {
   SessionEngineStageId,
   SessionEngineStatusMap,
 } from '../types/sessionEngine';
-import { persistSessionEngineDraft } from './productRepository';
+import { getActiveProductRepositoryDriver, persistSessionEngineDraft } from './productRepository';
 import { getAmongUsOpsData } from './games/among-us/amongUsOpsData';
 import {
   getAwardsBySessionId,
@@ -442,6 +443,7 @@ function getEngineStatuses(draft: SessionEngineDraft, corrections: CorrectionIte
 
 export function useSessionEngine(sessionId = getDefaultSessionId()) {
   const resolvedSessionId = sessionId || getDefaultSessionId();
+  const auth = useAuthState();
   const [state, dispatch] = useReducer(engineReducer, {
     activeStageId: 'boot' as SessionEngineStageId,
     eventLabel: 'SESSION ENGINE STANDBY',
@@ -458,8 +460,15 @@ export function useSessionEngine(sessionId = getDefaultSessionId()) {
   }, [resolvedSessionId, state.draft.session.id]);
 
   useEffect(() => {
+    const requiresAuth = getActiveProductRepositoryDriver() === 'supabase';
+    const canWriteOps = !requiresAuth || (auth.status === 'ready' && auth.isMember);
+
+    if (!canWriteOps) {
+      return;
+    }
+
     persistSessionEngineDraft(state.draft);
-  }, [state.draft]);
+  }, [auth.isMember, auth.status, state.draft]);
 
   const statuses = useMemo(
     () => getEngineStatuses(state.draft, state.corrections),

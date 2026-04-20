@@ -1,14 +1,22 @@
 import type { ProductRepository } from '../../types/productRepository';
+import { requireAuthenticatedWorkspaceMember } from '../../auth/authStore';
 import { createSupabaseClientScaffold, isSupabaseConfigured } from '../../lib/supabase';
 import { localProductRepository } from './localProductRepository';
 import {
-  createEmptyPublishState,
   createEmptyRecap,
+  createEmptyPublishState,
   buildDraftSessionBundle,
 } from './productRepositoryUtils';
 import { getRuntimeProductData } from '../runtimeProductStore';
 import { fetchSupabaseCanonicalProductData } from './supabaseCanonicalData';
-import { replaceRuntimeSessionBundle, upsertRuntimeProductRecords } from '../runtimeProductStore';
+import {
+  markRuntimeSessionSyncFailed,
+  markRuntimeSessionSyncPending,
+  markRuntimeSessionSyncSucceeded,
+  refreshRuntimeCanonicalProductData,
+  replaceRuntimeSessionBundle,
+  upsertRuntimeProductRecords,
+} from '../runtimeProductStore';
 import {
   getLatestOperationalSession,
   getPublishStateBySessionId,
@@ -36,17 +44,35 @@ export const supabaseProductRepository: ProductRepository = {
       return localProductRepository.createSessionDraftRecord(gameId);
     }
 
+    const actor = requireAuthenticatedWorkspaceMember();
+    const sessionOwnerId = actor.userId;
     const bundle = buildDraftSessionBundle(gameId ?? 'among-us', getRuntimeProductData());
+    const ownedSession: SessionRecord = {
+      ...bundle.session,
+      ownerUserId: sessionOwnerId,
+      lastEditedByUserId: sessionOwnerId,
+    };
+    markRuntimeSessionSyncPending(bundle.session.id);
+    replaceRuntimeSessionBundle({
+      ...bundle,
+      session: ownedSession,
+    });
 
     void Promise.all([
-      upsertSupabaseRows('sessions', [mapSessionRow(bundle.session)]),
+      upsertSupabaseRows('sessions', [mapSessionRow(ownedSession)]),
       upsertSupabaseRows('outcomes', [mapOutcomeRow(bundle.outcome)]),
       upsertSupabaseRows('recaps', [mapRecapRow(bundle.recap)]),
       upsertSupabaseRows('publish_states', [mapPublishStateRow(bundle.publishState)]),
-    ]).catch(() => null);
+    ])
+      .then(async () => {
+        await ensureRuntimeCanonicalRefresh();
+        markRuntimeSessionSyncSucceeded(bundle.session.id);
+      })
+      .catch((error) => {
+        markRuntimeSessionSyncFailed(bundle.session.id, error);
+      });
 
-    replaceRuntimeSessionBundle(bundle);
-    return bundle.session;
+    return ownedSession;
   },
   saveGenericSessionEditor(sessionId, payload) {
     if (!isSupabaseConfigured()) {
@@ -57,6 +83,7 @@ export const supabaseProductRepository: ProductRepository = {
     if (!existingSession) {
       return localProductRepository.saveGenericSessionEditor(sessionId, payload);
     }
+    const actor = requireAuthenticatedWorkspaceMember();
 
     const nextSession: SessionRecord = {
       ...existingSession,
@@ -68,6 +95,7 @@ export const supabaseProductRepository: ProductRepository = {
       format: payload.mode.trim() || existingSession.format,
       hostNotes: payload.notes,
       status: existingSession.status === 'planned' ? 'draft' : existingSession.status,
+      lastEditedByUserId: actor.userId,
     };
 
     const recap: RecapRecord = getRecapBySessionId(sessionId) ?? createEmptyRecap(sessionId);
@@ -82,37 +110,60 @@ export const supabaseProductRepository: ProductRepository = {
 
     const publishState: PublishStateRecord =
       getPublishStateBySessionId(sessionId) ?? createEmptyPublishState(sessionId);
-
-    void Promise.all([
-      upsertSupabaseRows('sessions', [mapSessionRow(nextSession)]),
-      upsertSupabaseRows('recaps', [mapRecapRow(nextRecap)]),
-      upsertSupabaseRows('publish_states', [mapPublishStateRow(publishState)]),
-    ]).catch(() => null);
+    markRuntimeSessionSyncPending(sessionId);
 
     upsertRuntimeProductRecords({
       sessions: [nextSession],
       recaps: [nextRecap],
       publishStates: [publishState],
     });
+    void Promise.all([
+      upsertSupabaseRows('sessions', [mapSessionRow(nextSession)]),
+      upsertSupabaseRows('recaps', [mapRecapRow(nextRecap)]),
+      upsertSupabaseRows('publish_states', [mapPublishStateRow(publishState)]),
+    ])
+      .then(async () => {
+        await ensureRuntimeCanonicalRefresh();
+        markRuntimeSessionSyncSucceeded(sessionId);
+      })
+      .catch((error) => {
+        markRuntimeSessionSyncFailed(sessionId, error);
+      });
   },
   persistSessionEngineDraft(draft: SessionEngineDraft) {
     if (!isSupabaseConfigured()) {
       return localProductRepository.persistSessionEngineDraft(draft);
     }
+    const actor = requireAuthenticatedWorkspaceMember();
+    const nextDraft: SessionEngineDraft = {
+      ...draft,
+      session: {
+        ...draft.session,
+        lastEditedByUserId: actor.userId,
+      },
+    };
 
+    markRuntimeSessionSyncPending(nextDraft.session.id);
     replaceRuntimeSessionBundle({
-      session: draft.session,
-      participants: draft.participants,
-      matches: draft.matches,
-      outcome: draft.outcome,
-      awards: draft.awards,
-      quotes: draft.quotes,
-      recap: draft.recap,
-      media: draft.media,
-      publishState: draft.publishState,
+      session: nextDraft.session,
+      participants: nextDraft.participants,
+      matches: nextDraft.matches,
+      outcome: nextDraft.outcome,
+      awards: nextDraft.awards,
+      quotes: nextDraft.quotes,
+      recap: nextDraft.recap,
+      media: nextDraft.media,
+      publishState: nextDraft.publishState,
     });
 
-    void syncSessionEngineBundleToSupabase(draft).catch(() => null);
+    void syncSessionEngineBundleToSupabase(nextDraft)
+      .then(async () => {
+        await ensureRuntimeCanonicalRefresh();
+        markRuntimeSessionSyncSucceeded(nextDraft.session.id);
+      })
+      .catch((error) => {
+        markRuntimeSessionSyncFailed(nextDraft.session.id, error);
+      });
   },
   getDefaultHubOpsSessionId() {
     return getLatestOperationalSession()?.id ?? localProductRepository.getDefaultHubOpsSessionId();
@@ -131,6 +182,13 @@ export function getSupabaseRepositoryReadiness() {
     configured: isSupabaseConfigured(),
     client,
   };
+}
+
+async function ensureRuntimeCanonicalRefresh() {
+  const refreshed = await refreshRuntimeCanonicalProductData();
+  if (!refreshed) {
+    throw new Error('Supabase canonical refresh failed after remote write');
+  }
 }
 
 export function getSupabaseFallbackRepository() {
@@ -152,6 +210,8 @@ function mapSessionRow(session: SessionRecord) {
     attendance_count: session.attendanceCount,
     winning_player_id: session.winningPlayerId,
     host_notes: session.hostNotes,
+    owner_user_id: session.ownerUserId ?? null,
+    last_edited_by_user_id: session.lastEditedByUserId ?? null,
   };
 }
 

@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit -p tsconfig.app.json"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.103.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

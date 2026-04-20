@@ -80,6 +80,10 @@ export interface SessionRecord {
   attendanceCount: number;
   winningPlayerId: string | null;
   hostNotes: string;
+  ownerUserId?: string | null;
+  lastEditedByUserId?: string | null;
+  createdAt?: string | null;
+  updatedAt?: string | null;
 }
 
 export interface MatchRecord {

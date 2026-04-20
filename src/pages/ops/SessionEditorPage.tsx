@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react';
+import { useAuthState } from '../../auth/authStore';
 import { ModuleFrame } from '../../components/ModuleFrame';
 import { PageIntro } from '../../components/PageIntro';
 import { getOpsSessionIdFromPath } from '../../config/routes';
-import { createSessionDraftRecord, saveGenericSessionEditor } from '../../data/productRepository';
+import {
+  createSessionDraftRecord,
+  getActiveProductRepositoryDriver,
+  saveGenericSessionEditor,
+} from '../../data/productRepository';
 import { useAmongUsOpsData } from '../../data/games/among-us/amongUsOpsData';
 import { useHubOpsData } from '../../data/ops/hubOpsData';
 import { useHashRoute } from '../../hooks/useHashRoute';
@@ -12,17 +17,32 @@ export function SessionEditorPage() {
   const sessionId = getOpsSessionIdFromPath(path);
   const hubOpsData = useHubOpsData(sessionId ?? undefined);
   const amongUsOpsData = useAmongUsOpsData();
+  const auth = useAuthState();
   const [sessionForm, setSessionForm] = useState(hubOpsData.opsSessionDraft);
   const [recapForm, setRecapForm] = useState(hubOpsData.opsRecapDraft);
+  const requiresAuth = getActiveProductRepositoryDriver() === 'supabase';
+  const canWriteOps = !requiresAuth || (auth.status === 'ready' && auth.isMember);
 
   useEffect(() => {
     if (route.id !== 'ops-session-new') {
       return;
     }
 
+    if (!canWriteOps) {
+      return;
+    }
+
     const createdSession = createSessionDraftRecord();
     window.location.hash = `#/ops/sessions/${createdSession.id}`;
-  }, [route.id]);
+  }, [canWriteOps, route.id]);
+
+  useEffect(() => {
+    if (!requiresAuth || auth.status !== 'ready' || auth.isMember || !route.id.startsWith('ops')) {
+      return;
+    }
+
+    console.error('Authenticated workspace membership is required for Ops writes.');
+  }, [auth.isMember, auth.status, requiresAuth, route.id]);
 
   useEffect(() => {
     setSessionForm(hubOpsData.opsSessionDraft);
@@ -31,6 +51,10 @@ export function SessionEditorPage() {
 
   useEffect(() => {
     if (!sessionId) {
+      return;
+    }
+
+    if (!canWriteOps) {
       return;
     }
 
@@ -49,7 +73,7 @@ export function SessionEditorPage() {
     }, 120);
 
     return () => window.clearTimeout(timeoutId);
-  }, [recapForm, sessionForm, sessionId]);
+  }, [canWriteOps, recapForm, sessionForm, sessionId]);
 
   if (route.id === 'ops-session-new' || !sessionId) {
     return (

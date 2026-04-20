@@ -1,3 +1,5 @@
+import { createClient } from '@supabase/supabase-js';
+
 export interface SupabaseClientConfig {
   url: string;
   anonKey: string;
@@ -8,6 +10,8 @@ export interface SupabaseClientScaffold {
   config: SupabaseClientConfig;
   ready: boolean;
 }
+
+let supabaseBrowserClient: ReturnType<typeof createClient> | null = null;
 
 export function getSupabaseConfig(): SupabaseClientConfig {
   return {
@@ -29,4 +33,36 @@ export function createSupabaseClientScaffold(): SupabaseClientScaffold {
     config,
     ready: isSupabaseConfigured(),
   };
+}
+
+export function getSupabaseBrowserClient() {
+  if (!isSupabaseConfigured()) {
+    return null;
+  }
+
+  if (!supabaseBrowserClient) {
+    const config = getSupabaseConfig();
+    supabaseBrowserClient = createClient(config.url, config.anonKey, {
+      auth: {
+        persistSession: true,
+        autoRefreshToken: true,
+        detectSessionInUrl: true,
+      },
+    });
+  }
+
+  return supabaseBrowserClient;
+}
+
+export async function getSupabaseAccessToken() {
+  const client = getSupabaseBrowserClient();
+  if (!client) {
+    return null;
+  }
+
+  const {
+    data: { session },
+  } = await client.auth.getSession();
+
+  return session?.access_token ?? null;
 }

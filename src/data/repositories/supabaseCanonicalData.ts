@@ -139,6 +139,10 @@ function mapSessions(rows: SupabaseRow[]): SessionRecord[] {
     attendanceCount: asNumber(row.attendance_count),
     winningPlayerId: asNullableString(row.winning_player_id),
     hostNotes: asString(row.host_notes),
+    ownerUserId: asNullableString(row.owner_user_id),
+    lastEditedByUserId: asNullableString(row.last_edited_by_user_id),
+    createdAt: asNullableString(row.created_at),
+    updatedAt: asNullableString(row.updated_at),
   }));
 }
 

@@ -1,11 +1,12 @@
-import { getSupabaseConfig } from '../../lib/supabase';
+import { getSupabaseAccessToken, getSupabaseConfig } from '../../lib/supabase';
 
-function buildBaseHeaders() {
+async function buildBaseHeaders() {
   const config = getSupabaseConfig();
+  const accessToken = await getSupabaseAccessToken();
 
   return {
     apikey: config.anonKey,
-    Authorization: `Bearer ${config.anonKey}`,
+    Authorization: `Bearer ${accessToken ?? config.anonKey}`,
     Accept: 'application/json',
     'Accept-Profile': config.schema,
     'Content-Profile': config.schema,
@@ -18,12 +19,13 @@ export async function upsertSupabaseRows<T extends Record<string, unknown>>(
   onConflict = 'id',
 ) {
   const config = getSupabaseConfig();
+  const headers = await buildBaseHeaders();
   const response = await fetch(
     `${config.url}/rest/v1/${table}?on_conflict=${encodeURIComponent(onConflict)}`,
     {
       method: 'POST',
       headers: {
-        ...buildBaseHeaders(),
+        ...headers,
         'Content-Type': 'application/json',
         Prefer: 'resolution=merge-duplicates,return=representation',
       },
@@ -40,8 +42,9 @@ export async function upsertSupabaseRows<T extends Record<string, unknown>>(
 
 export async function fetchSupabaseTable(table: string) {
   const config = getSupabaseConfig();
+  const headers = await buildBaseHeaders();
   const response = await fetch(`${config.url}/rest/v1/${table}?select=*`, {
-    headers: buildBaseHeaders(),
+    headers,
   });
 
   if (!response.ok) {
@@ -57,12 +60,13 @@ export async function deleteSupabaseRowsByColumn(
   value: string,
 ) {
   const config = getSupabaseConfig();
+  const headers = await buildBaseHeaders();
   const response = await fetch(
     `${config.url}/rest/v1/${table}?${encodeURIComponent(column)}=eq.${encodeURIComponent(value)}`,
     {
       method: 'DELETE',
       headers: {
-        ...buildBaseHeaders(),
+        ...headers,
         Prefer: 'return=minimal',
       },
     },

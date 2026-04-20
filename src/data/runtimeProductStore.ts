@@ -39,6 +39,7 @@ import { isSupabaseConfigured } from '../lib/supabase';
 import { fetchSupabaseCanonicalProductData } from './repositories/supabaseCanonicalData';
 
 const STORAGE_KEY = 'olympus-prime.runtime-product-records.v1';
+const SYNC_STATE_STORAGE_KEY = 'olympus-prime.runtime-product-sync-state.v1';
 
 export interface RuntimeMutableProductData {
   sessions: SessionRecord[];
@@ -60,6 +61,17 @@ export interface RuntimeProductData extends RuntimeMutableProductData {
   titles: TitleRecord[];
   incidents: IncidentRecord[];
   rivalrySummaries: RivalrySummaryRecord[];
+}
+
+export type RuntimeSessionSyncStatus = 'idle' | 'pending' | 'failed';
+
+export interface RuntimeSessionSyncState {
+  sessionId: string;
+  status: RuntimeSessionSyncStatus;
+  lastAttemptAt: string | null;
+  lastSuccessAt: string | null;
+  lastFailureAt: string | null;
+  lastError: string | null;
 }
 
 const emptyRuntimeData: RuntimeMutableProductData = {
@@ -97,6 +109,7 @@ let runtimeSnapshotCache: RuntimeMutableProductData | null = null;
 let runtimeRevision = 0;
 let canonicalBaseOverride: RuntimeProductData | null = null;
 let canonicalHydrationRequested = false;
+let runtimeSessionSyncStateCache: Record<string, RuntimeSessionSyncState> | null = null;
 const listeners = new Set<() => void>();
 
 function cloneRuntimeData(snapshot: RuntimeMutableProductData): RuntimeMutableProductData {
@@ -149,6 +162,52 @@ function readRuntimeSnapshot(): RuntimeMutableProductData {
   return cloneRuntimeData(runtimeSnapshotCache);
 }
 
+function cloneRuntimeSessionSyncState(
+  snapshot: Record<string, RuntimeSessionSyncState>,
+) {
+  return Object.fromEntries(
+    Object.entries(snapshot).map(([key, value]) => [key, { ...value }]),
+  );
+}
+
+function readRuntimeSessionSyncState() {
+  if (runtimeSessionSyncStateCache) {
+    return cloneRuntimeSessionSyncState(runtimeSessionSyncStateCache);
+  }
+
+  if (typeof window === 'undefined') {
+    runtimeSessionSyncStateCache = {};
+    return {};
+  }
+
+  try {
+    const raw = window.localStorage.getItem(SYNC_STATE_STORAGE_KEY);
+    if (!raw) {
+      runtimeSessionSyncStateCache = {};
+      return {};
+    }
+
+    const parsed = JSON.parse(raw) as Record<string, RuntimeSessionSyncState>;
+    runtimeSessionSyncStateCache = Object.fromEntries(
+      Object.entries(parsed).map(([key, value]) => [
+        key,
+        {
+          sessionId: value.sessionId,
+          status: value.status,
+          lastAttemptAt: value.lastAttemptAt ?? null,
+          lastSuccessAt: value.lastSuccessAt ?? null,
+          lastFailureAt: value.lastFailureAt ?? null,
+          lastError: value.lastError ?? null,
+        },
+      ]),
+    );
+  } catch {
+    runtimeSessionSyncStateCache = {};
+  }
+
+  return cloneRuntimeSessionSyncState(runtimeSessionSyncStateCache);
+}
+
 function writeRuntimeSnapshot(snapshot: RuntimeMutableProductData) {
   const nextSerialized = JSON.stringify(snapshot);
   const currentSerialized = runtimeSnapshotCache ? JSON.stringify(runtimeSnapshotCache) : null;
@@ -162,6 +221,28 @@ function writeRuntimeSnapshot(snapshot: RuntimeMutableProductData) {
 
   if (typeof window !== 'undefined') {
     window.localStorage.setItem(STORAGE_KEY, nextSerialized);
+  }
+
+  listeners.forEach((listener) => listener());
+}
+
+function writeRuntimeSessionSyncState(
+  snapshot: Record<string, RuntimeSessionSyncState>,
+) {
+  const nextSerialized = JSON.stringify(snapshot);
+  const currentSerialized = runtimeSessionSyncStateCache
+    ? JSON.stringify(runtimeSessionSyncStateCache)
+    : null;
+
+  if (currentSerialized === nextSerialized) {
+    return;
+  }
+
+  runtimeSessionSyncStateCache = cloneRuntimeSessionSyncState(snapshot);
+  runtimeRevision += 1;
+
+  if (typeof window !== 'undefined') {
+    window.localStorage.setItem(SYNC_STATE_STORAGE_KEY, nextSerialized);
   }
 
   listeners.forEach((listener) => listener());
@@ -202,6 +283,45 @@ function mergeCanonicalProductData(
     recaps: mergeById(base.recaps, runtime.recaps),
     publishStates: mergeById(base.publishStates, runtime.publishStates),
     mediaUploads: mergeById(base.mediaUploads, runtime.mediaUploads),
+  };
+}
+
+function isRemotePrimaryMode() {
+  return import.meta.env.VITE_PRODUCT_REPOSITORY_DRIVER === 'supabase' && isSupabaseConfigured();
+}
+
+function filterRuntimeOverlayData(
+  runtime: RuntimeMutableProductData,
+  syncState: Record<string, RuntimeSessionSyncState>,
+) {
+  if (!isRemotePrimaryMode()) {
+    return runtime;
+  }
+
+  const activeSessionIds = new Set(
+    Object.values(syncState)
+      .filter((state) => state.status === 'pending' || state.status === 'failed')
+      .map((state) => state.sessionId),
+  );
+
+  if (activeSessionIds.size === 0) {
+    return cloneRuntimeData(emptyRuntimeData);
+  }
+
+  const matchesSession = (sessionId: string) => activeSessionIds.has(sessionId);
+
+  return {
+    sessions: runtime.sessions.filter((record) => matchesSession(record.id)),
+    matches: runtime.matches.filter((record) => matchesSession(record.sessionId)),
+    sessionParticipants: runtime.sessionParticipants.filter((record) =>
+      matchesSession(record.sessionId),
+    ),
+    awards: runtime.awards.filter((record) => matchesSession(record.sessionId)),
+    quotes: runtime.quotes.filter((record) => record.sessionId && matchesSession(record.sessionId)),
+    outcomes: runtime.outcomes.filter((record) => matchesSession(record.sessionId)),
+    recaps: runtime.recaps.filter((record) => matchesSession(record.sessionId)),
+    publishStates: runtime.publishStates.filter((record) => matchesSession(record.sessionId)),
+    mediaUploads: runtime.mediaUploads.filter((record) => matchesSession(record.sessionId)),
   };
 }
 
@@ -251,9 +371,13 @@ export function subscribeRuntimeProductStore(listener: () => void) {
 
 export function getRuntimeProductData(): RuntimeProductData {
   const runtime = readRuntimeSnapshot();
+  const syncState = readRuntimeSessionSyncState();
   ensureSupabaseCanonicalHydration();
 
-  return mergeCanonicalProductData(getCanonicalBaseData(), runtime);
+  return mergeCanonicalProductData(
+    getCanonicalBaseData(),
+    filterRuntimeOverlayData(runtime, syncState),
+  );
 }
 
 export function useRuntimeProductData() {
@@ -295,6 +419,96 @@ export function upsertRuntimeProductRecords(
   };
 
   writeRuntimeSnapshot(next);
+}
+
+function removeRuntimeSessionOverlay(
+  snapshot: RuntimeMutableProductData,
+  sessionId: string,
+): RuntimeMutableProductData {
+  return {
+    sessions: snapshot.sessions.filter((record) => record.id !== sessionId),
+    matches: snapshot.matches.filter((record) => record.sessionId !== sessionId),
+    sessionParticipants: snapshot.sessionParticipants.filter(
+      (record) => record.sessionId !== sessionId,
+    ),
+    awards: snapshot.awards.filter((record) => record.sessionId !== sessionId),
+    quotes: snapshot.quotes.filter((record) => record.sessionId !== sessionId),
+    outcomes: snapshot.outcomes.filter((record) => record.sessionId !== sessionId),
+    recaps: snapshot.recaps.filter((record) => record.sessionId !== sessionId),
+    publishStates: snapshot.publishStates.filter((record) => record.sessionId !== sessionId),
+    mediaUploads: snapshot.mediaUploads.filter((record) => record.sessionId !== sessionId),
+  };
+}
+
+function setRuntimeSessionSyncState(
+  sessionId: string,
+  patch: Partial<RuntimeSessionSyncState>,
+) {
+  const current = readRuntimeSessionSyncState();
+  const previous = current[sessionId] ?? {
+    sessionId,
+    status: 'idle' as const,
+    lastAttemptAt: null,
+    lastSuccessAt: null,
+    lastFailureAt: null,
+    lastError: null,
+  };
+
+  writeRuntimeSessionSyncState({
+    ...current,
+    [sessionId]: {
+      ...previous,
+      ...patch,
+      sessionId,
+    },
+  });
+}
+
+export function markRuntimeSessionSyncPending(sessionId: string) {
+  setRuntimeSessionSyncState(sessionId, {
+    status: 'pending',
+    lastAttemptAt: new Date().toISOString(),
+    lastError: null,
+  });
+}
+
+export function markRuntimeSessionSyncFailed(sessionId: string, error?: unknown) {
+  setRuntimeSessionSyncState(sessionId, {
+    status: 'failed',
+    lastFailureAt: new Date().toISOString(),
+    lastError: error instanceof Error ? error.message : typeof error === 'string' ? error : null,
+  });
+}
+
+export function clearRuntimeSessionOverlay(sessionId: string) {
+  writeRuntimeSnapshot(removeRuntimeSessionOverlay(readRuntimeSnapshot(), sessionId));
+}
+
+export function markRuntimeSessionSyncSucceeded(sessionId: string) {
+  clearRuntimeSessionOverlay(sessionId);
+  setRuntimeSessionSyncState(sessionId, {
+    status: 'idle',
+    lastSuccessAt: new Date().toISOString(),
+    lastError: null,
+  });
+}
+
+export async function refreshRuntimeCanonicalProductData() {
+  if (!isRemotePrimaryMode()) {
+    return false;
+  }
+
+  const remoteData = await fetchSupabaseCanonicalProductData();
+  if (!remoteData) {
+    return false;
+  }
+
+  setCanonicalBaseOverride(remoteData);
+  return true;
+}
+
+export function getRuntimeSessionSyncState(sessionId: string) {
+  return readRuntimeSessionSyncState()[sessionId] ?? null;
 }
 
 export interface RuntimeSessionBundle {
