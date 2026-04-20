@@ -16,6 +16,7 @@ import type {
 } from '../types/sessionEngine';
 import { getActiveProductRepositoryDriver, persistSessionEngineDraft } from './productRepository';
 import { getAmongUsOpsData } from './games/among-us/amongUsOpsData';
+import { replaceRuntimeSessionBundle } from './runtimeProductStore';
 import {
   getAwardsBySessionId,
   getLatestOperationalSession,
@@ -32,6 +33,8 @@ import {
 function getDefaultSessionId() {
   return getLatestOperationalSession('among-us')?.id ?? 'session-09';
 }
+
+const SESSION_ENGINE_REMOTE_AUTOSAVE_DELAY_MS = 900;
 
 export const sessionEngineStages: SessionEngineStageDefinition[] = [
   {
@@ -460,14 +463,37 @@ export function useSessionEngine(sessionId = getDefaultSessionId()) {
   }, [resolvedSessionId, state.draft.session.id]);
 
   useEffect(() => {
-    const requiresAuth = getActiveProductRepositoryDriver() === 'supabase';
+    replaceRuntimeSessionBundle({
+      session: state.draft.session,
+      participants: state.draft.participants,
+      matches: state.draft.matches,
+      outcome: state.draft.outcome,
+      awards: state.draft.awards,
+      quotes: state.draft.quotes,
+      recap: state.draft.recap,
+      media: state.draft.media,
+      publishState: state.draft.publishState,
+    });
+  }, [state.draft]);
+
+  useEffect(() => {
+    const repositoryDriver = getActiveProductRepositoryDriver();
+    const requiresAuth = repositoryDriver === 'supabase';
     const canWriteOps = !requiresAuth || (auth.status === 'ready' && auth.isMember);
 
     if (!canWriteOps) {
       return;
     }
 
-    persistSessionEngineDraft(state.draft);
+    if (repositoryDriver !== 'supabase') {
+      return;
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      persistSessionEngineDraft(state.draft);
+    }, SESSION_ENGINE_REMOTE_AUTOSAVE_DELAY_MS);
+
+    return () => window.clearTimeout(timeoutId);
   }, [auth.isMember, auth.status, state.draft]);
 
   const statuses = useMemo(
