@@ -1,3 +1,4 @@
+import { XPostEmbed } from '../../components/social/XPostEmbed';
 import { useHubViewModel } from '../../data/hub/hubSelectors';
 
 export function HomePage() {
@@ -69,6 +70,9 @@ export function HomePage() {
     },
   ];
   const featuredMemory = yearbookEntries[1] ?? yearbookEntries[0];
+  const xProfileUrl = import.meta.env.VITE_OLYMPUS_X_PROFILE_URL ?? '';
+  const xFeaturedPostUrl = import.meta.env.VITE_OLYMPUS_X_FEATURED_POST_URL ?? '';
+  const showPublicSignal = Boolean(xProfileUrl);
   const featuredNames = featuredPlayers.slice(0, 3).map((player) => player.callsign);
   const deeperActions = [
     { label: 'Read latest recap', href: primaryFeature?.href ?? '#/games/among-us/reports' },
@@ -168,6 +172,41 @@ export function HomePage() {
       <section className="hub-home-note" aria-label="Why this exists">
         <p>Discord is where the night happens. The Hub is where the night becomes story.</p>
       </section>
+
+      {showPublicSignal ? (
+        <section className="hub-home-signal" aria-label="Public signal">
+          <div className="hub-home-section__header">
+            <span>Public signal</span>
+          </div>
+
+          <div className="hub-home-signal__shell">
+            <div className="hub-home-signal__intro">
+              <span>From Olympus Prime on X</span>
+              <strong>Public pulse, not the whole night.</strong>
+              <p>
+                Discord is still where the room lives. X is the public signal layer when Olympus Prime wants the wider world to feel the motion.
+              </p>
+            </div>
+
+            <div className="hub-home-signal__body">
+              {xFeaturedPostUrl ? (
+                <XPostEmbed postUrl={xFeaturedPostUrl} />
+              ) : (
+                <div className="hub-home-signal__fallback">
+                  <strong>Olympus Prime on X</strong>
+                  <p>Open the public profile for the latest signal from the world outside Discord.</p>
+                </div>
+              )}
+            </div>
+
+            <div className="hub-home-signal__actions">
+              <a className="secondary-link" href={xProfileUrl} rel="noreferrer" target="_blank">
+                View Olympus Prime on X
+              </a>
+            </div>
+          </div>
+        </section>
+      ) : null}
 
       {featuredMemory ? (
         <section className="hub-home-memory hub-home-memory--featured" aria-label="Featured memory">
