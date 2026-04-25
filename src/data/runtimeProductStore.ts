@@ -511,6 +511,22 @@ export function getRuntimeSessionSyncState(sessionId: string) {
   return readRuntimeSessionSyncState()[sessionId] ?? null;
 }
 
+export function useRuntimeSessionSyncState(sessionId: string | undefined) {
+  const revision = useSyncExternalStore(
+    subscribeRuntimeProductStore,
+    () => runtimeRevision,
+    () => 0,
+  );
+
+  return useMemo(
+    () => ({
+      revision,
+      syncState: sessionId ? getRuntimeSessionSyncState(sessionId) : null,
+    }),
+    [revision, sessionId],
+  );
+}
+
 export interface RuntimeSessionBundle {
   session: SessionRecord;
   participants: SessionParticipantRecord[];

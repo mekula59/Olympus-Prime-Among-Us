@@ -948,6 +948,20 @@ img {
     box-shadow 180ms ease;
 }
 
+button.primary-link,
+button.secondary-link {
+  appearance: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+button.primary-link:disabled,
+button.secondary-link:disabled {
+  opacity: 0.72;
+  cursor: wait;
+}
+
 .primary-link {
   background: linear-gradient(135deg, color-mix(in srgb, var(--accent) 90%, white 8%), var(--accent));
   box-shadow: 0 14px 34px color-mix(in srgb, var(--accent) 30%, transparent);
@@ -2643,6 +2657,12 @@ img {
   background: rgba(124, 224, 255, 0.08);
 }
 
+.ops-chip-status--failed {
+  color: #ffb2a3;
+  border-color: rgba(255, 143, 123, 0.22);
+  background: rgba(255, 143, 123, 0.09);
+}
+
 .ops-preview-list {
   display: grid;
   gap: 0.6rem;
@@ -2681,6 +2701,39 @@ img {
   background:
     radial-gradient(circle at top right, rgba(170, 178, 208, 0.12), transparent 44%),
     rgba(255, 255, 255, 0.035);
+}
+
+.ops-sync-status {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.05rem;
+  background:
+    radial-gradient(circle at top right, rgba(170, 178, 208, 0.08), transparent 44%),
+    rgba(255, 255, 255, 0.028);
+}
+
+.ops-sync-status--module {
+  margin-bottom: 1rem;
+}
+
+.ops-sync-status--inline {
+  margin-bottom: 0.15rem;
+}
+
+.ops-sync-status__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.ops-sync-status p {
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--muted);
 }
 
 .ops-log-item {
@@ -4218,6 +4271,25 @@ img {
   grid-template-columns: 1fr;
   gap: 0.75rem;
   margin-top: 0.9rem;
+}
+
+.ops-access-form {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.ops-access-form__message {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.ops-access-form__message--success {
+  color: color-mix(in srgb, var(--accent-secondary) 78%, white 10%);
+}
+
+.ops-access-form__message--error {
+  color: color-mix(in srgb, #ff8f7b 82%, white 6%);
 }
 
 .hub-feature-stack,

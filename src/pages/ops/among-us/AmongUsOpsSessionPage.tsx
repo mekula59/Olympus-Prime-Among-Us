@@ -1,4 +1,5 @@
 import { ModuleFrame } from '../../../components/ModuleFrame';
+import { OpsSyncStatus } from '../../../components/ops/OpsSyncStatus';
 import { getAmongUsOpsSessionIdFromPath } from '../../../config/routes';
 import { useHubOpsData } from '../../../data/ops/hubOpsData';
 import { useHashRoute } from '../../../hooks/useHashRoute';
@@ -18,6 +19,8 @@ export function AmongUsOpsSessionPage() {
         tone="warm"
         className="ops-module-callout"
       >
+        <OpsSyncStatus className="ops-sync-status--module" sessionId={currentSessionId} />
+
         <div className="hub-placeholder__actions">
           <a className="secondary-link" href="#/ops">
             Back to Ops Home

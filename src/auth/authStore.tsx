@@ -221,6 +221,32 @@ export async function refreshCurrentAuthSnapshot() {
   return refreshAuthSnapshot();
 }
 
+export async function requestPasswordlessSignIn(email: string) {
+  const client = getSupabaseBrowserClient();
+  if (!client) {
+    throw new Error('Supabase auth is not configured for this environment.');
+  }
+
+  const normalizedEmail = email.trim().toLowerCase();
+  if (!normalizedEmail) {
+    throw new Error('Enter an email address to continue.');
+  }
+
+  const redirectTo =
+    typeof window !== 'undefined' ? window.location.href : undefined;
+
+  const { error } = await client.auth.signInWithOtp({
+    email: normalizedEmail,
+    options: {
+      emailRedirectTo: redirectTo,
+    },
+  });
+
+  if (error) {
+    throw error;
+  }
+}
+
 export function requireAuthenticatedWorkspaceMember() {
   const snapshot = getAuthSnapshot();
 

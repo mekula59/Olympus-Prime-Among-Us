@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuthState } from '../../auth/authStore';
 import { ModuleFrame } from '../../components/ModuleFrame';
+import { OpsSyncStatus } from '../../components/ops/OpsSyncStatus';
 import { PageIntro } from '../../components/PageIntro';
 import { getOpsSessionIdFromPath } from '../../config/routes';
 import {
@@ -103,6 +104,8 @@ export function SessionEditorPage() {
         lede="Fast broad edits first. Game-specific detail can stay inside the module engine."
         className="ops-engine-module"
       >
+        <OpsSyncStatus className="ops-sync-status--module" sessionId={sessionId} />
+
         <div className="ops-engine-grid">
           <div className="ops-form-stack">
             <div className="ops-field-grid">
@@ -172,7 +175,9 @@ export function SessionEditorPage() {
         lede="The generic editor covers the broad memory layer. Among Us-specific flow still lives in its own engine."
         tone="warm"
       >
-        <div className="ops-form-stack">
+          <div className="ops-form-stack">
+          <OpsSyncStatus className="ops-sync-status--inline" sessionId={sessionId} />
+
           <label className="ops-field">
             <span>Headline</span>
             <input
