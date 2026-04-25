@@ -13,6 +13,8 @@ import { useAmongUsOpsData } from '../../data/games/among-us/amongUsOpsData';
 import { useHubOpsData } from '../../data/ops/hubOpsData';
 import { useHashRoute } from '../../hooks/useHashRoute';
 
+const GENERIC_OPS_AUTOSAVE_DELAY_MS = 750;
+
 export function SessionEditorPage() {
   const { path, route } = useHashRoute();
   const sessionId = getOpsSessionIdFromPath(path);
@@ -71,7 +73,7 @@ export function SessionEditorPage() {
         highlight: recapForm.highlight,
         publishNote: recapForm.publishNote,
       });
-    }, 120);
+    }, GENERIC_OPS_AUTOSAVE_DELAY_MS);
 
     return () => window.clearTimeout(timeoutId);
   }, [canWriteOps, recapForm, sessionForm, sessionId]);
