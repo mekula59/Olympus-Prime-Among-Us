@@ -58,6 +58,8 @@ const listeners = new Set<() => void>();
 let authSnapshot: AuthSnapshot = defaultAuthSnapshot;
 let authInitialized = false;
 let authUnsubscribe: (() => void) | null = null;
+let authRefreshSequence = 0;
+let scheduledAuthRefreshId: number | null = null;
 
 function emitAuthChange() {
   listeners.forEach((listener) => listener());
@@ -133,29 +135,60 @@ async function loadMembership(client: SupabaseClient, userId: string) {
 }
 
 async function refreshAuthSnapshot(sessionOverride?: Session | null) {
+  const refreshId = ++authRefreshSequence;
   const client = getSupabaseBrowserClient();
   if (!client) {
-    setAuthSnapshot({
+    const nextSnapshot = {
       ...defaultAuthSnapshot,
       status: 'disabled',
-    });
-    return defaultAuthSnapshot;
+    } satisfies AuthSnapshot;
+
+    if (refreshId === authRefreshSequence) {
+      setAuthSnapshot(nextSnapshot);
+    }
+
+    return nextSnapshot;
   }
 
-  setAuthSnapshot({
-    ...authSnapshot,
-    status: 'loading',
-    error: null,
-  });
+  if (authSnapshot.status !== 'ready') {
+    setAuthSnapshot({
+      ...authSnapshot,
+      status: 'loading',
+      error: null,
+    });
+  }
 
-  const session =
-    sessionOverride !== undefined
-      ? sessionOverride
-      : (await client.auth.getSession()).data.session ?? null;
+  let session: Session | null = null;
+  try {
+    if (sessionOverride !== undefined) {
+      session = sessionOverride;
+    } else {
+      const { data, error } = await client.auth.getSession();
+      if (error) {
+        throw error;
+      }
+      session = data.session ?? null;
+    }
+  } catch (error) {
+    const nextSnapshot = buildReadySnapshot(
+      null,
+      null,
+      null,
+      error instanceof Error ? error.message : 'Unable to restore Supabase auth session.',
+    );
+
+    if (refreshId === authRefreshSequence) {
+      setAuthSnapshot(nextSnapshot);
+    }
+
+    return nextSnapshot;
+  }
 
   if (!session?.user) {
     const nextSnapshot = buildReadySnapshot(null, null, null, null);
-    setAuthSnapshot(nextSnapshot);
+    if (refreshId === authRefreshSequence) {
+      setAuthSnapshot(nextSnapshot);
+    }
     return nextSnapshot;
   }
 
@@ -166,7 +199,9 @@ async function refreshAuthSnapshot(sessionOverride?: Session | null) {
     ]);
 
     const nextSnapshot = buildReadySnapshot(session, profile, membership, null);
-    setAuthSnapshot(nextSnapshot);
+    if (refreshId === authRefreshSequence) {
+      setAuthSnapshot(nextSnapshot);
+    }
     return nextSnapshot;
   } catch (error) {
     const nextSnapshot = buildReadySnapshot(
@@ -175,9 +210,22 @@ async function refreshAuthSnapshot(sessionOverride?: Session | null) {
       null,
       error instanceof Error ? error.message : 'Unable to load auth membership state.',
     );
-    setAuthSnapshot(nextSnapshot);
+    if (refreshId === authRefreshSequence) {
+      setAuthSnapshot(nextSnapshot);
+    }
     return nextSnapshot;
   }
+}
+
+function scheduleAuthSnapshotRefresh(session: Session | null) {
+  if (scheduledAuthRefreshId !== null) {
+    window.clearTimeout(scheduledAuthRefreshId);
+  }
+
+  scheduledAuthRefreshId = window.setTimeout(() => {
+    scheduledAuthRefreshId = null;
+    void refreshAuthSnapshot(session);
+  }, 0);
 }
 
 function ensureAuthStoreInitialized() {
@@ -196,10 +244,15 @@ function ensureAuthStoreInitialized() {
   const {
     data: { subscription },
   } = client.auth.onAuthStateChange((_event, session) => {
-    void refreshAuthSnapshot(session);
+    scheduleAuthSnapshotRefresh(session);
   });
 
   authUnsubscribe = () => {
+    if (scheduledAuthRefreshId !== null) {
+      window.clearTimeout(scheduledAuthRefreshId);
+      scheduledAuthRefreshId = null;
+    }
+
     subscription.unsubscribe();
     authInitialized = false;
     authUnsubscribe = null;
