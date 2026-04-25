@@ -91,13 +91,17 @@ export function getAmongUsOpsData(sessionId?: string): AmongUsOpsDataView {
   const awardTemplates: AwardTemplate[] = players
     .map((player) => player.currentTitleId)
     .filter((titleId, index, list): titleId is string => Boolean(titleId) && list.indexOf(titleId) === index)
-    .map((titleId) => {
-      const title = getTitleById(titleId)!;
-      return {
-        id: title.id,
-        title: title.name,
-        detail: title.description,
-      };
+    .flatMap((titleId) => {
+      const title = getTitleById(titleId);
+      return title
+        ? [
+            {
+              id: title.id,
+              title: title.name,
+              detail: title.description,
+            },
+          ]
+        : [];
     });
 
   const awardAssignments: AwardAssignment[] = (latestPublishedSession

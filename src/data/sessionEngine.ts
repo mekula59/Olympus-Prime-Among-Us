@@ -16,7 +16,7 @@ import type {
 } from '../types/sessionEngine';
 import { getActiveProductRepositoryDriver, persistSessionEngineDraft } from './productRepository';
 import { getAmongUsOpsData } from './games/among-us/amongUsOpsData';
-import { replaceRuntimeSessionBundle } from './runtimeProductStore';
+import { getRuntimeProductData, replaceRuntimeSessionBundle } from './runtimeProductStore';
 import {
   getAwardsBySessionId,
   getLatestOperationalSession,
@@ -31,7 +31,13 @@ import {
 } from './productSelectors';
 
 function getDefaultSessionId() {
-  return getLatestOperationalSession('among-us')?.id ?? 'session-09';
+  const data = getRuntimeProductData();
+  return (
+    getLatestOperationalSession('among-us')?.id ??
+    data.sessions.find((session) => session.gameId === 'among-us')?.id ??
+    data.sessions[0]?.id ??
+    'session-09'
+  );
 }
 
 const SESSION_ENGINE_REMOTE_AUTOSAVE_DELAY_MS = 900;
@@ -113,10 +119,7 @@ type SessionEngineAction =
   | { type: 'transmit_hq' };
 
 function buildInitialDraft(sessionId: string): SessionEngineDraft {
-  const session = getSessionById(sessionId);
-  if (!session) {
-    throw new Error(`Missing session seed for ${sessionId}`);
-  }
+  const session = getSessionById(sessionId) ?? buildFallbackSession(sessionId);
 
   return {
     session: { ...session },
@@ -159,6 +162,33 @@ function buildInitialDraft(sessionId: string): SessionEngineDraft {
         transmittedAt: null,
       }),
     },
+  };
+}
+
+function buildFallbackSession(sessionId: string): SessionRecord {
+  const data = getRuntimeProductData();
+  const fallbackSeason =
+    data.seasons.find((season) => season.status === 'active') ?? data.seasons[0] ?? null;
+  const fallbackHost = data.players[0] ?? null;
+
+  return {
+    id: sessionId,
+    gameId: data.games.find((game) => game.id === 'among-us')?.id ?? 'among-us',
+    seasonId: fallbackSeason?.id ?? 'season-staging',
+    label: 'Staging session',
+    sessionNumber: 0,
+    scheduledAt: new Date().toISOString(),
+    venue: 'Olympus Prime Ops',
+    format: 'Session engine draft',
+    hostPlayerId: fallbackHost?.id ?? '',
+    status: 'draft',
+    attendanceCount: 0,
+    winningPlayerId: null,
+    hostNotes: 'Waiting for the first persisted session record.',
+    ownerUserId: null,
+    lastEditedByUserId: null,
+    createdAt: null,
+    updatedAt: null,
   };
 }
 
@@ -486,6 +516,10 @@ export function useSessionEngine(sessionId = getDefaultSessionId()) {
     }
 
     if (repositoryDriver !== 'supabase') {
+      return;
+    }
+
+    if (!getSessionById(state.draft.session.id)) {
       return;
     }
 
