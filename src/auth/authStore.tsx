@@ -253,7 +253,7 @@ export function restoreOpsAuthReturnPath() {
     return false;
   }
 
-  window.history.replaceState(null, '', `#${returnPath}`);
+  window.location.replace(`${window.location.origin}/#${returnPath}`);
   return true;
 }
 
