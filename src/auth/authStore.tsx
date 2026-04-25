@@ -11,6 +11,7 @@ import type { Session, SupabaseClient, User } from '@supabase/supabase-js';
 import { getSupabaseBrowserClient, isSupabaseConfigured } from '../lib/supabase';
 
 const OPS_AUTH_RETURN_PATH_KEY = 'olympus-prime.ops-auth-return-path.v1';
+const OPS_AUTH_RETURN_PATH_PARAM = 'returnTo';
 
 export type WorkspaceRole = 'editor' | 'admin';
 
@@ -216,15 +217,18 @@ function getCurrentAppPath() {
   return rawHash.startsWith('/ops') ? rawHash : '/ops';
 }
 
+function sanitizeOpsReturnPath(value: string | null | undefined) {
+  return value?.startsWith('/ops') ? value : null;
+}
+
 function getAuthCallbackRedirectUrl() {
   if (typeof window === 'undefined') {
     return undefined;
   }
 
-  const callbackUrl = new URL(window.location.href);
-  callbackUrl.hash = '';
-  callbackUrl.search = '';
-  callbackUrl.pathname = '/auth/callback';
+  const returnPath = getCurrentAppPath();
+  const callbackUrl = new URL('/auth/callback', window.location.origin);
+  callbackUrl.searchParams.set(OPS_AUTH_RETURN_PATH_PARAM, returnPath);
   return callbackUrl.toString();
 }
 
@@ -244,11 +248,20 @@ function consumeOpsAuthReturnPath() {
   const storedPath = window.sessionStorage.getItem(OPS_AUTH_RETURN_PATH_KEY);
   window.sessionStorage.removeItem(OPS_AUTH_RETURN_PATH_KEY);
 
-  return storedPath?.startsWith('/ops') ? storedPath : null;
+  return sanitizeOpsReturnPath(storedPath);
+}
+
+function getCallbackReturnPath() {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  const callbackUrl = new URL(window.location.href);
+  return sanitizeOpsReturnPath(callbackUrl.searchParams.get(OPS_AUTH_RETURN_PATH_PARAM));
 }
 
 export function restoreOpsAuthReturnPath() {
-  const returnPath = consumeOpsAuthReturnPath();
+  const returnPath = getCallbackReturnPath() ?? consumeOpsAuthReturnPath();
   if (!returnPath || typeof window === 'undefined') {
     return false;
   }

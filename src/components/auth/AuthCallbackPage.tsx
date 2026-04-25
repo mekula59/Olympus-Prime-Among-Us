@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   refreshCurrentAuthSnapshot,
   restoreOpsAuthReturnPath,
@@ -6,11 +6,24 @@ import {
 } from '../../auth/authStore';
 import { PageIntro } from '../PageIntro';
 
+function hasAuthCallbackPayload() {
+  return (
+    window.location.search.includes('code=') ||
+    window.location.hash.includes('access_token=') ||
+    window.location.hash.includes('refresh_token=')
+  );
+}
+
 export function AuthCallbackPage() {
   const auth = useAuthState();
+  const [callbackTimedOut, setCallbackTimedOut] = useState(false);
 
   useEffect(() => {
     if (auth.status === 'loading') {
+      return;
+    }
+
+    if (!auth.isAuthenticated && hasAuthCallbackPayload() && !callbackTimedOut) {
       return;
     }
 
@@ -18,28 +31,25 @@ export function AuthCallbackPage() {
     if (!restored) {
       window.location.replace(`${window.location.origin}/#/ops`);
     }
-  }, [auth.status]);
+  }, [auth.isAuthenticated, auth.status, callbackTimedOut]);
 
   useEffect(() => {
-    if (auth.status !== 'loading') {
+    if (auth.isAuthenticated || callbackTimedOut || !hasAuthCallbackPayload()) {
       return;
     }
 
     const timeoutId = window.setTimeout(() => {
       void refreshCurrentAuthSnapshot().then((snapshot) => {
-        if (snapshot.status === 'loading') {
+        if (snapshot.isAuthenticated) {
           return;
         }
 
-        const restored = restoreOpsAuthReturnPath();
-        if (!restored) {
-          window.location.replace(`${window.location.origin}/#/ops`);
-        }
+        setCallbackTimedOut(true);
       });
     }, 4000);
 
     return () => window.clearTimeout(timeoutId);
-  }, [auth.status]);
+  }, [auth.isAuthenticated, callbackTimedOut]);
 
   return (
     <div className="page page--ops-access-gate">
