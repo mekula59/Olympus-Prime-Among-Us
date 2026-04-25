@@ -1,4 +1,5 @@
 import { useAuthState } from './auth/authStore';
+import { AuthCallbackPage } from './components/auth/AuthCallbackPage';
 import { OpsAccessGate } from './components/auth/OpsAccessGate';
 import { AmongUsModuleHeader } from './components/shell/AmongUsModuleHeader';
 import { HubShell } from './components/shell/HubShell';
@@ -67,6 +68,7 @@ function App() {
   const { path, route } = useHashRoute();
   const auth = useAuthState();
   const showOpsGate = route.section === 'ops' && !(auth.status === 'ready' && auth.isMember);
+  const showAuthCallback = window.location.pathname.endsWith('/auth/callback');
 
   return (
     <div className={`app-shell app-shell--${route.id}`}>
@@ -81,7 +83,7 @@ function App() {
           route.path.startsWith('/games/among-us') ? <AmongUsModuleHeader currentPath={path} /> : null
         }
       >
-        {showOpsGate ? <OpsAccessGate /> : renderPage(route.id)}
+        {showAuthCallback ? <AuthCallbackPage /> : showOpsGate ? <OpsAccessGate /> : renderPage(route.id)}
       </HubShell>
     </div>
   );

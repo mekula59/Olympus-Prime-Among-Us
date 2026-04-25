@@ -250,6 +250,10 @@ const routeByPath = new Map(appRoutes.map((route) => [route.path, route]));
 
 export function normalizeAppPath(hash: string) {
   const cleaned = hash.replace(/^#/, '') || defaultAppPath;
+  if (cleaned.includes('access_token=') || cleaned.includes('refresh_token=') || cleaned.includes('error=')) {
+    return defaultAppPath;
+  }
+
   const prefixed = cleaned.startsWith('/') ? cleaned : `/${cleaned}`;
   const redirected = legacyHashRedirects[prefixed] ?? prefixed;
   const direct = routeByPath.get(redirected);

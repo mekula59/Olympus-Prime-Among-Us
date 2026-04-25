@@ -21,9 +21,18 @@ export function getSupabaseConfig(): SupabaseClientConfig {
   };
 }
 
+function isHttpUrl(value: string) {
+  try {
+    const parsedUrl = new URL(value);
+    return parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
+
 export function isSupabaseConfigured() {
   const config = getSupabaseConfig();
-  return Boolean(config.url && config.anonKey);
+  return Boolean(isHttpUrl(config.url) && config.anonKey);
 }
 
 export function createSupabaseClientScaffold(): SupabaseClientScaffold {

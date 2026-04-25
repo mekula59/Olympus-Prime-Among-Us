@@ -10,6 +10,8 @@ import {
 import type { Session, SupabaseClient, User } from '@supabase/supabase-js';
 import { getSupabaseBrowserClient, isSupabaseConfigured } from '../lib/supabase';
 
+const OPS_AUTH_RETURN_PATH_KEY = 'olympus-prime.ops-auth-return-path.v1';
+
 export type WorkspaceRole = 'editor' | 'admin';
 
 export interface ProfileRecord {
@@ -205,6 +207,56 @@ function ensureAuthStoreInitialized() {
   return authUnsubscribe;
 }
 
+function getCurrentAppPath() {
+  if (typeof window === 'undefined') {
+    return '/ops';
+  }
+
+  const rawHash = window.location.hash.replace(/^#/, '');
+  return rawHash.startsWith('/ops') ? rawHash : '/ops';
+}
+
+function getAuthCallbackRedirectUrl() {
+  if (typeof window === 'undefined') {
+    return undefined;
+  }
+
+  const callbackUrl = new URL(window.location.href);
+  callbackUrl.hash = '';
+  callbackUrl.search = '';
+  callbackUrl.pathname = '/auth/callback';
+  return callbackUrl.toString();
+}
+
+function storeOpsAuthReturnPath() {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  window.sessionStorage.setItem(OPS_AUTH_RETURN_PATH_KEY, getCurrentAppPath());
+}
+
+function consumeOpsAuthReturnPath() {
+  if (typeof window === 'undefined') {
+    return null;
+  }
+
+  const storedPath = window.sessionStorage.getItem(OPS_AUTH_RETURN_PATH_KEY);
+  window.sessionStorage.removeItem(OPS_AUTH_RETURN_PATH_KEY);
+
+  return storedPath?.startsWith('/ops') ? storedPath : null;
+}
+
+export function restoreOpsAuthReturnPath() {
+  const returnPath = consumeOpsAuthReturnPath();
+  if (!returnPath || typeof window === 'undefined') {
+    return false;
+  }
+
+  window.history.replaceState(null, '', `#${returnPath}`);
+  return true;
+}
+
 export function subscribeAuthStore(listener: () => void) {
   listeners.add(listener);
 
@@ -232,13 +284,12 @@ export async function requestPasswordlessSignIn(email: string) {
     throw new Error('Enter an email address to continue.');
   }
 
-  const redirectTo =
-    typeof window !== 'undefined' ? window.location.href : undefined;
+  storeOpsAuthReturnPath();
 
   const { error } = await client.auth.signInWithOtp({
     email: normalizedEmail,
     options: {
-      emailRedirectTo: redirectTo,
+      emailRedirectTo: getAuthCallbackRedirectUrl(),
     },
   });
 
