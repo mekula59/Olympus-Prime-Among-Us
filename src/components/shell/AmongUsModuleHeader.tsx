@@ -8,10 +8,10 @@ export function AmongUsModuleHeader({ currentPath }: AmongUsModuleHeaderProps) {
   return (
     <section className="among-us-module-header" aria-label="Among Us module navigation">
       <div className="among-us-module-header__copy">
-        <p className="section-kicker">Featured Game</p>
+        <p className="section-kicker">Flagship Realm</p>
         <h2>Among Us</h2>
         <p>
-          Sharp reads, color memory, and the sessions people keep retelling after Discord has moved on.
+          The active table-world for sharp reads, color memory, and sessions people keep replaying after Discord moves on.
         </p>
       </div>
 

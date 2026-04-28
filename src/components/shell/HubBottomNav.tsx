@@ -39,7 +39,7 @@ export function HubBottomNav({ currentPath }: HubBottomNavProps) {
             key={route.id}
             aria-current={isActive(route.path, currentPath) ? 'page' : undefined}
           >
-            {isActive(route.path, currentPath) ? <span>Live</span> : null}
+            <span>{isActive(route.path, currentPath) ? 'Here' : 'Move'}</span>
             <strong>{route.shortLabel}</strong>
           </a>
         ))}

@@ -10,41 +10,41 @@ export function OpsHomePage() {
   return (
     <div className="page page--ops-home">
       <PageIntro
-        eyebrow="Ops"
-        title="Run the record, not the whole community."
-        lede="Discord stays live for planning and chatter. Ops is the calmer companion layer for creating a session, editing the record, and opening the deeper game engines only when needed."
-        tags={['Mobile first', 'Host friendly', 'Lightweight']}
+        eyebrow="Command room"
+        title="Control the record without taking over the night."
+        lede="Discord stays live for planning and chatter. Ops is the command layer for staging a session, tuning the record, and opening deeper realm engines only when needed."
+        tags={['Host console', 'Record control', 'Transmit ready']}
       />
 
       <ModuleFrame
-        eyebrow="Quick actions"
-        title="Start from the simplest path"
-        lede="Generic Ops should stay broad, calm, and useful in a few taps."
+        eyebrow="Command surfaces"
+        title="Choose the control surface"
+        lede="Start broad, then enter a realm engine only when the session needs deeper logging."
         className="ops-home-card"
       >
-        <div className="hub-feature-stack">
-          <a className="hub-feature hub-feature--cool" href="#/ops/sessions/new">
-            <span>New session</span>
-            <strong>Start a fresh gamesnight record</strong>
-            <p>Open a lightweight session shell for attendance, recap prep, and publish readiness.</p>
+        <div className="hub-feature-stack ops-command-lanes">
+          <a className="hub-feature hub-feature--cool ops-command-lane ops-command-lane--stage" href="#/ops/sessions/new">
+            <span>New record</span>
+            <strong>Stage a fresh gamesnight entry</strong>
+            <p>Open a lightweight command surface for attendance, recap prep, and publish readiness.</p>
           </a>
-          <a className="hub-feature hub-feature--warm" href={`#/ops/sessions/${currentHubOpsSessionId}`}>
-            <span>Edit latest</span>
-            <strong>Pick up the current draft session</strong>
-            <p>Jump back into the generic editor for the active gamesnight record.</p>
+          <a className="hub-feature hub-feature--warm ops-command-lane ops-command-lane--live" href={`#/ops/sessions/${currentHubOpsSessionId}`}>
+            <span>Active draft</span>
+            <strong>Return to the live record</strong>
+            <p>Jump back into the general command surface for the active gamesnight entry.</p>
           </a>
-          <a className="hub-feature hub-feature--hot" href={`#/ops/among-us/sessions/${currentAmongUsOpsSessionId}`}>
+          <a className="hub-feature hub-feature--hot ops-command-lane ops-command-lane--realm" href={`#/ops/among-us/sessions/${currentAmongUsOpsSessionId}`}>
             <span>Among Us engine</span>
-            <strong>Open the staged session engine</strong>
-            <p>Use the flagship game flow when a session needs deeper logging and report control.</p>
+            <strong>Enter the flagship realm controls</strong>
+            <p>Use the flagship flow when a session needs deeper logging and report control.</p>
           </a>
         </div>
       </ModuleFrame>
 
       <ModuleFrame
-        eyebrow="Current status"
-        title="What hosts are managing right now"
-        lede="A small, readable status lane instead of a heavy control dashboard."
+        eyebrow="Room telemetry"
+        title="What the command room is tracking"
+        lede="A small, readable signal lane for the record state, not a heavy dashboard."
         tone="cool"
       >
         <div className="hub-game-list">

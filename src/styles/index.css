@@ -41,6 +41,7 @@ body {
     radial-gradient(circle at 84% 6%, rgba(124, 222, 255, 0.12), transparent 20%),
     linear-gradient(180deg, #10152d 0%, var(--bg) 38%, var(--bg-deep) 100%);
   background-attachment: fixed;
+  overflow-x: hidden;
 }
 
 body::before {
@@ -8059,6 +8060,12 @@ body::after {
 .hub-launch-scene__copy {
   display: grid;
   gap: 0.5rem;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.hub-launch-scene__copy > * {
+  max-width: min(100%, calc(100vw - 2rem));
 }
 
 .hub-launch-scene__eyebrow {
@@ -8079,7 +8086,8 @@ body::after {
 
 .hub-launch-scene__lede {
   margin: 0;
-  max-width: 34rem;
+  width: min(34rem, calc(100vw - 2rem));
+  max-width: 100%;
   font-size: 0.96rem;
   line-height: 1.45;
   color: color-mix(in srgb, var(--muted) 86%, white);
@@ -8377,6 +8385,47 @@ body::after {
 
 .hub-world-card--featured .hub-world-card__body strong {
   font-size: 1.2rem;
+}
+
+.hub-world-card--leap-of-legends {
+  min-height: 11rem;
+  border-radius: 1rem 1.55rem 1rem 1.2rem;
+  background:
+    radial-gradient(circle at 88% 12%, rgba(124, 224, 255, 0.17), transparent 30%),
+    linear-gradient(135deg, rgba(124, 224, 255, 0.095), rgba(255, 201, 120, 0.065) 50%, rgba(255, 255, 255, 0.025)),
+    rgba(255, 255, 255, 0.032);
+  box-shadow:
+    inset 0 0 0 1px rgba(124, 224, 255, 0.11),
+    0 16px 32px rgba(4, 8, 16, 0.13);
+}
+
+.hub-world-card--leap-of-legends::before {
+  content: '';
+  position: absolute;
+  right: 0.85rem;
+  bottom: 0.85rem;
+  width: 4.8rem;
+  height: 4.8rem;
+  border: 1px solid rgba(124, 224, 255, 0.16);
+  border-radius: 999px;
+  background:
+    linear-gradient(132deg, transparent 46%, rgba(255, 201, 120, 0.18) 47% 51%, transparent 52%),
+    radial-gradient(circle at center, rgba(124, 224, 255, 0.08), transparent 62%);
+  opacity: 0.78;
+  pointer-events: none;
+}
+
+.hub-world-card--leap-of-legends::after {
+  content: 'Enter momentum';
+  color: color-mix(in srgb, var(--warm) 72%, white);
+}
+
+.hub-world-card--leap-of-legends .hub-world-card__topline span {
+  color: color-mix(in srgb, var(--cool) 82%, white);
+}
+
+.hub-world-card--leap-of-legends .hub-world-card__topline small {
+  color: color-mix(in srgb, var(--warm) 78%, white);
 }
 
 .hub-world-card__body p {
@@ -8832,6 +8881,547 @@ body::after {
   background:
     radial-gradient(circle at 50% 14%, rgba(255, 91, 77, 0.12), transparent 30%),
     rgba(255, 255, 255, 0.026);
+}
+
+/* === Worldbuilding pass: zones, gates, dossiers, command HUD === */
+
+.ambient {
+  border-radius: 22%;
+  filter: blur(28px);
+  opacity: 0.42;
+}
+
+.ambient--one,
+.ambient--two,
+.ambient--three {
+  transform: rotate(-12deg);
+}
+
+.topbar {
+  position: relative;
+  padding: 0.55rem 0.15rem 0.2rem;
+}
+
+.topbar::before {
+  content: '';
+  position: absolute;
+  inset: 0.12rem 0 auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 40%, white 10%), transparent);
+  opacity: 0.74;
+}
+
+.brand-mark {
+  border-radius: 0.9rem 1.25rem 0.9rem 1.25rem;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--accent) 10%, transparent), transparent 58%),
+    rgba(255, 255, 255, 0.028);
+}
+
+.brand-mark::after {
+  content: 'World HUD';
+  position: absolute;
+  right: 0.52rem;
+  bottom: -0.55rem;
+  padding: 0.08rem 0.34rem;
+  border-radius: 999px;
+  background: rgba(7, 10, 20, 0.86);
+  color: color-mix(in srgb, var(--accent-secondary) 86%, white);
+  font-size: 0.48rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.topbar__status {
+  position: relative;
+  border-radius: 0.8rem 0.8rem 1.1rem 0.8rem;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 10%, transparent), rgba(255, 255, 255, 0.026)),
+    rgba(255, 255, 255, 0.032);
+}
+
+.topbar__status::before {
+  content: '';
+  position: absolute;
+  top: 0.58rem;
+  left: 0.62rem;
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 78%, white 10%);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 64%, transparent);
+}
+
+.topbar__status span,
+.topbar__status strong {
+  padding-left: 0.76rem;
+}
+
+.page-stage {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+    radial-gradient(circle at 88% 0%, color-mix(in srgb, var(--accent) 13%, transparent), transparent 28%),
+    rgba(13, 17, 31, 0.74);
+  background-size: 56px 56px, 56px 56px, auto, auto;
+}
+
+.page-stage--hub {
+  border-radius: 1.35rem 1.35rem 1.7rem 1.35rem;
+}
+
+.page-stage--among-us {
+  background:
+    linear-gradient(rgba(255, 135, 95, 0.034) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(124, 224, 255, 0.022) 1px, transparent 1px),
+    radial-gradient(circle at 50% 0%, rgba(255, 135, 95, 0.13), transparent 38%),
+    rgba(16, 14, 24, 0.78);
+  background-size: 48px 48px, 48px 48px, auto, auto;
+}
+
+.bottom-dock__scroll {
+  border-radius: 0.95rem 0.95rem 1.25rem 1.25rem;
+  background:
+    linear-gradient(90deg, rgba(124, 224, 255, 0.06), transparent 28%, rgba(255, 201, 120, 0.045)),
+    linear-gradient(180deg, rgba(18, 23, 34, 0.97), rgba(7, 10, 18, 0.94));
+}
+
+.bottom-dock__indicator {
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--accent) 28%, white 8%), rgba(255, 255, 255, 0.07)),
+    rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 20%, transparent),
+    0 12px 24px rgba(2, 4, 10, 0.22);
+}
+
+.bottom-dock__item {
+  min-height: 3.55rem;
+}
+
+.bottom-dock__item span {
+  color: color-mix(in srgb, var(--accent-secondary) 54%, var(--muted));
+}
+
+.bottom-dock__item--active {
+  text-shadow: 0 0 16px color-mix(in srgb, var(--accent) 32%, transparent);
+}
+
+.bottom-dock__item--active span {
+  color: color-mix(in srgb, var(--accent-secondary) 72%, white);
+}
+
+.hub-launch-scene {
+  position: relative;
+  min-height: min(70vh, 42rem);
+  align-items: center;
+  padding: 0.35rem 0 0.15rem;
+}
+
+.hub-launch-scene::before {
+  content: '';
+  position: absolute;
+  inset: 6% 4% auto auto;
+  width: min(46vw, 20rem);
+  aspect-ratio: 1;
+  border: 1px solid color-mix(in srgb, var(--accent) 22%, white 8%);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at center, transparent 43%, rgba(255, 255, 255, 0.035) 44% 45%, transparent 46%),
+    conic-gradient(from 18deg, transparent 0 18%, color-mix(in srgb, var(--accent) 18%, transparent) 19% 21%, transparent 22% 54%, rgba(124, 224, 255, 0.12) 55% 57%, transparent 58%);
+  opacity: 0.58;
+  pointer-events: none;
+}
+
+.hub-launch-scene__eyebrow::before,
+.page-header h1::before {
+  content: '// ';
+  color: color-mix(in srgb, var(--accent-secondary) 70%, white);
+}
+
+.hub-launch-scene h1 {
+  max-width: 8.8ch;
+}
+
+.hub-launch-scene__action {
+  border-radius: 0.9rem 1.4rem 0.9rem 1.4rem;
+}
+
+.hub-scene-card,
+.hub-games-flagship,
+.hub-world-card--featured {
+  border-radius: 1rem 1.8rem 1rem 1.45rem;
+  background:
+    linear-gradient(135deg, rgba(255, 201, 120, 0.12), rgba(255, 122, 99, 0.085) 42%, rgba(124, 224, 255, 0.045)),
+    radial-gradient(circle at top right, rgba(255, 201, 120, 0.18), transparent 26%),
+    rgba(255, 255, 255, 0.04);
+}
+
+.hub-scene-card::before,
+.hub-games-flagship::before,
+.hub-world-card::before,
+.hub-seasons-feature::before,
+.hub-yearbook-feature::before {
+  content: '';
+  position: absolute;
+  inset: 0.55rem;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.055);
+  pointer-events: none;
+  opacity: 0.75;
+}
+
+.hub-scene-card__topline small,
+.hub-games-flagship__topline small,
+.hub-world-card__topline small {
+  color: color-mix(in srgb, var(--accent-secondary) 58%, white);
+}
+
+.hub-state-card {
+  border-left: 2px solid color-mix(in srgb, var(--accent-secondary) 40%, transparent);
+  border-radius: 0.9rem 1.2rem 0.9rem 0.9rem;
+}
+
+.hub-world-card {
+  isolation: isolate;
+  border-radius: 0.95rem 1.35rem 0.95rem 1.2rem;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent-secondary) 8%, transparent), transparent 56%),
+    rgba(255, 255, 255, 0.03);
+}
+
+.hub-world-card::after {
+  content: 'Enter gate';
+}
+
+.hub-world-card--featured::after {
+  content: 'Enter realm';
+}
+
+.page--hub-games .page-header h1,
+.page--hub-players .page-header h1,
+.page--hub-seasons .page-header h1,
+.page--hub-yearbook .page-header h1 {
+  max-width: 11ch;
+}
+
+.hub-games-card {
+  position: relative;
+  border-radius: 0.95rem 1.25rem 0.95rem 0.95rem;
+}
+
+.hub-games-card--flagship {
+  background:
+    linear-gradient(135deg, rgba(124, 224, 255, 0.07), rgba(255, 201, 120, 0.04)),
+    rgba(255, 255, 255, 0.032);
+}
+
+.hub-games-card--leap-of-legends {
+  min-height: 10.8rem;
+  overflow: hidden;
+  border-radius: 1rem 1.55rem 1rem 1.2rem;
+  background:
+    radial-gradient(circle at 88% 8%, rgba(124, 224, 255, 0.18), transparent 28%),
+    linear-gradient(135deg, rgba(124, 224, 255, 0.1), rgba(255, 201, 120, 0.075) 48%, rgba(255, 255, 255, 0.025)),
+    rgba(255, 255, 255, 0.035);
+  box-shadow:
+    inset 0 0 0 1px rgba(124, 224, 255, 0.12),
+    0 18px 34px rgba(4, 8, 16, 0.14);
+}
+
+.hub-games-card--leap-of-legends::before {
+  content: '';
+  position: absolute;
+  right: 0.9rem;
+  bottom: 0.9rem;
+  width: 5.4rem;
+  height: 5.4rem;
+  border: 1px solid rgba(124, 224, 255, 0.18);
+  border-radius: 999px;
+  background:
+    linear-gradient(132deg, transparent 46%, rgba(255, 201, 120, 0.18) 47% 51%, transparent 52%),
+    radial-gradient(circle at center, rgba(124, 224, 255, 0.1), transparent 62%);
+  opacity: 0.78;
+  pointer-events: none;
+}
+
+.hub-games-card--leap-of-legends .hub-games-card__topline span {
+  color: color-mix(in srgb, var(--cool) 82%, white);
+}
+
+.hub-games-card--leap-of-legends .hub-games-card__topline small,
+.hub-games-card--leap-of-legends .hub-games-card__meta small {
+  color: color-mix(in srgb, var(--warm) 78%, white);
+}
+
+.hub-games-card--leap-of-legends .hub-games-card__body strong {
+  font-size: 1.14rem;
+}
+
+.hub-player-row {
+  border-left-width: 0;
+  border-radius: 0.88rem;
+  margin: 0.12rem;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--player-color) 16%, transparent), transparent 30%),
+    rgba(255, 255, 255, 0.022);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.hub-player-row__token {
+  border-radius: 0.55rem 0.95rem 0.55rem 0.95rem;
+  box-shadow:
+    inset -8px -8px 0 rgba(0, 0, 0, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 0 22px color-mix(in srgb, var(--player-color) 28%, transparent);
+}
+
+.hub-player-row__info strong::before {
+  content: 'Dossier // ';
+  color: color-mix(in srgb, var(--player-color) 66%, white 12%);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.hub-row-list {
+  gap: 0.22rem;
+  padding: 0.2rem;
+  border-radius: 1.15rem;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.018)),
+    rgba(255, 255, 255, 0.02);
+}
+
+.hub-seasons-feature,
+.hub-season-chapter {
+  position: relative;
+}
+
+.hub-seasons-feature {
+  border-radius: 1rem 1.55rem 1rem 1rem;
+  background:
+    linear-gradient(135deg, rgba(124, 224, 255, 0.09), transparent 58%),
+    rgba(255, 255, 255, 0.032);
+}
+
+.hub-season-chapter__rail {
+  width: 0.34rem;
+  background:
+    linear-gradient(180deg, rgba(124, 224, 255, 0.62), rgba(255, 201, 120, 0.18)),
+    rgba(255, 255, 255, 0.08);
+}
+
+.hub-yearbook-feature,
+.hub-yearbook-fragment {
+  position: relative;
+  border-radius: 1rem 1rem 1.35rem 1rem;
+}
+
+.hub-yearbook-feature {
+  background:
+    linear-gradient(135deg, rgba(255, 201, 120, 0.08), transparent 58%),
+    rgba(255, 255, 255, 0.032);
+}
+
+.hub-yearbook-fragment {
+  border-left: 2px solid color-mix(in srgb, var(--accent) 34%, transparent);
+}
+
+.page--ops-home {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(124, 224, 255, 0.07), transparent 30%),
+    transparent;
+}
+
+.page--ops-home .page-intro {
+  padding: 0.75rem;
+  border-radius: 1rem 1rem 1.45rem 1rem;
+  background:
+    linear-gradient(135deg, rgba(124, 224, 255, 0.07), rgba(255, 255, 255, 0.02) 56%),
+    rgba(255, 255, 255, 0.02);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.045);
+}
+
+.page--ops-home .module {
+  border-radius: 0.95rem 1.25rem 0.95rem 1.25rem;
+}
+
+.page--ops-home .hub-feature,
+.page--ops-home .hub-game-card {
+  border-radius: 0.85rem 1.15rem 0.85rem 0.85rem;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--accent-secondary) 7%, transparent), transparent 46%),
+    rgba(255, 255, 255, 0.028);
+}
+
+.page--ops-home .ops-home-card {
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(124, 224, 255, 0.055) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(124, 224, 255, 0.045), transparent 34%),
+    rgba(255, 255, 255, 0.028);
+  background-size: 4.4rem 100%, auto, auto;
+}
+
+.ops-command-lanes {
+  position: relative;
+  gap: 0.5rem;
+}
+
+.ops-command-lanes::before {
+  content: '';
+  position: absolute;
+  inset: 0.45rem auto 0.45rem 0.78rem;
+  width: 2px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, var(--cool), var(--warm), var(--hot));
+  opacity: 0.62;
+  pointer-events: none;
+}
+
+.page--ops-home .ops-command-lane {
+  position: relative;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  column-gap: 0.78rem;
+  padding-left: 1rem;
+  border-radius: 0.85rem 1.2rem 0.85rem 1.2rem;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05), transparent 36%),
+    rgba(255, 255, 255, 0.03);
+}
+
+.page--ops-home .ops-command-lane::before {
+  content: '';
+  grid-row: 1 / span 3;
+  width: 0.62rem;
+  height: 0.62rem;
+  margin-top: 0.18rem;
+  border-radius: 999px;
+  background: var(--cool);
+  box-shadow: 0 0 16px currentColor;
+}
+
+.page--ops-home .ops-command-lane--live::before {
+  background: var(--warm);
+}
+
+.page--ops-home .ops-command-lane--realm::before {
+  background: var(--hot);
+}
+
+.page--ops-home .ops-command-lane span,
+.page--ops-home .ops-command-lane strong,
+.page--ops-home .ops-command-lane p {
+  grid-column: 2;
+}
+
+.page--ops-home .ops-command-lane span {
+  color: color-mix(in srgb, var(--accent-secondary) 70%, white);
+}
+
+.page--ops-home .ops-command-lane--live span {
+  color: color-mix(in srgb, var(--warm) 78%, white);
+}
+
+.page--ops-home .ops-command-lane--realm span {
+  color: color-mix(in srgb, var(--hot) 78%, white);
+}
+
+@media (min-width: 720px) {
+  .hub-launch-scene {
+    padding-block: 1.4rem 0.9rem;
+  }
+
+  .hub-launch-scene__copy {
+    align-self: center;
+  }
+
+  .hub-scene-card {
+    min-height: 22rem;
+    align-content: space-between;
+  }
+
+  .hub-games-secondary__stack {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 719px) {
+  .brand-mark::after {
+    display: none;
+  }
+
+  .topbar {
+    min-width: 0;
+  }
+
+  .hub-launch-scene {
+    min-height: auto;
+    gap: 0.72rem;
+    padding-top: 0.15rem;
+  }
+
+  .hub-launch-scene::before {
+    width: 12rem;
+    opacity: 0.32;
+  }
+
+  .hub-launch-scene h1 {
+    max-width: 7.8ch;
+    font-size: clamp(2.3rem, 12vw, 3.35rem);
+  }
+
+  .hub-launch-scene__lede {
+    max-width: 28rem;
+    font-size: 0.92rem;
+    line-height: 1.42;
+  }
+
+  .hub-scene-card {
+    gap: 0.48rem;
+    padding: 0.98rem;
+  }
+
+  .hub-scene-card__topline,
+  .hub-world-card__topline,
+  .hub-games-card__topline {
+    align-items: flex-start;
+  }
+
+  .hub-scene-card strong,
+  .hub-world-card__body strong,
+  .hub-games-card__body strong {
+    overflow-wrap: break-word;
+  }
+
+  .hub-scene-card p,
+  .hub-world-card__body p,
+  .hub-games-card__body p {
+    max-width: 100%;
+  }
+
+  .hub-player-row {
+    align-items: flex-start;
+  }
+
+  .hub-player-row__meta {
+    gap: 0.22rem;
+  }
+}
+
+@media (max-width: 419px) {
+  .topbar__status {
+    display: none;
+  }
+
+  .hub-scene-card__pulse,
+  .hub-games-flagship__meta,
+  .hub-seasons-feature__meta {
+    grid-template-columns: 1fr;
+  }
 }
 
 .page--command-center .meeting-core--vote {

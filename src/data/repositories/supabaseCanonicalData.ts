@@ -18,9 +18,11 @@ import type {
 } from '../../types/product';
 import type { RuntimeProductData } from '../runtimeProductStore';
 import { isSupabaseConfigured } from '../../lib/supabase';
+import { players as seededPlayers } from '../productSource';
 import { fetchSupabaseTable } from './supabaseRest';
 
 type SupabaseRow = Record<string, unknown>;
+const visiblePlayerIds = new Set(['ted', 'release', 'mekula', 'coffee', 'bue', 'fluffy', 'artic']);
 
 function asString(value: unknown, fallback = '') {
   return typeof value === 'string' ? value : fallback;
@@ -36,6 +38,15 @@ function asNumber(value: unknown, fallback = 0) {
 
 function asBoolean(value: unknown, fallback = false) {
   return typeof value === 'boolean' ? value : fallback;
+}
+
+function appendMissingSeedRecords<T extends { id: string }>(remote: T[], seeded: T[]) {
+  const remoteIds = new Set(remote.map((record) => record.id));
+  return [...remote, ...seeded.filter((record) => !remoteIds.has(record.id))];
+}
+
+function filterVisiblePlayers(players: PlayerRecord[]) {
+  return players.filter((player) => visiblePlayerIds.has(player.id));
 }
 
 function mapGames(rows: SupabaseRow[]): GameRecord[] {
@@ -336,7 +347,12 @@ export async function fetchSupabaseCanonicalProductData(): Promise<RuntimeProduc
 
   return {
     games: mapGames(gameRows),
-    players: mapPlayers(playerRows, allyRows, habitRows, tellRows),
+    players: filterVisiblePlayers(
+      appendMissingSeedRecords(
+        mapPlayers(playerRows, allyRows, habitRows, tellRows),
+        seededPlayers,
+      ),
+    ),
     seasons: mapSeasons(seasonRows),
     badges: mapBadges(badgeRows),
     titles: mapTitles(titleRows),

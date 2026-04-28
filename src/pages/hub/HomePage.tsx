@@ -20,10 +20,10 @@ export function HomePage() {
     {
       id: 'among-us',
       title: 'Among Us',
-      detail: flagshipGame?.summary ?? 'The flagship social-deduction world inside Olympus Prime.',
+      detail: flagshipGame?.summary ?? 'The active flagship realm for accusation, color memory, and room reads.',
       href: flagshipGame?.href ?? '#/games/among-us',
-      badge: 'Flagship world',
-      state: 'Live memory lane',
+      badge: 'Active realm',
+      state: 'Realm online',
       featured: true,
     },
     {
@@ -33,40 +33,40 @@ export function HomePage() {
         leapWorld?.summary ??
         'A flagship Olympus Prime world for momentum swings, remembered finishes, and chapter-level nights.',
       href: leapWorld?.href ?? '#/games',
-      badge: 'Flagship world',
-      state: leapWorld?.latestLabel ?? 'Core world history',
+      badge: 'Flagship realm',
+      state: leapWorld?.latestLabel ?? 'Realm forming',
     },
     {
       id: 'players',
-      title: 'Players',
-      detail: 'Follow the people who keep shaping the room and carrying the stories forward.',
+      title: 'Player dossiers',
+      detail: 'Open the champion files for the people shaping the room and carrying the stories forward.',
       href: '#/players',
-      badge: 'Identity',
-      state: 'Recurring regulars',
+      badge: 'Dossiers',
+      state: 'Roster indexed',
     },
     {
       id: 'seasons',
-      title: 'Seasons',
-      detail: 'Track how each run of gamesnight changes across sessions, themes, and standouts.',
+      title: 'Eras',
+      detail: 'Track how each chapter of gamesnight changes across sessions, themes, and standouts.',
       href: '#/seasons',
-      badge: 'Archive',
-      state: 'Runs over time',
+      badge: 'Chronicle',
+      state: 'Chapters active',
     },
     {
       id: 'yearbook',
-      title: 'Yearbook',
-      detail: 'Open the remembered lines, titles, and moments that keep coming back.',
+      title: 'Memory archive',
+      detail: 'Open the fragments, titles, and moments that keep coming back.',
       href: '#/yearbook',
-      badge: 'Memory',
-      state: 'Retold moments',
+      badge: 'Archive',
+      state: 'Fragments held',
     },
     {
       id: 'games',
-      title: 'Games',
+      title: 'Realm gates',
       detail: 'Step into the worlds Olympus Prime keeps returning to night after night.',
       href: '#/games',
-      badge: 'Launcher',
-      state: 'All active worlds',
+      badge: 'Gateway',
+      state: 'All gates',
     },
   ];
   const featuredMemory = yearbookEntries[1] ?? yearbookEntries[0];
@@ -87,12 +87,12 @@ export function HomePage() {
       <section className="hub-launch-scene" aria-label="Olympus Prime opening scene">
         <div className="hub-launch-scene__copy">
           <p className="hub-launch-scene__eyebrow">Olympus Prime</p>
-          <h1>Enter the nights they keep building together.</h1>
+          <h1>Enter Olympus Prime.</h1>
           <p className="hub-launch-scene__lede">
-            Gamesnight Hub is the world layer for Olympus Prime: live in Discord, remembered here, and reopened whenever the story keeps going.
+            A playable memory layer for the nights that start in Discord: realms to enter, dossiers to open, eras to revisit, and fragments that keep glowing.
           </p>
           <a className="hub-launch-scene__action" href={primaryFeature?.href ?? '#/games/among-us/reports'}>
-            Read latest recap
+            Open active realm
           </a>
         </div>
 
@@ -101,18 +101,18 @@ export function HomePage() {
             <a className="hub-scene-card" href={primaryFeature.href}>
               <div className="hub-scene-card__topline">
                 <span>{primaryFeature.label}</span>
-                <small>Opening scene</small>
+                <small>Gateway signal</small>
               </div>
               <strong>{primaryFeature.title}</strong>
               <p>{primaryFeature.detail}</p>
 
               <div className="hub-scene-card__pulse">
                 <article>
-                  <span>Season</span>
+                  <span>Era</span>
                   <strong>{currentSeasonDetail?.name ?? 'Season pending'}</strong>
                 </article>
                 <article>
-                  <span>Players</span>
+                  <span>Dossiers</span>
                   <strong>{featuredNames.join(' · ') || 'Crew loading'}</strong>
                 </article>
               </div>
@@ -123,7 +123,7 @@ export function HomePage() {
 
       <section className="hub-current-state" aria-label="Current world state">
         <div className="hub-home-section__header">
-          <span>Current world state</span>
+          <span>Gateway signals</span>
         </div>
 
         <div className="hub-current-state__stack">
@@ -136,22 +136,22 @@ export function HomePage() {
           ))}
 
           <article className="hub-state-card hub-state-card--players">
-            <span>Featured players</span>
+            <span>Featured dossiers</span>
             <strong>{featuredNames.join(' · ') || 'Room regulars loading'}</strong>
-            <p>The people currently shaping the room, carrying streaks, and setting the tone.</p>
+            <p>The character files currently shaping the room, carrying streaks, and setting the tone.</p>
           </article>
         </div>
       </section>
 
       <section className="hub-worlds-entry" aria-label="Worlds to enter">
         <div className="hub-home-section__header">
-          <span>Worlds to enter</span>
+          <span>Realm gates</span>
         </div>
 
         <div className="hub-world-grid">
           {worldLinks.map((world) => (
             <a
-              className={`hub-world-card ${world.featured ? 'hub-world-card--featured' : ''}`}
+              className={`hub-world-card hub-world-card--${world.id} ${world.featured ? 'hub-world-card--featured' : ''}`}
               href={world.href}
               key={world.id}
             >
@@ -170,7 +170,7 @@ export function HomePage() {
       </section>
 
       <section className="hub-home-note" aria-label="Why this exists">
-        <p>Discord is where the night happens. The Hub is where the night becomes story.</p>
+        <p>Discord is where the night happens. The Hub is where the world remembers what it became.</p>
       </section>
 
       {showPublicSignal ? (
@@ -210,7 +210,7 @@ export function HomePage() {
 
       {featuredMemory ? (
         <section className="hub-home-memory hub-home-memory--featured" aria-label="Featured memory">
-          <span>Featured memory</span>
+          <span>Memory fragment</span>
           <blockquote>{featuredMemory.detail}</blockquote>
           <p>{featuredMemory.note}</p>
         </section>

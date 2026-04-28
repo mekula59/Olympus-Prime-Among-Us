@@ -9,15 +9,15 @@ export function YearbookPage() {
     <div className="page page--hub-yearbook">
       <section className="hub-yearbook-scene" aria-label="Yearbook opening">
         <div className="page-header">
-          <h1>Yearbook</h1>
-          <p>The lines, titles, and moments Olympus Prime keeps carrying forward after the night is over.</p>
+          <h1>Memory archive.</h1>
+          <p>The fragments, titles, and remembered lines Olympus Prime keeps carrying forward after the night is over.</p>
         </div>
 
         {featuredMemory ? (
           <article className={`hub-yearbook-feature hub-yearbook-feature--${featuredMemory.tone}`}>
             <div className="hub-yearbook-feature__topline">
-              <span>Remembered line</span>
-              <small>Held onto</small>
+              <span>Recovered fragment</span>
+              <small>Held in archive</small>
             </div>
 
             <blockquote>{featuredMemory.detail}</blockquote>
@@ -32,7 +32,7 @@ export function YearbookPage() {
 
       <section className="hub-yearbook-fragments" aria-label="Memory fragments">
         <div className="hub-home-section__header">
-          <span>Kept in orbit</span>
+          <span>Archive fragments</span>
         </div>
 
         <div className="hub-yearbook-fragments__stack">

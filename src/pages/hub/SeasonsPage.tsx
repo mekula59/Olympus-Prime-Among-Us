@@ -9,14 +9,14 @@ export function SeasonsPage() {
     <div className="page page--hub-seasons">
       <section className="hub-seasons-scene" aria-label="Current season">
         <div className="page-header">
-          <h1>Seasons</h1>
-          <p>The ongoing run of Olympus Prime, and the earlier chapters that built the community into what it is now.</p>
+          <h1>Eras.</h1>
+          <p>The current chapter of Olympus Prime, and the earlier eras that shaped the world into what it is now.</p>
         </div>
 
         {activeSeason ? (
           <a className="hub-seasons-feature" href="#/seasons/current">
             <div className="hub-seasons-feature__topline">
-              <span>{activeSeason.status === 'active' ? 'Current season' : 'Latest season'}</span>
+              <span>{activeSeason.status === 'active' ? 'Current era' : 'Latest era'}</span>
               <small>{activeSeason.code}</small>
             </div>
 
@@ -27,15 +27,15 @@ export function SeasonsPage() {
 
             <div className="hub-seasons-feature__meta">
               <article>
-                <span>Current week</span>
+                <span>Era week</span>
                 <strong>{activeSeason.currentWeek}</strong>
               </article>
               <article>
-                <span>Sessions</span>
+                <span>Entries</span>
                 <strong>{activeSeason.sessionCount}</strong>
               </article>
               <article>
-                <span>Featured game</span>
+                <span>Realm focus</span>
                 <strong>{activeSeason.featuredGame}</strong>
               </article>
             </div>
@@ -45,7 +45,7 @@ export function SeasonsPage() {
 
       <section className="hub-seasons-archive" aria-label="Season chapters">
         <div className="hub-home-section__header">
-          <span>Earlier chapters</span>
+          <span>Sealed chapters</span>
         </div>
 
         <div className="hub-seasons-archive__stack">

@@ -7,8 +7,8 @@ export function PlayersPage() {
   return (
     <div className="page page--hub-players">
       <div className="page-header">
-        <h1>Players</h1>
-        <p>See who keeps showing up, who the room remembers, and where to jump back into their history.</p>
+        <h1>Character dossiers.</h1>
+        <p>Open the champion files: who keeps showing up, what the room remembers, and where their history lives.</p>
       </div>
 
       <div className="hub-row-list">
@@ -28,11 +28,11 @@ export function PlayersPage() {
             </div>
             <div className="hub-player-row__meta">
               <div className="hub-player-row__history">
-                <span>Nights</span>
+                <span>Entries</span>
                 <strong>{player.attendanceCount}</strong>
               </div>
               <div className="hub-player-row__history">
-                <span>Last seen</span>
+                <span>Last signal</span>
                 <strong>{player.lastSeen}</strong>
               </div>
             </div>

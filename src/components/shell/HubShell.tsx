@@ -23,11 +23,11 @@ export function HubShell({ currentPath, currentRoute, moduleHeader, children }: 
               </span>
             </a>
 
-            <p className="topbar__subcopy">Discord runs the night. The Hub keeps the world alive after it.</p>
+            <p className="topbar__subcopy">Discord runs the night. This HUD keeps the world readable after it.</p>
           </div>
 
           <div className="topbar__status" aria-label="Current layer">
-            <span className="topbar__section">{currentRoute.section}</span>
+            <span className="topbar__section">Zone // {currentRoute.section}</span>
             <strong>{currentRoute.stateLabel}</strong>
           </div>
         </header>

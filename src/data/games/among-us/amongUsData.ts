@@ -34,12 +34,13 @@ import {
 const amongUsGameId = 'among-us';
 
 const rankingSnapshots = [
-  { playerId: 'nova', wins: 18, readScore: 96, streak: '4-night legend streak' },
-  { playerId: 'quill', wins: 16, readScore: 92, streak: 'Never sounds rushed' },
-  { playerId: 'sol', wins: 15, readScore: 90, streak: 'Three clutch endgames' },
-  { playerId: 'ivy', wins: 13, readScore: 87, streak: 'Corridor memory monster' },
-  { playerId: 'remy', wins: 11, readScore: 82, streak: 'Never loses the room' },
-  { playerId: 'zeph', wins: 10, readScore: 79, streak: 'Wins when unnoticed' },
+  { playerId: 'ted', wins: 18, readScore: 96, streak: 'Always hosting the room' },
+  { playerId: 'release', wins: 16, readScore: 92, streak: 'Keeps the night moving' },
+  { playerId: 'coffee', wins: 15, readScore: 90, streak: 'Among Us host support' },
+  { playerId: 'bue', wins: 13, readScore: 87, streak: 'Among Us lobby pressure' },
+  { playerId: 'mekula', wins: 11, readScore: 82, streak: 'World-builder presence' },
+  { playerId: 'fluffy', wins: 10, readScore: 79, streak: 'Chaos stays friendly' },
+  { playerId: 'artic', wins: 9, readScore: 77, streak: 'Cool-headed late reads' },
 ];
 
 export interface AmongUsModuleDataView {
