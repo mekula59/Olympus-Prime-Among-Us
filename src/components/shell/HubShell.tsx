@@ -9,14 +9,22 @@ interface HubShellProps {
   children: ReactNode;
 }
 
+const sectionMarkers: Record<AppRoute['section'], string> = {
+  hub: 'HUB',
+  games: 'REALM',
+  ops: 'COMMAND',
+};
+
 export function HubShell({ currentPath, currentRoute, moduleHeader, children }: HubShellProps) {
   return (
     <>
-      <div className={`hq-layout hq-layout--mobile hq-layout--${currentRoute.shell}`}>
+      <div
+        className={`hq-layout hq-layout--mobile hq-layout--${currentRoute.shell} zone-shell zone-shell--${currentRoute.section} zone-shell--${currentRoute.id}`}
+      >
         <header className={`topbar topbar--${currentRoute.section}`}>
           <div className="topbar__identity">
             <a className="brand-mark" href="#/" aria-label="Olympus Prime Gamesnight Hub">
-              <img src="/assets/olympus-signal.svg" alt="" />
+              <img src="/brand/selected/olympus-prime-mark.svg" alt="" />
               <span>
                 Olympus Prime
                 <strong>Gamesnight Hub</strong>
@@ -27,14 +35,17 @@ export function HubShell({ currentPath, currentRoute, moduleHeader, children }: 
           </div>
 
           <div className="topbar__status" aria-label="Current layer">
-            <span className="topbar__section">Zone // {currentRoute.section}</span>
+            <span className="topbar__section">{sectionMarkers[currentRoute.section]}</span>
             <strong>{currentRoute.stateLabel}</strong>
           </div>
         </header>
 
         {moduleHeader}
 
-        <main className={`page-stage page-stage--mobile page-stage--${currentRoute.shell}`} key={currentPath}>
+        <main
+          className={`page-stage page-stage--mobile page-stage--${currentRoute.shell} zone-stage zone-stage--${currentRoute.section} zone-stage--${currentRoute.id}`}
+          key={currentPath}
+        >
           {children}
         </main>
       </div>

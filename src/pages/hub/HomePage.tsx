@@ -86,7 +86,9 @@ export function HomePage() {
     <div className="page page--hub-home">
       <section className="hub-launch-scene" aria-label="Olympus Prime opening scene">
         <div className="hub-launch-scene__copy">
-          <p className="hub-launch-scene__eyebrow">Olympus Prime</p>
+          <p className="hub-launch-scene__eyebrow hub-launch-scene__eyebrow--brand">
+            <img src="/brand/selected/olympus-prime-wordmark.svg" alt="" />
+          </p>
           <h1>Enter Olympus Prime.</h1>
           <p className="hub-launch-scene__lede">
             A playable memory layer for the nights that start in Discord: realms to enter, dossiers to open, eras to revisit, and fragments that keep glowing.

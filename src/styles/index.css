@@ -3173,6 +3173,7 @@ button.secondary-link:disabled {
 }
 
 .meeting-core {
+  position: relative;
   display: grid;
   gap: 0.85rem;
   min-height: 19rem;
@@ -5820,6 +5821,961 @@ body::after {
   color: var(--accent);
 }
 
+/* === World map interaction pass: travel dock, realm entry, object surfaces === */
+
+@keyframes realm-threshold-sweep {
+  0% {
+    opacity: 0;
+    transform: translateX(-38%) scaleX(0.45);
+  }
+
+  42% {
+    opacity: 0.78;
+  }
+
+  100% {
+    opacity: 0.16;
+    transform: translateX(0) scaleX(1);
+  }
+}
+
+@keyframes realm-map-drift {
+  from {
+    background-position: 0 0, 0 0, center top;
+  }
+
+  to {
+    background-position: 18px 12px, -14px 10px, center top;
+  }
+}
+
+@keyframes node-arrive {
+  0% {
+    transform: scale(0.72);
+    opacity: 0.42;
+  }
+
+  65% {
+    transform: scale(1.18);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.topbar__section {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.38rem;
+}
+
+.topbar__section::before {
+  content: '';
+  width: 0.48rem;
+  height: 0.48rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--zone-entry-accent, var(--accent)) 72%, white 8%);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--zone-entry-accent, var(--accent)) 48%, transparent);
+}
+
+.page-header {
+  position: relative;
+  padding-top: 0.2rem;
+}
+
+.page-header__marker,
+.section-kicker,
+.hub-home-section__header span,
+.module-screen-header__eyebrow {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  gap: 0.42rem;
+  padding: 0.26rem 0.56rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--zone-entry-accent, var(--accent)) 10%, rgba(255, 255, 255, 0.035));
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--zone-entry-accent, var(--accent)) 18%, rgba(255, 255, 255, 0.04));
+  color: color-mix(in srgb, var(--zone-entry-secondary, var(--accent-secondary)) 72%, white);
+}
+
+.page-header__marker::before,
+.section-kicker::before,
+.hub-home-section__header span::before,
+.module-screen-header__eyebrow::before {
+  content: '';
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 999px;
+  background: currentColor;
+  box-shadow: 0 0 14px currentColor;
+}
+
+.hub-launch-scene__eyebrow::before,
+.page-header h1::before {
+  content: none;
+}
+
+.hub-player-row__info strong::before {
+  content: 'DOSSIER';
+  display: inline-flex;
+  margin-right: 0.5rem;
+  padding: 0.18rem 0.42rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--player-color) 16%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--player-color) 26%, transparent);
+  color: color-mix(in srgb, var(--player-color) 72%, white 14%);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  vertical-align: 0.16rem;
+}
+
+.zone-stage {
+  perspective: 1200px;
+}
+
+.zone-stage::before {
+  animation: realm-map-drift 520ms ease-out both;
+}
+
+.zone-stage::after {
+  height: 2px;
+  opacity: 0.4;
+  animation: realm-threshold-sweep 520ms ease-out both;
+}
+
+.page > * {
+  transform-origin: 50% 0;
+}
+
+.bottom-dock {
+  pointer-events: none;
+}
+
+.bottom-dock__scroll {
+  pointer-events: auto;
+  isolation: isolate;
+  position: relative;
+  overflow: hidden;
+  padding: 0.36rem;
+  border-radius: 1.45rem;
+  background:
+    linear-gradient(90deg, rgba(124, 224, 255, 0.075), transparent 24%, rgba(255, 201, 120, 0.06)),
+    linear-gradient(180deg, rgba(13, 18, 31, 0.98), rgba(5, 8, 15, 0.96));
+}
+
+.bottom-dock__scroll::before {
+  content: '';
+  position: absolute;
+  left: calc((100% / var(--total-items)) / 2);
+  right: calc((100% / var(--total-items)) / 2);
+  top: 1.17rem;
+  height: 1px;
+  background:
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.16), transparent),
+    linear-gradient(90deg, color-mix(in srgb, var(--cool) 22%, transparent), color-mix(in srgb, var(--warm) 22%, transparent));
+  z-index: 0;
+}
+
+.bottom-dock__indicator {
+  top: 0.36rem;
+  bottom: 0.36rem;
+  border-radius: 1.08rem;
+  background:
+    radial-gradient(circle at 50% 0.9rem, color-mix(in srgb, var(--accent) 32%, transparent), transparent 44%),
+    linear-gradient(180deg, color-mix(in srgb, var(--accent) 20%, rgba(255, 255, 255, 0.08)), rgba(255, 255, 255, 0.045));
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 24%, transparent),
+    0 14px 30px rgba(2, 4, 10, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transition: transform 280ms cubic-bezier(0.2, 0.9, 0.2, 1), opacity 160ms ease;
+}
+
+.bottom-dock__item {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: 0.72rem auto auto;
+  justify-items: center;
+  gap: 0.16rem;
+  min-height: 3.9rem;
+  padding: 0.5rem 0.42rem 0.68rem;
+  border-radius: 1rem;
+}
+
+.bottom-dock__node {
+  width: 0.68rem;
+  height: 0.68rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 0 0 3px rgba(255, 255, 255, 0.035),
+    0 0 14px transparent;
+  transition: transform 160ms ease, background-color 180ms ease, box-shadow 180ms ease;
+}
+
+.bottom-dock__item span {
+  font-size: 0.5rem;
+}
+
+.bottom-dock__item strong {
+  font-size: 0.82rem;
+}
+
+.bottom-dock__item:hover .bottom-dock__node,
+.bottom-dock__item:focus-visible .bottom-dock__node {
+  transform: scale(1.14);
+  background: color-mix(in srgb, var(--accent-secondary) 64%, white 10%);
+  box-shadow:
+    0 0 0 4px color-mix(in srgb, var(--accent-secondary) 12%, transparent),
+    0 0 18px color-mix(in srgb, var(--accent-secondary) 42%, transparent);
+}
+
+.bottom-dock__item:active {
+  transform: translateY(1px) scale(0.965);
+}
+
+.bottom-dock__item--active .bottom-dock__node {
+  animation: node-arrive 260ms ease-out both;
+  background: color-mix(in srgb, var(--accent) 72%, white 12%);
+  box-shadow:
+    0 0 0 5px color-mix(in srgb, var(--accent) 14%, transparent),
+    0 0 22px color-mix(in srgb, var(--accent) 56%, transparent);
+}
+
+.bottom-dock__item--active span {
+  color: color-mix(in srgb, var(--accent-secondary) 72%, white);
+}
+
+.hub-scene-card,
+.hub-world-card,
+.hub-games-flagship,
+.hub-games-card,
+.hub-player-row,
+.hub-seasons-feature,
+.hub-season-chapter,
+.hub-yearbook-feature,
+.hub-yearbook-fragment,
+.ops-command-lane,
+.hub-game-card,
+.hub-state-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.hub-scene-card::before,
+.hub-world-card::before,
+.hub-games-flagship::before,
+.hub-games-card::before,
+.hub-seasons-feature::before,
+.hub-yearbook-feature::before,
+.ops-command-lane::before {
+  transition: transform 220ms ease, opacity 180ms ease, border-color 180ms ease;
+}
+
+.hub-world-card::after,
+.hub-games-flagship::after,
+.hub-games-card::after,
+.hub-seasons-feature::after,
+.hub-yearbook-fragment::after,
+.ops-command-lane::after,
+.hub-player-row::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(105deg, transparent 0 38%, rgba(255, 255, 255, 0.09) 48%, transparent 58% 100%);
+  opacity: 0;
+  transform: translateX(-46%);
+  transition: opacity 180ms ease, transform 260ms ease;
+}
+
+.hub-world-card:hover::after,
+.hub-world-card:focus-visible::after,
+.hub-world-card:active::after,
+.hub-games-flagship:hover::after,
+.hub-games-flagship:focus-visible::after,
+.hub-games-flagship:active::after,
+.hub-games-card:hover::after,
+.hub-games-card:focus-visible::after,
+.hub-games-card:active::after,
+.hub-seasons-feature:hover::after,
+.hub-seasons-feature:focus-visible::after,
+.hub-seasons-feature:active::after,
+.hub-yearbook-fragment:hover::after,
+.hub-yearbook-fragment:focus-within::after,
+.hub-yearbook-fragment:active::after,
+.ops-command-lane:hover::after,
+.ops-command-lane:focus-visible::after,
+.ops-command-lane:active::after,
+.hub-player-row:hover::after,
+.hub-player-row:focus-visible::after,
+.hub-player-row:active::after {
+  opacity: 1;
+  transform: translateX(38%);
+}
+
+.hub-games-flagship:hover,
+.hub-games-flagship:focus-visible,
+.hub-world-card:hover,
+.hub-world-card:focus-visible,
+.hub-games-card:hover,
+.hub-games-card:focus-visible {
+  transform: translateY(-5px) rotateX(1deg) scale(1.01);
+}
+
+.hub-games-flagship:active,
+.hub-world-card:active,
+.hub-games-card:active {
+  transform: translateY(1px) scale(0.986);
+}
+
+.hub-player-row:hover,
+.hub-player-row:focus-visible {
+  transform: translateX(5px);
+}
+
+.hub-player-row:active {
+  transform: translateX(2px) scale(0.99);
+}
+
+.hub-seasons-feature:hover,
+.hub-seasons-feature:focus-visible,
+.hub-season-chapter:hover,
+.hub-season-chapter:focus-visible {
+  transform: translateX(5px);
+}
+
+.hub-yearbook-feature:hover,
+.hub-yearbook-feature:focus-within,
+.hub-yearbook-fragment:hover,
+.hub-yearbook-fragment:focus-within {
+  transform: translateY(-3px);
+}
+
+.ops-command-lane:hover,
+.ops-command-lane:focus-visible {
+  transform: translateX(6px);
+}
+
+.hub-state-card::after,
+.hub-game-card::after {
+  content: 'OPEN SIGNAL';
+  position: absolute;
+  right: 0.8rem;
+  bottom: 0.7rem;
+  font-size: 0.56rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--accent-secondary) 56%, transparent);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.hub-state-card:hover::after,
+.hub-game-card:hover::after,
+.hub-state-card:focus-within::after,
+.hub-game-card:focus-within::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (hover: none) {
+  .bottom-dock__item:hover .bottom-dock__node,
+  .hub-games-flagship:hover,
+  .hub-world-card:hover,
+  .hub-games-card:hover,
+  .hub-player-row:hover,
+  .hub-seasons-feature:hover,
+  .hub-season-chapter:hover,
+  .hub-yearbook-feature:hover,
+  .hub-yearbook-fragment:hover,
+  .ops-command-lane:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 719px) {
+  .bottom-dock__scroll::before {
+    top: 1rem;
+  }
+
+  .bottom-dock__item {
+    min-height: 3.55rem;
+    padding-inline: 0.22rem;
+  }
+
+  .bottom-dock__item span {
+    font-size: 0.46rem;
+    letter-spacing: 0.1em;
+  }
+
+  .bottom-dock__item strong {
+    font-size: 0.78rem;
+  }
+
+  .hub-games-flagship:active,
+  .hub-world-card:active,
+  .hub-games-card:active,
+  .hub-player-row:active,
+  .hub-seasons-feature:active,
+  .hub-season-chapter:active,
+  .hub-yearbook-feature:active,
+  .hub-yearbook-fragment:active,
+  .ops-command-lane:active {
+    transform: scale(0.985);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zone-stage::before,
+  .zone-stage::after,
+  .bottom-dock__item--active .bottom-dock__node {
+    animation: none !important;
+  }
+
+  .bottom-dock__indicator,
+  .bottom-dock__node,
+  .hub-world-card::after,
+  .hub-games-flagship::after,
+  .hub-games-card::after,
+  .hub-seasons-feature::after,
+  .hub-yearbook-fragment::after,
+  .ops-command-lane::after,
+  .hub-player-row::after,
+  .hub-state-card::after,
+  .hub-game-card::after {
+    transition: none !important;
+  }
+}
+
+/* === Living-world interaction pass: zone entry, gates, dossiers, archives, command lanes === */
+
+@keyframes zone-gate-enter {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.985);
+    filter: saturate(0.82);
+  }
+
+  58% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: saturate(1);
+  }
+}
+
+@keyframes zone-surface-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes zone-scan-in {
+  from {
+    transform: translateX(-34%) scaleX(0.28);
+    opacity: 0;
+  }
+
+  42% {
+    opacity: 0.86;
+  }
+
+  to {
+    transform: translateX(0) scaleX(1);
+    opacity: 0.32;
+  }
+}
+
+.zone-shell {
+  --zone-entry-accent: var(--accent);
+  --zone-entry-secondary: var(--accent-secondary);
+}
+
+.zone-shell--games {
+  --zone-entry-accent: var(--warm);
+  --zone-entry-secondary: var(--cool);
+}
+
+.zone-shell--ops {
+  --zone-entry-accent: var(--cool);
+  --zone-entry-secondary: #aab2d0;
+}
+
+.zone-shell--players {
+  --zone-entry-accent: var(--cool);
+}
+
+.zone-shell--seasons {
+  --zone-entry-accent: #9fb8ff;
+  --zone-entry-secondary: var(--warm);
+}
+
+.zone-shell--yearbook {
+  --zone-entry-accent: var(--warm);
+  --zone-entry-secondary: var(--cool);
+}
+
+.zone-stage {
+  isolation: isolate;
+  transform-origin: 50% 0%;
+  animation: zone-gate-enter 360ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+}
+
+.zone-stage::before {
+  background:
+    radial-gradient(circle at top center, color-mix(in srgb, var(--zone-entry-accent) 16%, transparent), transparent 48%),
+    linear-gradient(90deg, transparent, color-mix(in srgb, var(--zone-entry-secondary) 10%, transparent), transparent);
+}
+
+.zone-stage::after {
+  inset: auto 1rem 1rem;
+  width: auto;
+  height: 1px;
+  border: 0;
+  border-radius: 0;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--zone-entry-accent) 34%, white 10%), transparent);
+  opacity: 0.55;
+  animation: zone-scan-in 420ms ease-out both;
+}
+
+.page > * {
+  animation: zone-surface-enter 280ms ease-out both;
+}
+
+.page > *:nth-child(2) { animation-delay: 42ms; }
+.page > *:nth-child(3) { animation-delay: 82ms; }
+.page > *:nth-child(4) { animation-delay: 118ms; }
+.page > *:nth-child(n + 5) { animation-delay: 140ms; }
+
+.topbar__status {
+  overflow: hidden;
+}
+
+.topbar__status::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--zone-entry-accent) 62%, white 10%), transparent);
+  opacity: 0.72;
+  transform: translateX(-18%);
+  transition: transform 220ms ease, opacity 180ms ease;
+}
+
+.zone-shell--games .topbar__status::after,
+.zone-shell--ops .topbar__status::after,
+.zone-shell--among-us-overview .topbar__status::after,
+.zone-shell--among-us-reports .topbar__status::after {
+  transform: translateX(0);
+  opacity: 0.95;
+}
+
+.bottom-dock__scroll {
+  overflow: hidden;
+}
+
+.bottom-dock__indicator {
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--accent) 30%, rgba(255, 255, 255, 0.1)), rgba(255, 255, 255, 0.065)),
+    rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 24%, transparent),
+    0 12px 24px rgba(2, 4, 10, 0.22);
+}
+
+.bottom-dock__indicator::after {
+  content: '';
+  position: absolute;
+  inset: 0.42rem 16% auto;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.72), transparent);
+  opacity: 0.72;
+}
+
+.bottom-dock__item--active strong {
+  text-shadow: 0 0 18px color-mix(in srgb, var(--accent) 42%, transparent);
+}
+
+.bottom-dock__item--active span::before {
+  content: '';
+  display: inline-block;
+  width: 0.38rem;
+  height: 0.38rem;
+  margin-right: 0.28rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 78%, white 8%);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--accent) 62%, transparent);
+  vertical-align: 0.06rem;
+}
+
+.hub-launch-scene::after {
+  content: '';
+  position: absolute;
+  inset: auto 8% 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--warm) 34%, white 8%), transparent);
+  opacity: 0.58;
+  pointer-events: none;
+}
+
+.hub-launch-scene__action,
+.hub-scene-card,
+.hub-world-card,
+.hub-games-flagship,
+.hub-games-card,
+.zone-card {
+  transform-origin: 50% 70%;
+}
+
+.hub-launch-scene__action:hover,
+.hub-launch-scene__action:focus-visible {
+  transform: translateY(-1px);
+}
+
+.hub-launch-scene__action:active {
+  transform: translateY(1px) scale(0.982);
+}
+
+.hub-scene-card::after,
+.hub-world-card::after,
+.hub-games-card::after,
+.zone-card::after {
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease,
+    color 180ms ease;
+}
+
+.hub-scene-card:hover,
+.hub-scene-card:focus-visible,
+.hub-world-card:hover,
+.hub-world-card:focus-visible,
+.hub-games-flagship:hover,
+.hub-games-flagship:focus-visible,
+.hub-games-card:hover,
+.hub-games-card:focus-visible,
+.zone-card:hover,
+.zone-card:focus-visible {
+  transform: translateY(-3px) scale(1.008);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--zone-entry-accent, var(--accent)) 18%, rgba(255, 255, 255, 0.08)),
+    0 22px 44px rgba(3, 6, 14, 0.22);
+}
+
+.hub-scene-card:active,
+.hub-world-card:active,
+.hub-games-flagship:active,
+.hub-games-card:active,
+.zone-card:active {
+  transform: translateY(1px) scale(0.985);
+  transition-duration: 80ms;
+}
+
+.hub-world-card::before,
+.hub-games-card--leap-of-legends::before,
+.zone-card::before {
+  transition:
+    transform 220ms ease,
+    opacity 180ms ease,
+    border-color 180ms ease;
+}
+
+.hub-world-card:hover::before,
+.hub-world-card:focus-visible::before,
+.hub-games-card--leap-of-legends:hover::before,
+.hub-games-card--leap-of-legends:focus-visible::before,
+.zone-card:hover::before,
+.zone-card:focus-visible::before {
+  transform: scale(1.08) rotate(8deg);
+  opacity: 0.94;
+}
+
+.hub-world-card--leap-of-legends:hover,
+.hub-world-card--leap-of-legends:focus-visible,
+.hub-games-card--leap-of-legends:hover,
+.hub-games-card--leap-of-legends:focus-visible {
+  box-shadow:
+    inset 0 0 0 1px rgba(124, 224, 255, 0.18),
+    0 24px 46px rgba(7, 18, 32, 0.24);
+}
+
+.module-screen-header,
+.command-console,
+.meeting-core,
+.system-card,
+.system-feed__item,
+.crew-slot {
+  transition:
+    transform 160ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.command-console:hover,
+.command-console:focus-within {
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--warm) 16%, rgba(255, 255, 255, 0.08)),
+    0 18px 38px rgba(4, 8, 16, 0.16);
+}
+
+.meeting-core::after {
+  content: '';
+  position: absolute;
+  inset: 0.8rem;
+  border-radius: 1rem;
+  border: 1px solid color-mix(in srgb, var(--hot) 12%, transparent);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 180ms ease;
+  transform: scale(0.985);
+}
+
+.meeting-core:hover::after,
+.command-console:focus-within .meeting-core::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.system-switch--active,
+.system-switch[aria-selected='true'] {
+  transform: translateY(-1px);
+}
+
+.hub-player-row {
+  overflow: hidden;
+}
+
+.hub-player-row::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(90deg, transparent, color-mix(in srgb, var(--player-color, var(--cool)) 18%, transparent), transparent);
+  opacity: 0;
+  transform: translateX(-42%);
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 220ms ease;
+}
+
+.hub-player-row:hover::before,
+.hub-player-row:focus-visible::before,
+.hub-player-row:active::before {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.hub-player-row:hover .hub-player-row__token,
+.hub-player-row:focus-visible .hub-player-row__token,
+.hub-player-row:active .hub-player-row__token {
+  transform: translateY(-1px) scale(1.06);
+  box-shadow:
+    inset -8px -8px 0 rgba(0, 0, 0, 0.2),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16),
+    0 0 26px color-mix(in srgb, var(--player-color) 42%, transparent);
+}
+
+.hub-player-row__token {
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.hub-player-row__meta {
+  transition: transform 180ms ease, opacity 180ms ease;
+}
+
+.hub-player-row:hover .hub-player-row__meta,
+.hub-player-row:focus-visible .hub-player-row__meta {
+  transform: translateX(-2px);
+}
+
+.hub-yearbook-feature,
+.hub-yearbook-fragment {
+  overflow: hidden;
+}
+
+.hub-yearbook-feature::after,
+.hub-yearbook-fragment::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(105deg, transparent 0 44%, rgba(255, 255, 255, 0.08) 50%, transparent 56% 100%);
+  opacity: 0;
+  transform: translateX(-38%);
+  pointer-events: none;
+  transition: opacity 180ms ease, transform 240ms ease;
+}
+
+.hub-yearbook-feature:hover::after,
+.hub-yearbook-feature:focus-within::after,
+.hub-yearbook-feature:active::after,
+.hub-yearbook-fragment:hover::after,
+.hub-yearbook-fragment:focus-within::after,
+.hub-yearbook-fragment:active::after {
+  opacity: 1;
+  transform: translateX(28%);
+}
+
+.hub-yearbook-feature:hover blockquote,
+.hub-yearbook-fragment:hover strong {
+  color: color-mix(in srgb, var(--text) 92%, var(--warm));
+}
+
+.ops-command-lane {
+  overflow: hidden;
+}
+
+.ops-command-lane::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--cool) 50%, white 8%), transparent);
+  opacity: 0;
+  transform: translateX(-18%);
+  transition: opacity 180ms ease, transform 200ms ease;
+}
+
+.ops-command-lane:hover,
+.ops-command-lane:focus-visible,
+.ops-command-lane:active {
+  transform: translateX(3px);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.07), transparent 42%),
+    rgba(255, 255, 255, 0.04);
+}
+
+.ops-command-lane:hover::after,
+.ops-command-lane:focus-visible::after,
+.ops-command-lane:active::after {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.ops-command-lane:active {
+  transform: translateX(1px) scale(0.99);
+}
+
+.hub-season-chapter,
+.hub-seasons-feature {
+  transition:
+    transform 160ms ease,
+    background-color 180ms ease,
+    box-shadow 180ms ease;
+}
+
+.hub-season-chapter:hover,
+.hub-season-chapter:focus-visible,
+.hub-seasons-feature:hover,
+.hub-seasons-feature:focus-visible {
+  transform: translateX(3px);
+}
+
+.hub-season-chapter:active,
+.hub-seasons-feature:active {
+  transform: translateX(1px) scale(0.99);
+}
+
+@media (hover: none) {
+  .hub-scene-card:hover,
+  .hub-world-card:hover,
+  .hub-games-flagship:hover,
+  .hub-games-card:hover,
+  .zone-card:hover,
+  .hub-player-row:hover,
+  .hub-yearbook-feature:hover,
+  .hub-yearbook-fragment:hover,
+  .ops-command-lane:hover {
+    transform: none;
+  }
+}
+
+@media (max-width: 719px) {
+  .zone-stage {
+    animation-duration: 260ms;
+  }
+
+  .page > * {
+    animation-duration: 220ms;
+  }
+
+  .hub-scene-card:hover,
+  .hub-world-card:hover,
+  .hub-games-flagship:hover,
+  .hub-games-card:hover,
+  .zone-card:hover {
+    box-shadow: inherit;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zone-stage,
+  .zone-stage::after,
+  .page,
+  .page > *,
+  .hub-row-list > *,
+  .hub-feature-stack > *,
+  .hub-player-grid > *,
+  .hub-directory > *,
+  .hub-game-list > *,
+  .hub-memory-list > *,
+  .hub-season-list > *,
+  .hub-yearbook-grid > *,
+  .board-list > *,
+  .system-stack,
+  .system-feed,
+  .focus-panel__content,
+  .meeting-core {
+    animation: none !important;
+  }
+
+  .bottom-dock__indicator,
+  .bottom-dock__item,
+  .topbar__status::after,
+  .hub-launch-scene__action,
+  .hub-scene-card,
+  .hub-world-card,
+  .hub-games-flagship,
+  .hub-games-card,
+  .zone-card,
+  .hub-player-row,
+  .hub-player-row::before,
+  .hub-player-row__token,
+  .hub-player-row__meta,
+  .hub-yearbook-feature,
+  .hub-yearbook-feature::after,
+  .hub-yearbook-fragment,
+  .hub-yearbook-fragment::after,
+  .ops-command-lane,
+  .ops-command-lane::after,
+  .hub-season-chapter,
+  .hub-seasons-feature,
+  .system-switch,
+  .among-us-chip,
+  .board-strip,
+  .relay-chip,
+  .engine-stage,
+  .ops-button {
+    transition: none !important;
+  }
+}
+
 /* Final polish pass — Hub feel, nav tactility, lighter Among Us state surfaces */
 .brand-mark {
   border-radius: 1.15rem;
@@ -8052,6 +9008,22 @@ body::after {
   gap: 1.1rem;
 }
 
+.page,
+.page > *,
+.hub-launch-scene,
+.hub-launch-scene__copy,
+.hub-launch-scene__centerpiece,
+.hub-scene-card,
+.hub-world-card,
+.hub-games-card,
+.hub-games-flagship,
+.hub-player-row,
+.hub-yearbook-feature,
+.hub-yearbook-fragment,
+.ops-command-lane {
+  min-width: 0;
+}
+
 .hub-launch-scene {
   display: grid;
   gap: 0.85rem;
@@ -8065,7 +9037,7 @@ body::after {
 }
 
 .hub-launch-scene__copy > * {
-  max-width: min(100%, calc(100vw - 2rem));
+  max-width: 100%;
 }
 
 .hub-launch-scene__eyebrow {
@@ -8074,6 +9046,16 @@ body::after {
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: color-mix(in srgb, var(--accent) 70%, var(--warm));
+}
+
+.hub-launch-scene__eyebrow img {
+  width: min(12rem, 64vw);
+  height: auto;
+  opacity: 0.9;
+}
+
+.hub-launch-scene__eyebrow--brand::before {
+  content: none;
 }
 
 .hub-launch-scene h1 {
@@ -8086,7 +9068,7 @@ body::after {
 
 .hub-launch-scene__lede {
   margin: 0;
-  width: min(34rem, calc(100vw - 2rem));
+  width: min(34rem, 100%);
   max-width: 100%;
   font-size: 0.96rem;
   line-height: 1.45;
@@ -8178,16 +9160,21 @@ body::after {
 }
 
 .hub-scene-card strong {
+  min-width: 0;
+  max-width: 100%;
   font-size: clamp(1.35rem, 6vw, 1.95rem);
   line-height: 1.03;
   letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
 }
 
 .hub-scene-card p {
   margin: 0;
+  max-width: 100%;
   font-size: 0.9rem;
   line-height: 1.46;
   color: color-mix(in srgb, var(--muted) 84%, white);
+  overflow-wrap: break-word;
 }
 
 .hub-scene-card__pulse {
@@ -9036,8 +10023,11 @@ body::after {
 
 .hub-launch-scene__eyebrow::before,
 .page-header h1::before {
-  content: '// ';
-  color: color-mix(in srgb, var(--accent-secondary) 70%, white);
+  content: none;
+}
+
+.hub-launch-scene__eyebrow--brand::before {
+  content: none;
 }
 
 .hub-launch-scene h1 {
@@ -9178,11 +10168,18 @@ body::after {
 }
 
 .hub-player-row__info strong::before {
-  content: 'Dossier // ';
+  content: 'DOSSIER';
+  display: inline-flex;
+  margin-right: 0.5rem;
+  padding: 0.18rem 0.42rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--player-color) 16%, transparent);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--player-color) 26%, transparent);
   color: color-mix(in srgb, var(--player-color) 66%, white 12%);
-  font-size: 0.62rem;
+  font-size: 0.58rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  vertical-align: 0.16rem;
 }
 
 .hub-row-list {
@@ -9333,10 +10330,23 @@ body::after {
 @media (min-width: 720px) {
   .hub-launch-scene {
     padding-block: 1.4rem 0.9rem;
+    grid-template-columns: minmax(0, 21rem) minmax(0, 1fr);
+    column-gap: clamp(1.6rem, 5vw, 4rem);
   }
 
   .hub-launch-scene__copy {
     align-self: center;
+    width: 100%;
+    max-width: 21rem;
+  }
+
+  .hub-launch-scene__lede {
+    width: 100%;
+    max-width: 21rem;
+  }
+
+  .hub-launch-scene__centerpiece {
+    min-width: 0;
   }
 
   .hub-scene-card {
@@ -9350,18 +10360,51 @@ body::after {
 }
 
 @media (max-width: 719px) {
+  .app-shell {
+    padding-inline: 0.75rem;
+    overflow-x: hidden;
+  }
+
+  .hq-layout--mobile {
+    width: 100%;
+    max-width: 100%;
+  }
+
   .brand-mark::after {
     display: none;
   }
 
+  .page-stage,
+  .zone-stage,
+  .page,
+  .page > *,
+  .hub-launch-scene,
+  .hub-launch-scene__copy,
+  .hub-launch-scene__centerpiece {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .page-stage--mobile,
+  .zone-stage {
+    width: 100%;
+    max-width: 100%;
+  }
+
   .topbar {
     min-width: 0;
+    max-width: 100%;
+    overflow: hidden;
   }
 
   .hub-launch-scene {
     min-height: auto;
     gap: 0.72rem;
     padding-top: 0.15rem;
+  }
+
+  .hub-launch-scene__centerpiece {
+    width: 100%;
   }
 
   .hub-launch-scene::before {
@@ -9375,20 +10418,28 @@ body::after {
   }
 
   .hub-launch-scene__lede {
-    max-width: 28rem;
+    width: auto;
+    max-width: min(20rem, calc(100vw - 4rem));
     font-size: 0.92rem;
     line-height: 1.42;
+    overflow-wrap: break-word;
   }
 
   .hub-scene-card {
     gap: 0.48rem;
     padding: 0.98rem;
+    width: 100%;
+    max-width: 100%;
   }
 
   .hub-scene-card__topline,
   .hub-world-card__topline,
   .hub-games-card__topline {
     align-items: flex-start;
+  }
+
+  .hub-scene-card__topline small {
+    display: none;
   }
 
   .hub-scene-card strong,
@@ -9400,7 +10451,18 @@ body::after {
   .hub-scene-card p,
   .hub-world-card__body p,
   .hub-games-card__body p {
-    max-width: 100%;
+    max-width: 31ch;
+    overflow-wrap: break-word;
+  }
+
+  .hub-scene-card__pulse,
+  .hub-games-flagship__meta,
+  .hub-seasons-feature__meta {
+    grid-template-columns: 1fr;
+  }
+
+  .hub-scene-card__pulse article {
+    min-width: 0;
   }
 
   .hub-player-row {
