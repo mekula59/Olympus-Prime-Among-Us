@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useAuthState } from './auth/authStore';
 import { AuthCallbackPage } from './components/auth/AuthCallbackPage';
 import { OpsAccessGate } from './components/auth/OpsAccessGate';
@@ -69,6 +70,19 @@ function App() {
   const auth = useAuthState();
   const showOpsGate = route.section === 'ops' && !(auth.status === 'ready' && auth.isMember);
   const showAuthCallback = window.location.pathname.endsWith('/auth/callback');
+
+  useEffect(() => {
+    const resetScroll = () => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+      document.documentElement.scrollTop = 0;
+      document.body.scrollTop = 0;
+    };
+
+    resetScroll();
+    const frame = window.requestAnimationFrame(resetScroll);
+
+    return () => window.cancelAnimationFrame(frame);
+  }, [path]);
 
   return (
     <div className={`app-shell app-shell--${route.id}`}>

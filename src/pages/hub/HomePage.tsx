@@ -118,6 +118,7 @@ export function HomePage() {
                   <strong>{featuredNames.join(' · ') || 'Crew loading'}</strong>
                 </article>
               </div>
+              <span className="object-activation">Enter realm</span>
             </a>
           ) : null}
         </div>
@@ -166,6 +167,7 @@ export function HomePage() {
                 <strong>{world.title}</strong>
                 <p>{world.detail}</p>
               </div>
+              <span className="object-activation">{world.featured ? 'Enter realm' : 'Open gate'}</span>
             </a>
           ))}
         </div>

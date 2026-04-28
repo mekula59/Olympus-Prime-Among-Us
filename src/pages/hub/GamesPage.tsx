@@ -12,6 +12,7 @@ export function GamesPage() {
     <div className="page page--hub-games">
       <section className="hub-games-launch" aria-label="Game world selection">
         <div className="page-header">
+          <span className="page-header__marker">Realm Gate</span>
           <h1>Select a realm gate.</h1>
           <p>Each game is a place inside Olympus Prime. Among Us is active now; Leap of Legends holds its own flagship signal.</p>
         </div>
@@ -38,6 +39,7 @@ export function GamesPage() {
                 <strong>Olympus Prime’s strongest active memory realm.</strong>
               </article>
             </div>
+            <span className="object-activation">Enter realm</span>
           </a>
         ) : null}
       </section>
@@ -65,6 +67,7 @@ export function GamesPage() {
                   <span>Realm state</span>
                   <small>{game.slug === 'leap-of-legends' ? game.latestLabel : 'Core Olympus Prime realm'}</small>
                 </div>
+                <span className="object-activation">Signal gate</span>
               </article>
             ))}
           </div>
@@ -93,6 +96,7 @@ export function GamesPage() {
                 <span>Latest signal</span>
                 <small>{game.latestLabel}</small>
               </div>
+              <span className="object-activation">Open gate</span>
             </a>
           ))}
         </div>

@@ -9,6 +9,7 @@ export function YearbookPage() {
     <div className="page page--hub-yearbook">
       <section className="hub-yearbook-scene" aria-label="Yearbook opening">
         <div className="page-header">
+          <span className="page-header__marker">Archive Vault</span>
           <h1>Memory archive.</h1>
           <p>The fragments, titles, and remembered lines Olympus Prime keeps carrying forward after the night is over.</p>
         </div>
@@ -26,6 +27,7 @@ export function YearbookPage() {
               <strong>{featuredMemory.title}</strong>
               <p>{featuredMemory.note}</p>
             </div>
+            <span className="object-activation">Recover fragment</span>
           </article>
         ) : null}
       </section>
@@ -41,6 +43,7 @@ export function YearbookPage() {
               <span>{entry.title}</span>
               <strong>{entry.note}</strong>
               <p>{entry.detail}</p>
+              <span className="object-activation">Reveal memory</span>
             </article>
           ))}
         </div>

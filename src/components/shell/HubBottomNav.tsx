@@ -14,6 +14,14 @@ function isActive(routePath: string, currentPath: string): boolean {
   );
 }
 
+const travelLabels: Record<string, { marker: string; label: string }> = {
+  '/': { marker: 'MOUNT OLYMPUS', label: 'Home' },
+  '/players': { marker: 'CHAMPIONS', label: 'Players' },
+  '/seasons': { marker: 'CHRONICLES', label: 'Seasons' },
+  '/yearbook': { marker: 'VAULT', label: 'Yearbook' },
+  '/games': { marker: 'REALM GATES', label: 'Games' },
+};
+
 export function HubBottomNav({ currentPath }: HubBottomNavProps) {
   const activeIndex = Math.max(
     0,
@@ -32,17 +40,23 @@ export function HubBottomNav({ currentPath }: HubBottomNavProps) {
         }
       >
         <div className="bottom-dock__indicator" aria-hidden="true" />
-        {bottomNavRoutes.map((route) => (
-          <a
-            className={`bottom-dock__item ${isActive(route.path, currentPath) ? 'bottom-dock__item--active' : ''}`}
-            href={`#${route.path}`}
-            key={route.id}
-            aria-current={isActive(route.path, currentPath) ? 'page' : undefined}
-          >
-            <span>{isActive(route.path, currentPath) ? 'Here' : 'Move'}</span>
-            <strong>{route.shortLabel}</strong>
-          </a>
-        ))}
+        {bottomNavRoutes.map((route) => {
+          const active = isActive(route.path, currentPath);
+          const label = travelLabels[route.path] ?? { marker: 'MOVE', label: route.shortLabel };
+
+          return (
+            <a
+              className={`bottom-dock__item ${active ? 'bottom-dock__item--active' : ''}`}
+              href={`#${route.path}`}
+              key={route.id}
+              aria-current={active ? 'page' : undefined}
+            >
+              <i className="bottom-dock__node" aria-hidden="true" />
+              <span>{label.marker}</span>
+              <strong>{label.label}</strong>
+            </a>
+          );
+        })}
       </div>
     </nav>
   );

@@ -9,6 +9,7 @@ export function SeasonsPage() {
     <div className="page page--hub-seasons">
       <section className="hub-seasons-scene" aria-label="Current season">
         <div className="page-header">
+          <span className="page-header__marker">Era Timeline</span>
           <h1>Eras.</h1>
           <p>The current chapter of Olympus Prime, and the earlier eras that shaped the world into what it is now.</p>
         </div>
@@ -39,6 +40,7 @@ export function SeasonsPage() {
                 <strong>{activeSeason.featuredGame}</strong>
               </article>
             </div>
+            <span className="object-activation">Enter era</span>
           </a>
         ) : null}
       </section>
@@ -67,6 +69,7 @@ export function SeasonsPage() {
                   <small>{season.sessionCount} sessions</small>
                 </div>
               </div>
+              <span className="object-activation">Open chapter</span>
             </a>
           ))}
         </div>

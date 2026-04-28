@@ -27,16 +27,19 @@ export function OpsHomePage() {
             <span>New record</span>
             <strong>Stage a fresh gamesnight entry</strong>
             <p>Open a lightweight command surface for attendance, recap prep, and publish readiness.</p>
+            <span className="object-activation">Activate lane</span>
           </a>
           <a className="hub-feature hub-feature--warm ops-command-lane ops-command-lane--live" href={`#/ops/sessions/${currentHubOpsSessionId}`}>
             <span>Active draft</span>
             <strong>Return to the live record</strong>
             <p>Jump back into the general command surface for the active gamesnight entry.</p>
+            <span className="object-activation">Activate lane</span>
           </a>
           <a className="hub-feature hub-feature--hot ops-command-lane ops-command-lane--realm" href={`#/ops/among-us/sessions/${currentAmongUsOpsSessionId}`}>
             <span>Among Us engine</span>
             <strong>Enter the flagship realm controls</strong>
             <p>Use the flagship flow when a session needs deeper logging and report control.</p>
+            <span className="object-activation">Activate lane</span>
           </a>
         </div>
       </ModuleFrame>

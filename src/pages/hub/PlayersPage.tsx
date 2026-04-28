@@ -7,6 +7,7 @@ export function PlayersPage() {
   return (
     <div className="page page--hub-players">
       <div className="page-header">
+        <span className="page-header__marker">Dossier Index</span>
         <h1>Character dossiers.</h1>
         <p>Open the champion files: who keeps showing up, what the room remembers, and where their history lives.</p>
       </div>
@@ -36,6 +37,7 @@ export function PlayersPage() {
                 <strong>{player.lastSeen}</strong>
               </div>
             </div>
+            <span className="object-activation">Open file</span>
           </a>
         ))}
       </div>

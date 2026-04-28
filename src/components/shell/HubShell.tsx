@@ -46,6 +46,10 @@ export function HubShell({ currentPath, currentRoute, moduleHeader, children }: 
           className={`page-stage page-stage--mobile page-stage--${currentRoute.shell} zone-stage zone-stage--${currentRoute.section} zone-stage--${currentRoute.id}`}
           key={currentPath}
         >
+          <div className="zone-entry" aria-hidden="true">
+            <span>{sectionMarkers[currentRoute.section]}</span>
+            <strong>{currentRoute.stateLabel}</strong>
+          </div>
           {children}
         </main>
       </div>
