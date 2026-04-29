@@ -23,15 +23,15 @@ export function HubShell({ currentPath, currentRoute, moduleHeader, children }: 
       >
         <header className={`topbar topbar--${currentRoute.section}`}>
           <div className="topbar__identity">
-            <a className="brand-mark" href="#/" aria-label="Olympus Prime Gamesnight Hub">
+            <a className="brand-mark" href="#/" aria-label="Olympus Prime World Layer">
               <img src="/brand/selected/olympus-prime-mark.svg" alt="" />
               <span>
-                Olympus Prime
-                <strong>Gamesnight Hub</strong>
+                <strong>Olympus Prime</strong>
+                <small>World Layer</small>
               </span>
             </a>
 
-            <p className="topbar__subcopy">Discord runs the night. This HUD keeps the world readable after it.</p>
+            <p className="topbar__subcopy">Realms, dossiers, eras, and archives held in one live layer.</p>
           </div>
 
           <div className="topbar__status" aria-label="Current layer">

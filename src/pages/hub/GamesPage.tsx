@@ -17,62 +17,54 @@ export function GamesPage() {
           <p>Each game is a place inside Olympus Prime. Among Us is active now; Leap of Legends holds its own flagship signal.</p>
         </div>
 
-        {flagshipGame ? (
-          <a className="hub-games-flagship" href={flagshipGame.href ?? '#/games'}>
-            <div className="hub-games-flagship__topline">
-              <span>Active flagship realm</span>
-              <small>Gate open</small>
-            </div>
+        <div className="hub-games-flagship-grid">
+          {flagshipGame ? (
+            <a className="hub-games-flagship" href={flagshipGame.href ?? '#/games'}>
+              <div className="hub-games-flagship__topline">
+                <span>Active flagship realm</span>
+                <small>Gate open</small>
+              </div>
 
-            <div className="hub-games-flagship__body">
-              <strong>{flagshipGame.name}</strong>
-              <p>{flagshipGame.summary}</p>
-            </div>
+              <div className="hub-games-flagship__body">
+                <strong>{flagshipGame.name}</strong>
+                <p>{flagshipGame.summary}</p>
+              </div>
 
-            <div className="hub-games-flagship__meta">
-              <article>
-                <span>Latest signal</span>
-                <strong>{flagshipGame.latestLabel}</strong>
-              </article>
-              <article>
-                <span>Realm pull</span>
-                <strong>Olympus Prime’s strongest active memory realm.</strong>
-              </article>
-            </div>
-            <span className="object-activation">Enter realm</span>
-          </a>
-        ) : null}
+              <div className="hub-games-flagship__meta">
+                <article>
+                  <span>Latest signal</span>
+                  <strong>{flagshipGame.latestLabel}</strong>
+                </article>
+                <article>
+                  <span>Realm pull</span>
+                  <strong>Olympus Prime’s strongest active memory realm.</strong>
+                </article>
+              </div>
+              <span className="object-activation">Enter realm</span>
+            </a>
+          ) : null}
+
+          {supportingFlagships.map((game) => (
+            <article className={`hub-games-card hub-games-card--flagship hub-games-card--${game.slug}`} key={game.id}>
+              <div className="hub-games-card__topline">
+                <span>{game.slug === 'leap-of-legends' ? 'Parallel flagship realm' : 'Flagship realm'}</span>
+                <small>{game.slug === 'leap-of-legends' ? 'Momentum gate' : game.latestLabel}</small>
+              </div>
+
+              <div className="hub-games-card__body">
+                <strong>{game.name}</strong>
+                <p>{game.summary}</p>
+              </div>
+
+              <div className="hub-games-card__meta">
+                <span>Realm state</span>
+                <small>{game.slug === 'leap-of-legends' ? game.latestLabel : 'Core Olympus Prime realm'}</small>
+              </div>
+              <span className="object-activation">Signal gate</span>
+            </article>
+          ))}
+        </div>
       </section>
-
-      {supportingFlagships.length ? (
-        <section className="hub-games-secondary" aria-label="Other flagship worlds">
-          <div className="hub-home-section__header">
-            <span>Parallel flagship realms</span>
-          </div>
-
-          <div className="hub-games-secondary__stack">
-            {supportingFlagships.map((game) => (
-              <article className={`hub-games-card hub-games-card--flagship hub-games-card--${game.slug}`} key={game.id}>
-                <div className="hub-games-card__topline">
-                  <span>{game.slug === 'leap-of-legends' ? 'Parallel flagship realm' : 'Flagship realm'}</span>
-                  <small>{game.slug === 'leap-of-legends' ? 'Momentum gate' : game.latestLabel}</small>
-                </div>
-
-                <div className="hub-games-card__body">
-                  <strong>{game.name}</strong>
-                  <p>{game.summary}</p>
-                </div>
-
-                <div className="hub-games-card__meta">
-                  <span>Realm state</span>
-                  <small>{game.slug === 'leap-of-legends' ? game.latestLabel : 'Core Olympus Prime realm'}</small>
-                </div>
-                <span className="object-activation">Signal gate</span>
-              </article>
-            ))}
-          </div>
-        </section>
-      ) : null}
 
       <section className="hub-games-secondary" aria-label="Other worlds to enter">
         <div className="hub-home-section__header">

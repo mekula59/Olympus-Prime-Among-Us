@@ -23,18 +23,16 @@ const travelLabels: Record<string, { marker: string; label: string }> = {
 };
 
 export function HubBottomNav({ currentPath }: HubBottomNavProps) {
-  const activeIndex = Math.max(
-    0,
-    bottomNavRoutes.findIndex((route) => isActive(route.path, currentPath)),
-  );
+  const activeIndex = bottomNavRoutes.findIndex((route) => isActive(route.path, currentPath));
+  const hasPublicDockMatch = activeIndex >= 0;
 
   return (
     <nav className="bottom-dock" aria-label="Primary navigation">
       <div
-        className="bottom-dock__scroll"
+        className={`bottom-dock__scroll ${hasPublicDockMatch ? '' : 'bottom-dock__scroll--unmapped'}`}
         style={
           {
-            '--active-index': activeIndex,
+            '--active-index': hasPublicDockMatch ? activeIndex : 0,
             '--total-items': bottomNavRoutes.length,
           } as CSSProperties
         }

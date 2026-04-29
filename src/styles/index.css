@@ -6045,6 +6045,898 @@ body::after {
   transform: translateY(0);
 }
 
+/* Final pre-commit authority: make the five audit fixes survive earlier theme layers. */
+.bottom-dock__scroll--unmapped .bottom-dock__indicator {
+  opacity: 0 !important;
+  transform: scaleX(0.82) !important;
+}
+
+.bottom-dock__scroll--unmapped .bottom-dock__item {
+  opacity: 0.78;
+}
+
+.zone-entry {
+  top: 0.65rem !important;
+  right: 0.95rem !important;
+  left: auto !important;
+  width: min(13.5rem, calc(100% - 1.9rem)) !important;
+  padding: 0.42rem 0.62rem !important;
+  border-radius: 999px !important;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--zone-entry-accent, var(--accent)) 18%, transparent), transparent 68%),
+    rgba(7, 10, 18, 0.42) !important;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--zone-entry-accent, var(--accent)) 14%, transparent),
+    0 8px 24px rgba(0, 0, 0, 0.14) !important;
+  opacity: 0 !important;
+  transform: translateY(-0.35rem) scale(0.99) !important;
+  pointer-events: none !important;
+  animation: zone-pill-arrive-final 820ms cubic-bezier(0.2, 0.9, 0.2, 1) both !important;
+}
+
+.zone-entry span,
+.zone-entry strong {
+  font-size: 0.64rem !important;
+  line-height: 1 !important;
+}
+
+@keyframes zone-pill-arrive-final {
+  0% {
+    opacity: 0;
+    transform: translateY(-0.35rem) scale(0.99);
+  }
+
+  20%,
+  46% {
+    opacity: 0.58;
+    transform: translateY(0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-0.18rem) scale(0.99);
+  }
+}
+
+.hub-games-flagship-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.hub-games-flagship-grid .hub-games-card--leap-of-legends {
+  min-height: 9.6rem;
+}
+
+.hub-games-flagship-grid .hub-games-card--leap-of-legends::after {
+  content: '';
+  position: absolute;
+  inset: 0.75rem;
+  border-radius: inherit;
+  border: 1px solid rgba(124, 224, 255, 0.1);
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.hub-yearbook-feature::before,
+.hub-yearbook-fragment::before,
+.hub-seasons-feature::after,
+.hub-season-chapter::after {
+  content: '';
+  position: absolute;
+  inset: 0.72rem;
+  border-radius: inherit;
+  border: 1px solid color-mix(in srgb, var(--accent-secondary, var(--accent)) 18%, transparent);
+  opacity: 0;
+  transform: scale(0.985);
+  pointer-events: none;
+  transition: opacity 170ms ease, transform 190ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.hub-season-chapter::after {
+  inset: 0.42rem;
+}
+
+.hub-yearbook-feature:hover::before,
+.hub-yearbook-feature:focus-visible::before,
+.hub-yearbook-feature:active::before,
+.hub-yearbook-fragment:hover::before,
+.hub-yearbook-fragment:focus-visible::before,
+.hub-yearbook-fragment:active::before,
+.hub-seasons-feature:hover::after,
+.hub-seasons-feature:focus-visible::after,
+.hub-seasons-feature:active::after,
+.hub-season-chapter:hover::after,
+.hub-season-chapter:focus-visible::after,
+.hub-season-chapter:active::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.hub-yearbook-feature:focus-visible,
+.hub-yearbook-fragment:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent-secondary, var(--accent)) 44%, transparent);
+  outline-offset: 3px;
+}
+
+.hub-yearbook-feature:hover blockquote,
+.hub-yearbook-feature:focus-visible blockquote,
+.hub-yearbook-feature:active blockquote,
+.hub-yearbook-fragment:hover strong,
+.hub-yearbook-fragment:focus-visible strong,
+.hub-yearbook-fragment:active strong {
+  color: color-mix(in srgb, var(--text) 82%, var(--accent-secondary, var(--accent)));
+}
+
+.hub-seasons-feature__topline,
+.hub-season-chapter__topline {
+  transition: transform 170ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.hub-seasons-feature:hover .hub-seasons-feature__topline,
+.hub-seasons-feature:focus-visible .hub-seasons-feature__topline,
+.hub-seasons-feature:active .hub-seasons-feature__topline,
+.hub-season-chapter:hover .hub-season-chapter__topline,
+.hub-season-chapter:focus-visible .hub-season-chapter__topline,
+.hub-season-chapter:active .hub-season-chapter__topline {
+  transform: translateX(0.18rem);
+}
+
+@media (min-width: 900px) {
+  .hub-games-flagship-grid {
+    grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.85fr);
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 719px) {
+  .zone-entry {
+    top: 0.48rem !important;
+    right: 0.72rem !important;
+    width: min(11.5rem, calc(100% - 1.44rem)) !important;
+    padding: 0.34rem 0.5rem !important;
+  }
+
+  .page--hub-home .hub-launch-scene {
+    gap: 0.52rem !important;
+    padding-top: 0 !important;
+  }
+
+  .page--hub-home .hub-launch-scene__eyebrow img {
+    width: min(10.4rem, 54vw) !important;
+  }
+
+  .page--hub-home .hub-launch-scene h1 {
+    max-width: 7.2ch !important;
+    font-size: clamp(2.12rem, 10.6vw, 3.05rem) !important;
+    line-height: 0.94 !important;
+  }
+
+  .page--hub-home .hub-launch-scene__lede {
+    max-width: min(19rem, calc(100vw - 3.5rem)) !important;
+    font-size: 0.88rem !important;
+    line-height: 1.38 !important;
+  }
+
+  .page--hub-home .hub-launch-scene__action {
+    min-height: 2.68rem !important;
+    padding: 0.68rem 0.94rem !important;
+    font-size: 0.82rem !important;
+  }
+
+  .page--hub-home .hub-scene-card {
+    margin-top: 0.06rem !important;
+    padding: 0.84rem !important;
+  }
+
+  .page--hub-home .hub-scene-card strong {
+    font-size: clamp(1.42rem, 6.4vw, 2.15rem) !important;
+    line-height: 0.98 !important;
+  }
+
+  .hub-games-flagship-grid {
+    gap: 0.58rem;
+  }
+
+  .hub-games-flagship-grid .hub-games-card--leap-of-legends {
+    min-height: 8.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zone-entry {
+    animation: none !important;
+    opacity: 0 !important;
+  }
+
+  .hub-yearbook-feature::before,
+  .hub-yearbook-fragment::before,
+  .hub-seasons-feature::after,
+  .hub-season-chapter::after,
+  .hub-seasons-feature__topline,
+  .hub-season-chapter__topline {
+    transition: none !important;
+  }
+}
+
+/* Dock readability authority: markers should feel like travel coordinates, not broken words. */
+.bottom-dock__item span {
+  max-width: none !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  hyphens: none !important;
+  white-space: nowrap !important;
+}
+
+@media (max-width: 719px) {
+  .bottom-dock__item span {
+    font-size: clamp(0.42rem, 1.55vw, 0.56rem) !important;
+    letter-spacing: 0.055em !important;
+    line-height: 1.12 !important;
+  }
+}
+
+/* Pre-commit audit fixes: unmapped dock, softer entry, tighter gateway, stronger world objects. */
+.bottom-dock__scroll--unmapped .bottom-dock__indicator {
+  opacity: 0;
+  transform: scaleX(0.82);
+}
+
+.bottom-dock__scroll--unmapped .bottom-dock__item {
+  opacity: 0.78;
+}
+
+.zone-entry {
+  top: 0.85rem;
+  right: 1rem;
+  left: auto;
+  width: min(16rem, calc(100% - 2rem));
+  padding: 0.54rem 0.72rem;
+  border-radius: 999px;
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--zone-entry-accent, var(--accent)) 18%, transparent), transparent 68%),
+    rgba(7, 10, 18, 0.52);
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--zone-entry-accent, var(--accent)) 18%, transparent),
+    0 10px 28px rgba(0, 0, 0, 0.18);
+  opacity: 0;
+  transform: translateY(-0.45rem) scale(0.985);
+  pointer-events: none;
+  animation: zone-pill-arrive 980ms cubic-bezier(0.2, 0.9, 0.2, 1) both;
+}
+
+.zone-entry span,
+.zone-entry strong {
+  font-size: 0.68rem;
+  line-height: 1;
+}
+
+@keyframes zone-pill-arrive {
+  0% {
+    opacity: 0;
+    transform: translateY(-0.45rem) scale(0.985);
+  }
+
+  22%,
+  58% {
+    opacity: 0.82;
+    transform: translateY(0) scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-0.2rem) scale(0.99);
+  }
+}
+
+.hub-games-flagship-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.hub-games-flagship-grid .hub-games-card--leap-of-legends {
+  min-height: 9.6rem;
+}
+
+.hub-games-flagship-grid .hub-games-card--leap-of-legends::after {
+  content: '';
+  position: absolute;
+  inset: 0.75rem;
+  border-radius: inherit;
+  border: 1px solid rgba(124, 224, 255, 0.1);
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.hub-yearbook-feature::before,
+.hub-yearbook-fragment::before,
+.hub-seasons-feature::after,
+.hub-season-chapter::after {
+  content: '';
+  position: absolute;
+  inset: 0.72rem;
+  border-radius: inherit;
+  border: 1px solid color-mix(in srgb, var(--accent-secondary, var(--accent)) 18%, transparent);
+  opacity: 0;
+  transform: scale(0.985);
+  pointer-events: none;
+  transition: opacity 170ms ease, transform 190ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.hub-season-chapter::after {
+  inset: 0.42rem;
+}
+
+.hub-yearbook-feature:hover::before,
+.hub-yearbook-feature:focus-visible::before,
+.hub-yearbook-feature:active::before,
+.hub-yearbook-fragment:hover::before,
+.hub-yearbook-fragment:focus-visible::before,
+.hub-yearbook-fragment:active::before,
+.hub-seasons-feature:hover::after,
+.hub-seasons-feature:focus-visible::after,
+.hub-seasons-feature:active::after,
+.hub-season-chapter:hover::after,
+.hub-season-chapter:focus-visible::after,
+.hub-season-chapter:active::after {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.hub-yearbook-feature:focus-visible,
+.hub-yearbook-fragment:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--accent-secondary, var(--accent)) 44%, transparent);
+  outline-offset: 3px;
+}
+
+.hub-yearbook-feature:hover blockquote,
+.hub-yearbook-feature:focus-visible blockquote,
+.hub-yearbook-feature:active blockquote,
+.hub-yearbook-fragment:hover strong,
+.hub-yearbook-fragment:focus-visible strong,
+.hub-yearbook-fragment:active strong {
+  color: color-mix(in srgb, var(--text) 82%, var(--accent-secondary, var(--accent)));
+}
+
+.hub-seasons-feature:hover .hub-seasons-feature__topline,
+.hub-seasons-feature:focus-visible .hub-seasons-feature__topline,
+.hub-seasons-feature:active .hub-seasons-feature__topline,
+.hub-season-chapter:hover .hub-season-chapter__topline,
+.hub-season-chapter:focus-visible .hub-season-chapter__topline,
+.hub-season-chapter:active .hub-season-chapter__topline {
+  transform: translateX(0.18rem);
+}
+
+.hub-seasons-feature__topline,
+.hub-season-chapter__topline {
+  transition: transform 170ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+@media (min-width: 900px) {
+  .hub-games-flagship-grid {
+    grid-template-columns: minmax(0, 1.35fr) minmax(18rem, 0.85fr);
+    align-items: stretch;
+  }
+}
+
+@media (max-width: 719px) {
+  .zone-entry {
+    top: 0.55rem;
+    right: 0.75rem;
+    width: min(12.5rem, calc(100% - 1.5rem));
+    padding: 0.42rem 0.56rem;
+  }
+
+  .page--hub-home .hub-launch-scene {
+    gap: 0.52rem;
+    padding-top: 0;
+  }
+
+  .page--hub-home .hub-launch-scene__eyebrow img {
+    width: min(10.4rem, 54vw);
+  }
+
+  .page--hub-home .hub-launch-scene h1 {
+    max-width: 7.2ch;
+    font-size: clamp(2.12rem, 10.6vw, 3.05rem);
+    line-height: 0.94;
+  }
+
+  .page--hub-home .hub-launch-scene__lede {
+    max-width: min(19rem, calc(100vw - 3.5rem));
+    font-size: 0.88rem;
+    line-height: 1.38;
+  }
+
+  .page--hub-home .hub-launch-scene__action {
+    min-height: 2.68rem;
+    padding: 0.68rem 0.94rem;
+    font-size: 0.82rem;
+  }
+
+  .page--hub-home .hub-scene-card {
+    margin-top: 0.06rem;
+    padding: 0.84rem;
+  }
+
+  .page--hub-home .hub-scene-card strong {
+    font-size: clamp(1.42rem, 6.4vw, 2.15rem);
+    line-height: 0.98;
+  }
+
+  .hub-games-flagship-grid {
+    gap: 0.58rem;
+  }
+
+  .hub-games-flagship-grid .hub-games-card--leap-of-legends {
+    min-height: 8.4rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zone-entry {
+    animation: none !important;
+    opacity: 0;
+  }
+
+  .hub-yearbook-feature::before,
+  .hub-yearbook-fragment::before,
+  .hub-seasons-feature::after,
+  .hub-season-chapter::after,
+  .hub-seasons-feature__topline,
+  .hub-season-chapter__topline {
+    transition: none !important;
+  }
+}
+
+.bottom-dock__item span {
+  max-width: 6.5rem;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  white-space: nowrap;
+  text-wrap: balance;
+}
+
+@media (max-width: 719px) {
+  .bottom-dock__item span {
+    max-width: none;
+    font-size: clamp(0.42rem, 1.55vw, 0.56rem);
+    letter-spacing: 0.055em;
+    line-height: 1.12;
+  }
+}
+
+/* === Art-direction pass: staged HUD, composed hero, reactive world objects === */
+.topbar {
+  align-items: center;
+  gap: clamp(0.75rem, 2.4vw, 1.2rem);
+  padding: clamp(0.42rem, 1.2vw, 0.7rem);
+  border-radius: 1.15rem 1.15rem 1.55rem 1.15rem;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.018) 58%, color-mix(in srgb, var(--accent) 8%, transparent)),
+    rgba(6, 9, 18, 0.5);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.055),
+    0 14px 34px rgba(0, 0, 0, 0.22);
+}
+
+.topbar::before {
+  inset: auto 1.05rem 0.52rem 5.3rem;
+  height: 1px;
+  background: linear-gradient(90deg, color-mix(in srgb, var(--accent) 62%, white 10%), transparent);
+  opacity: 0.62;
+}
+
+.brand-mark {
+  gap: 0.78rem;
+  min-width: min(100%, 22rem);
+  padding: 0.46rem 0.72rem 0.46rem 0.5rem;
+  border-radius: 0.9rem 1.55rem 0.9rem 1.18rem;
+  transform-origin: left center;
+  transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+.brand-mark:hover,
+.brand-mark:focus-visible {
+  transform: translateY(-1px);
+  background:
+    linear-gradient(90deg, color-mix(in srgb, var(--accent) 14%, transparent), rgba(255, 255, 255, 0.04) 58%),
+    rgba(255, 255, 255, 0.034);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 18%, rgba(255, 255, 255, 0.06));
+}
+
+.brand-mark img {
+  width: clamp(2.2rem, 5vw, 2.85rem);
+  height: clamp(2.2rem, 5vw, 2.85rem);
+}
+
+.brand-mark span {
+  gap: 0.04rem;
+  min-width: 0;
+  color: var(--text);
+}
+
+.brand-mark strong {
+  font-family: Trebuchet MS, Avenir Next, Segoe UI, sans-serif;
+  font-size: clamp(0.98rem, 2.5vw, 1.22rem);
+  font-weight: 900;
+  letter-spacing: 0.075em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.brand-mark small {
+  color: color-mix(in srgb, var(--accent-secondary) 72%, white);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.16em;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.brand-mark::after {
+  content: 'Layer live';
+  right: 0.58rem;
+  bottom: -0.5rem;
+  color: color-mix(in srgb, var(--accent-secondary) 78%, white);
+}
+
+.topbar__subcopy {
+  max-width: 34rem;
+  margin-top: 0.34rem;
+  color: color-mix(in srgb, var(--muted) 88%, white);
+  font-size: clamp(0.78rem, 1.8vw, 0.92rem);
+  line-height: 1.35;
+}
+
+.topbar__status {
+  min-width: 7.8rem;
+  padding: 0.64rem 0.72rem;
+}
+
+.topbar__status span,
+.topbar__status strong {
+  padding-left: 0.86rem;
+}
+
+.topbar__status strong {
+  font-size: 0.95rem;
+  letter-spacing: 0.01em;
+}
+
+.page-stage {
+  padding: clamp(1.05rem, 3.2vw, 1.75rem);
+}
+
+.page-header {
+  gap: 0.58rem;
+  margin-bottom: clamp(0.9rem, 2.5vw, 1.25rem);
+}
+
+.page-header__marker,
+.hub-home-section__header span,
+.section-kicker {
+  transform-origin: left center;
+}
+
+.page-header h1,
+.hub-launch-scene h1 {
+  text-wrap: balance;
+  letter-spacing: -0.045em;
+}
+
+.page-header p,
+.hub-launch-scene__lede {
+  text-wrap: pretty;
+}
+
+.hub-launch-scene {
+  min-height: min(68vh, 39rem);
+  align-items: center;
+  isolation: isolate;
+}
+
+.hub-launch-scene::before {
+  inset: 7% 3% auto auto;
+  width: min(42vw, 18rem);
+  opacity: 0.48;
+  transform: rotate(-9deg);
+}
+
+.hub-launch-scene__eyebrow--brand {
+  width: min(13.8rem, 68vw);
+  margin-bottom: clamp(0.4rem, 1.5vw, 0.75rem);
+  opacity: 0.95;
+}
+
+.hub-launch-scene h1 {
+  max-width: 8.2ch;
+  font-size: clamp(3.05rem, 8vw, 5.45rem);
+  line-height: 0.86;
+}
+
+.hub-launch-scene__lede {
+  max-width: 27rem;
+  margin-top: 0.95rem;
+  color: color-mix(in srgb, var(--muted) 86%, white);
+  font-size: clamp(0.96rem, 2vw, 1.08rem);
+}
+
+.hub-launch-scene__action {
+  margin-top: 1rem;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.hub-launch-scene__action:hover,
+.hub-launch-scene__action:focus-visible {
+  transform: translateY(-0.18rem);
+  box-shadow:
+    0 12px 26px color-mix(in srgb, var(--accent-secondary) 14%, transparent),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.16);
+}
+
+.hub-scene-card {
+  position: relative;
+  min-height: clamp(18rem, 42vw, 23rem);
+  padding: clamp(1rem, 3vw, 1.35rem);
+  align-content: space-between;
+}
+
+.hub-scene-card > strong {
+  max-width: 10ch;
+  font-size: clamp(1.75rem, 4.6vw, 2.55rem);
+  line-height: 0.94;
+  text-wrap: balance;
+}
+
+.hub-scene-card p {
+  max-width: 31rem;
+}
+
+.bottom-dock {
+  padding-inline: clamp(0.7rem, 2vw, 1rem);
+}
+
+.bottom-dock__scroll {
+  border-radius: 1rem 1rem 1.45rem 1.45rem;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 -10px 34px rgba(0, 0, 0, 0.32);
+}
+
+.bottom-dock__item {
+  min-height: 3.75rem;
+  transition: transform 170ms ease, color 170ms ease, opacity 170ms ease;
+}
+
+.bottom-dock__item:hover,
+.bottom-dock__item:focus-visible {
+  transform: translateY(-0.28rem);
+}
+
+.bottom-dock__item:active {
+  transform: translateY(0.04rem) scale(0.985);
+}
+
+.bottom-dock__item span {
+  max-width: 12ch;
+  margin-inline: auto;
+  overflow-wrap: anywhere;
+  text-align: center;
+  line-height: 1.05;
+}
+
+.bottom-dock__item strong {
+  font-size: 0.84rem;
+}
+
+.bottom-dock__item--active strong {
+  color: var(--text);
+}
+
+.bottom-dock__item--active .bottom-dock__node {
+  transform: scale(1.12);
+}
+
+.hub-world-card,
+.hub-games-flagship,
+.hub-games-card,
+.hub-player-row,
+.hub-seasons-feature,
+.hub-season-chapter,
+.hub-yearbook-feature,
+.hub-yearbook-fragment,
+.page--ops-home .ops-command-lane,
+.ops-button,
+.ops-person-pill,
+.ops-list-item {
+  transition:
+    transform 180ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 180ms ease,
+    border-color 180ms ease,
+    background 180ms ease,
+    opacity 180ms ease;
+}
+
+.hub-world-card:hover,
+.hub-world-card:focus-visible,
+.hub-games-flagship:hover,
+.hub-games-flagship:focus-visible,
+.hub-games-card:hover,
+.hub-games-card:focus-visible,
+.hub-player-row:hover,
+.hub-player-row:focus-visible,
+.hub-seasons-feature:hover,
+.hub-seasons-feature:focus-visible,
+.hub-season-chapter:hover,
+.hub-season-chapter:focus-visible,
+.hub-yearbook-feature:hover,
+.hub-yearbook-feature:focus-within,
+.hub-yearbook-fragment:hover,
+.hub-yearbook-fragment:focus-within,
+.page--ops-home .ops-command-lane:hover,
+.page--ops-home .ops-command-lane:focus-visible {
+  transform: translateY(-0.32rem) scale(1.012);
+  border-color: color-mix(in srgb, var(--accent) 24%, rgba(255, 255, 255, 0.12));
+  box-shadow:
+    inset 0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent),
+    0 20px 42px rgba(0, 0, 0, 0.28);
+}
+
+.hub-world-card:active,
+.hub-games-flagship:active,
+.hub-games-card:active,
+.hub-player-row:active,
+.hub-seasons-feature:active,
+.hub-season-chapter:active,
+.hub-yearbook-feature:active,
+.hub-yearbook-fragment:active,
+.page--ops-home .ops-command-lane:active {
+  transform: translateY(0.05rem) scale(0.99);
+}
+
+.object-activation {
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.09),
+    0 10px 22px rgba(0, 0, 0, 0.24);
+}
+
+.zone-entry {
+  top: clamp(0.6rem, 1.8vw, 0.95rem);
+  min-height: 4rem;
+  animation-duration: 980ms;
+}
+
+.zone-entry strong {
+  letter-spacing: -0.025em;
+}
+
+.ops-command-lanes {
+  gap: 0.58rem;
+}
+
+.page--ops-home .ops-command-lane {
+  min-height: 6.4rem;
+  padding-block: 0.9rem;
+}
+
+@media (min-width: 720px) {
+  .topbar {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .page--hub-home .hub-launch-scene {
+    grid-template-columns: minmax(16rem, 0.85fr) minmax(22rem, 1.15fr);
+  }
+
+  .page--hub-games .hub-games-launch {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .page--hub-players .hub-row-list,
+  .hub-seasons-archive__stack,
+  .hub-yearbook-fragments__stack {
+    gap: 0.52rem;
+  }
+}
+
+@media (max-width: 719px) {
+  .topbar {
+    padding: 0.54rem;
+  }
+
+  .brand-mark {
+    min-width: 0;
+    padding-right: 0.58rem;
+  }
+
+  .brand-mark strong {
+    font-size: 0.94rem;
+    letter-spacing: 0.06em;
+  }
+
+  .brand-mark small {
+    font-size: 0.58rem;
+    letter-spacing: 0.13em;
+  }
+
+  .topbar__subcopy {
+    max-width: 18rem;
+    margin-top: 0.24rem;
+    font-size: 0.74rem;
+  }
+
+  .page-stage {
+    padding: 0.95rem;
+  }
+
+  .hub-launch-scene {
+    gap: 0.95rem;
+    padding-top: 0.3rem;
+  }
+
+  .hub-launch-scene__eyebrow--brand {
+    width: min(11rem, 64vw);
+  }
+
+  .hub-launch-scene h1 {
+    max-width: 8ch;
+    font-size: clamp(2.55rem, 12vw, 3.45rem);
+  }
+
+  .hub-launch-scene__lede {
+    max-width: 27rem;
+    font-size: 0.9rem;
+  }
+
+  .hub-scene-card {
+    min-height: 15.5rem;
+  }
+
+  .bottom-dock__scroll {
+    gap: 0.08rem;
+    padding-inline: 0.18rem;
+  }
+
+  .bottom-dock__item {
+    min-width: 4.85rem;
+    min-height: 3.55rem;
+    padding-inline: 0.22rem;
+  }
+
+  .bottom-dock__item span {
+    max-width: 9ch;
+    font-size: 0.48rem;
+  }
+
+  .bottom-dock__item strong {
+    font-size: 0.75rem;
+  }
+
+  .object-activation {
+    right: 0.5rem;
+    bottom: 0.5rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-mark,
+  .hub-launch-scene__action,
+  .bottom-dock__item,
+  .hub-world-card,
+  .hub-games-flagship,
+  .hub-games-card,
+  .hub-player-row,
+  .hub-seasons-feature,
+  .hub-season-chapter,
+  .hub-yearbook-feature,
+  .hub-yearbook-fragment,
+  .page--ops-home .ops-command-lane {
+    transition: none;
+  }
+}
+
 @media (max-width: 719px) {
   .object-activation {
     right: 0.54rem;

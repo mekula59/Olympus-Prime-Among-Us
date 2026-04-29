@@ -15,7 +15,7 @@ export function YearbookPage() {
         </div>
 
         {featuredMemory ? (
-          <article className={`hub-yearbook-feature hub-yearbook-feature--${featuredMemory.tone}`}>
+          <article className={`hub-yearbook-feature hub-yearbook-feature--${featuredMemory.tone}`} tabIndex={0}>
             <div className="hub-yearbook-feature__topline">
               <span>Recovered fragment</span>
               <small>Held in archive</small>
@@ -39,7 +39,7 @@ export function YearbookPage() {
 
         <div className="hub-yearbook-fragments__stack">
           {memoryFragments.map((entry) => (
-            <article className={`hub-yearbook-fragment hub-yearbook-fragment--${entry.tone}`} key={entry.title}>
+            <article className={`hub-yearbook-fragment hub-yearbook-fragment--${entry.tone}`} key={entry.title} tabIndex={0}>
               <span>{entry.title}</span>
               <strong>{entry.note}</strong>
               <p>{entry.detail}</p>
