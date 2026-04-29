@@ -31,7 +31,7 @@ export function HomePage() {
       title: 'Leap of Legends',
       detail:
         leapWorld?.summary ??
-        'A flagship Olympus Prime world for momentum swings, remembered finishes, and chapter-level nights.',
+        'The comeback gate: big swings, last-second saves, and plays the room keeps replaying.',
       href: leapWorld?.href ?? '#/games',
       badge: 'Flagship realm',
       state: leapWorld?.latestLabel ?? 'Realm forming',
@@ -91,10 +91,10 @@ export function HomePage() {
           </p>
           <h1>Enter Olympus Prime.</h1>
           <p className="hub-launch-scene__lede">
-            A playable memory layer for the nights that start in Discord: realms to enter, dossiers to open, eras to revisit, and fragments that keep glowing.
+            The night starts in Discord. Olympus Prime keeps the receipts: realms, rivals, dossiers, and the moments nobody lets die.
           </p>
           <a className="hub-launch-scene__action" href={primaryFeature?.href ?? '#/games/among-us/reports'}>
-            Open active realm
+            Enter the live realm
           </a>
         </div>
 

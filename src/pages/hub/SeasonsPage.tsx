@@ -10,8 +10,8 @@ export function SeasonsPage() {
       <section className="hub-seasons-scene" aria-label="Current season">
         <div className="page-header">
           <span className="page-header__marker">Era Timeline</span>
-          <h1>Eras.</h1>
-          <p>The current chapter of Olympus Prime, and the earlier eras that shaped the world into what it is now.</p>
+          <h1>Chronicles of the room.</h1>
+          <p>Every season leaves a mark: who ran the room, what changed, and which nights still get brought up.</p>
         </div>
 
         {activeSeason ? (

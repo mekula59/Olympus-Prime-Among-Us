@@ -11,8 +11,8 @@ export function OpsHomePage() {
     <div className="page page--ops-home">
       <PageIntro
         eyebrow="Command room"
-        title="Control the record without taking over the night."
-        lede="Discord stays live for planning and chatter. Ops is the command layer for staging a session, tuning the record, and opening deeper realm engines only when needed."
+        title="Run the room without killing the vibe."
+        lede="Discord stays loud. Ops keeps the night clean: set up the session, lock the recap, and open the deeper tools only when the room needs them."
         tags={['Host console', 'Record control', 'Transmit ready']}
       />
 
@@ -22,16 +22,16 @@ export function OpsHomePage() {
         lede="Start broad, then enter a realm engine only when the session needs deeper logging."
         className="ops-home-card"
       >
+        <a className="ops-primary-action" href="#/ops/sessions/new">
+          <span>Primary action</span>
+          <strong>Start New Session</strong>
+          <p>Create a fresh Gamesnight record and stage it for publishing.</p>
+        </a>
+
         <div className="hub-feature-stack ops-command-lanes">
-          <a className="hub-feature hub-feature--cool ops-command-lane ops-command-lane--stage" href="#/ops/sessions/new">
-            <span>New record</span>
-            <strong>Stage a fresh gamesnight entry</strong>
-            <p>Open a lightweight command surface for attendance, recap prep, and publish readiness.</p>
-            <span className="object-activation">Activate lane</span>
-          </a>
           <a className="hub-feature hub-feature--warm ops-command-lane ops-command-lane--live" href={`#/ops/sessions/${currentHubOpsSessionId}`}>
             <span>Active draft</span>
-            <strong>Return to the live record</strong>
+            <strong>Continue Session</strong>
             <p>Jump back into the general command surface for the active gamesnight entry.</p>
             <span className="object-activation">Activate lane</span>
           </a>

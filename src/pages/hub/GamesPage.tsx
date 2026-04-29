@@ -14,7 +14,7 @@ export function GamesPage() {
         <div className="page-header">
           <span className="page-header__marker">Realm Gate</span>
           <h1>Select a realm gate.</h1>
-          <p>Each game is a place inside Olympus Prime. Among Us is active now; Leap of Legends holds its own flagship signal.</p>
+          <p>Each game is a gate. Among Us is live now; Leap of Legends is the other flagship, built for swings, clutch finishes, and nights that become stories fast.</p>
         </div>
 
         <div className="hub-games-flagship-grid">

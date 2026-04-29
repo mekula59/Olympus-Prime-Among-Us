@@ -8,8 +8,8 @@ export function PlayersPage() {
     <div className="page page--hub-players">
       <div className="page-header">
         <span className="page-header__marker">Dossier Index</span>
-        <h1>Character dossiers.</h1>
-        <p>Open the champion files: who keeps showing up, what the room remembers, and where their history lives.</p>
+        <h1>Champion files.</h1>
+        <p>Open the files on the people who show up, talk big, clutch rounds, and become part of the room’s memory.</p>
       </div>
 
       <div className="hub-row-list">

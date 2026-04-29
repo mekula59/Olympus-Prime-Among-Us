@@ -31,7 +31,7 @@ export function HubShell({ currentPath, currentRoute, moduleHeader, children }: 
               </span>
             </a>
 
-            <p className="topbar__subcopy">Realms, dossiers, eras, and archives held in one live layer.</p>
+            <p className="topbar__subcopy">The room starts in Discord. Olympus Prime keeps the wins, reads, rivalries, and receipts.</p>
           </div>
 
           <div className="topbar__status" aria-label="Current layer">

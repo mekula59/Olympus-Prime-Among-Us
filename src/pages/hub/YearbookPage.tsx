@@ -11,7 +11,7 @@ export function YearbookPage() {
         <div className="page-header">
           <span className="page-header__marker">Archive Vault</span>
           <h1>Memory archive.</h1>
-          <p>The fragments, titles, and remembered lines Olympus Prime keeps carrying forward after the night is over.</p>
+          <p>The vault keeps the lines people repeat, the reads people swear by, and the nights that got bigger after they ended.</p>
         </div>
 
         {featuredMemory ? (
