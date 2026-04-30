@@ -12456,6 +12456,122 @@ body::after {
   background: color-mix(in srgb, var(--warm) 14%, rgba(255, 255, 255, 0.05));
 }
 
+/* Universal theme lock: keep the art-directed Olympus palette identical in OS light and dark modes. */
+:root {
+  color-scheme: only light;
+  --olympus-canvas: #04060d;
+  --olympus-bg: #080a14;
+  --olympus-bg-lift: #10152d;
+  --olympus-surface: rgba(15, 19, 31, 0.78);
+  --olympus-surface-strong: rgba(13, 16, 27, 0.93);
+  --olympus-surface-soft: rgba(255, 255, 255, 0.045);
+  --olympus-line: rgba(255, 255, 255, 0.085);
+  --olympus-line-bright: rgba(255, 255, 255, 0.14);
+  --olympus-text: #f7f2ea;
+  --olympus-muted: #b5bdd4;
+  --bg: var(--olympus-bg);
+  --bg-deep: var(--olympus-canvas);
+  --surface: var(--olympus-surface);
+  --surface-strong: var(--olympus-surface-strong);
+  --surface-soft: var(--olympus-surface-soft);
+  --line: var(--olympus-line);
+  --line-bright: var(--olympus-line-bright);
+  --text: var(--olympus-text);
+  --muted: var(--olympus-muted);
+}
+
+html,
+body,
+#root,
+.app-shell {
+  color-scheme: only light;
+}
+
+html {
+  background-color: var(--olympus-canvas) !important;
+}
+
+body {
+  background-color: var(--olympus-canvas) !important;
+  background-image:
+    radial-gradient(circle at 18% 10%, rgba(255, 122, 99, 0.1), transparent 18%),
+    radial-gradient(circle at 84% 8%, rgba(124, 222, 255, 0.08), transparent 18%),
+    linear-gradient(180deg, var(--olympus-bg-lift) 0%, #090d18 42%, var(--olympus-canvas) 100%) !important;
+  color: var(--olympus-text);
+}
+
+#root,
+.app-shell {
+  background-color: var(--olympus-canvas) !important;
+}
+
+.page-stage,
+.page-stage--mobile,
+.mobile-shell,
+.zone-stage {
+  color: var(--olympus-text);
+}
+
+.topbar,
+.mobile-shell__bar,
+.bottom-dock__scroll,
+.hub-scene-card,
+.hub-state-card,
+.hub-world-card,
+.hub-games-flagship,
+.hub-games-card,
+.hub-player-row,
+.hub-seasons-feature,
+.hub-season-chapter,
+.hub-yearbook-feature,
+.hub-yearbook-fragment,
+.ops-command-lane,
+.module,
+.page-intro {
+  background-color: var(--olympus-surface-strong);
+  border-color: var(--olympus-line);
+}
+
+.bottom-dock {
+  background-color: rgba(4, 6, 13, 0.72);
+}
+
+.bottom-dock__scroll {
+  background-color: rgba(8, 11, 20, 0.88);
+}
+
+.muted,
+.eyebrow,
+.mobile-shell__meta,
+.bottom-dock__item span {
+  color: var(--olympus-muted);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root,
+  html,
+  body,
+  #root,
+  .app-shell {
+    color-scheme: only light;
+  }
+
+  html,
+  #root,
+  .app-shell {
+    background-color: var(--olympus-canvas) !important;
+  }
+
+  body {
+    background-color: var(--olympus-canvas) !important;
+    background-image:
+      radial-gradient(circle at 18% 10%, rgba(255, 122, 99, 0.1), transparent 18%),
+      radial-gradient(circle at 84% 8%, rgba(124, 222, 255, 0.08), transparent 18%),
+      linear-gradient(180deg, var(--olympus-bg-lift) 0%, #090d18 42%, var(--olympus-canvas) 100%) !important;
+    color: var(--olympus-text);
+  }
+}
+
 /* Bottom nav active: accent text, no tint background */
 .bottom-dock__item--active {
   background: transparent;
