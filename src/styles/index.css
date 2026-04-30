@@ -6045,6 +6045,319 @@ body::after {
   transform: translateY(0);
 }
 
+/* Mobile-first cleanup: reduce repeated brand weight on the home gateway. */
+@media (max-width: 719px) {
+  .hq-layout--mobile {
+    gap: 0.58rem;
+  }
+
+  .topbar {
+    padding: 0.46rem 0.5rem !important;
+    border-radius: 0.95rem 0.95rem 1.2rem 0.95rem;
+  }
+
+  .brand-mark {
+    gap: 0.52rem;
+    padding: 0.28rem 0.42rem 0.3rem 0.34rem !important;
+  }
+
+  .brand-mark img {
+    width: 2.08rem !important;
+    height: 2.08rem !important;
+  }
+
+  .brand-mark strong {
+    font-size: 0.86rem !important;
+    letter-spacing: 0.055em !important;
+  }
+
+  .brand-mark small {
+    font-size: 0.52rem !important;
+  }
+
+  .topbar__subcopy {
+    display: none;
+  }
+
+  .topbar__status {
+    display: none !important;
+  }
+
+  .page-stage,
+  .page-stage--mobile {
+    padding: 0.74rem 0.72rem 0.86rem !important;
+  }
+
+  .page--hub-home {
+    gap: 0.68rem !important;
+  }
+
+  .page--hub-home .hub-launch-scene {
+    gap: 0.56rem !important;
+    padding-top: 0 !important;
+  }
+
+  .page--hub-home .hub-launch-scene__eyebrow--brand {
+    display: none;
+  }
+
+  .page--hub-home .hub-launch-scene h1 {
+    max-width: 8.4ch !important;
+    font-size: clamp(2.28rem, 10.2vw, 2.95rem) !important;
+    line-height: 0.94 !important;
+  }
+
+  .page--hub-home .hub-launch-scene__lede {
+    max-width: min(21rem, calc(100vw - 3rem)) !important;
+    margin-top: 0.08rem !important;
+    font-size: 0.88rem !important;
+    line-height: 1.4 !important;
+  }
+
+  .page--hub-home .hub-launch-scene__action {
+    min-height: 2.58rem !important;
+    margin-top: 0.2rem !important;
+    padding: 0.64rem 0.9rem !important;
+  }
+
+  .page--hub-home .hub-scene-card {
+    min-height: 0 !important;
+    margin-top: 0.02rem !important;
+    padding: 0.78rem !important;
+    gap: 0.42rem !important;
+  }
+
+  .page--hub-home .hub-scene-card > strong {
+    max-width: 13ch;
+    font-size: clamp(1.28rem, 5.8vw, 1.85rem) !important;
+    line-height: 1.02 !important;
+  }
+
+  .page--hub-home .hub-scene-card p {
+    font-size: 0.84rem;
+    line-height: 1.38;
+  }
+
+  .page--hub-home .hub-scene-card__pulse {
+    display: none;
+  }
+
+  .bottom-dock {
+    padding-inline: 0.48rem !important;
+  }
+
+  .bottom-dock__scroll {
+    padding: 0.14rem !important;
+    border-radius: 0.9rem 0.9rem 1.05rem 1.05rem !important;
+    background:
+      linear-gradient(180deg, rgba(18, 23, 34, 0.9), rgba(10, 14, 24, 0.86)),
+      rgba(10, 14, 24, 0.86) !important;
+    box-shadow:
+      0 -8px 24px rgba(0, 0, 0, 0.22),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.055) !important;
+  }
+
+  .bottom-dock__indicator {
+    top: 0.18rem !important;
+    bottom: 0.18rem !important;
+    opacity: 0.72 !important;
+  }
+
+  .bottom-dock__indicator::after {
+    top: 0.64rem !important;
+    width: 0.46rem !important;
+    height: 0.46rem !important;
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--accent) 13%, transparent),
+      0 0 16px color-mix(in srgb, var(--accent) 48%, transparent) !important;
+  }
+
+  .bottom-dock__item {
+    min-height: 3.18rem !important;
+    padding-block: 0.46rem 0.54rem !important;
+  }
+
+  .bottom-dock__item span {
+    font-size: 0.42rem !important;
+    letter-spacing: 0.045em !important;
+  }
+
+  .bottom-dock__item strong {
+    font-size: 0.7rem !important;
+  }
+}
+
+/* Focused responsive stage + Ops access refinements. */
+.topbar__controls {
+  display: grid;
+  justify-items: end;
+  gap: 0.42rem;
+  flex: none;
+}
+
+.topbar__sign-out {
+  min-height: 2rem;
+  padding: 0.46rem 0.72rem;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+  color: color-mix(in srgb, var(--text) 84%, var(--muted));
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 750;
+  letter-spacing: 0.01em;
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease, transform 120ms ease;
+}
+
+.topbar__sign-out:hover,
+.topbar__sign-out:focus-visible {
+  border-color: color-mix(in srgb, var(--accent-secondary) 28%, rgba(255, 255, 255, 0.12));
+  background: color-mix(in srgb, var(--accent-secondary) 10%, rgba(255, 255, 255, 0.05));
+  color: #fff7ef;
+}
+
+.topbar__sign-out:active {
+  transform: scale(0.975);
+}
+
+.topbar__sign-out:disabled {
+  cursor: progress;
+  opacity: 0.68;
+}
+
+@media (min-width: 720px) {
+  .hq-layout,
+  .hq-layout--mobile {
+    width: min(100%, 58rem);
+  }
+
+  .page-stage,
+  .page-stage--mobile,
+  .zone-stage {
+    padding-inline: clamp(1rem, 2vw, 1.45rem);
+  }
+}
+
+@media (min-width: 960px) {
+  .hq-layout,
+  .hq-layout--mobile {
+    width: min(100%, 68rem);
+  }
+
+  .page-stage,
+  .page-stage--mobile,
+  .zone-stage {
+    padding: clamp(1.15rem, 1.65vw, 1.65rem);
+  }
+
+  .page-intro {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+  }
+
+  .page-intro h2 {
+    max-width: 15ch;
+  }
+}
+
+@media (min-width: 1180px) {
+  .app-shell {
+    padding-inline: clamp(1.25rem, 2.8vw, 2.4rem);
+  }
+
+  .hq-layout,
+  .hq-layout--mobile {
+    width: min(100%, 78rem);
+  }
+
+  .topbar__subcopy {
+    max-width: 42rem;
+  }
+
+  .page-stage,
+  .page-stage--mobile,
+  .zone-stage {
+    padding: clamp(1.25rem, 1.7vw, 1.85rem);
+  }
+
+  .page--hub-home,
+  .page--hub-games,
+  .page--hub-players,
+  .page--hub-seasons,
+  .page--hub-yearbook,
+  .page--ops-home,
+  .page--among-us-overview,
+  .page--among-us-rankings {
+    gap: clamp(0.95rem, 1.3vw, 1.35rem);
+  }
+
+  .hub-launch-scene {
+    grid-template-columns: minmax(20rem, 0.95fr) minmax(0, 1.25fr);
+    column-gap: clamp(2rem, 4vw, 4.5rem);
+  }
+
+  .hub-launch-scene__copy,
+  .hub-launch-scene__lede {
+    max-width: 28rem;
+  }
+
+  .hub-world-grid {
+    grid-template-columns: minmax(18rem, 1.2fr) repeat(2, minmax(14rem, 0.9fr));
+  }
+
+  .hub-player-grid,
+  .hub-game-list,
+  .hub-feature-stack,
+  .hub-yearbook-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .hub-row-list {
+    padding: 0.32rem;
+  }
+}
+
+@media (min-width: 1380px) {
+  .hq-layout,
+  .hq-layout--mobile {
+    width: min(100%, 84rem);
+  }
+}
+
+@media (max-width: 719px) {
+  .topbar__controls {
+    align-self: start;
+    max-width: min(40vw, 8.5rem);
+  }
+
+  .topbar__status {
+    display: none;
+  }
+
+  .topbar__sign-out {
+    min-height: 1.9rem;
+    padding: 0.4rem 0.62rem;
+    font-size: 0.68rem;
+  }
+
+  .bottom-dock {
+    padding-inline: 0.55rem;
+  }
+
+  .bottom-dock__scroll {
+    display: grid;
+    grid-template-columns: repeat(var(--total-items), minmax(0, 1fr));
+    gap: 0.04rem;
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .bottom-dock__item {
+    min-width: 0;
+    padding-inline: 0.12rem;
+  }
+}
+
 /* Final pre-commit authority: make the five audit fixes survive earlier theme layers. */
 .bottom-dock__scroll--unmapped .bottom-dock__indicator {
   opacity: 0 !important;

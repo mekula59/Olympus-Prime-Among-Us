@@ -23,7 +23,7 @@ import {
   getRecapBySessionId,
   getSessionById,
 } from '../productSelectors';
-import { deleteSupabaseRowsByColumn, upsertSupabaseRows } from './supabaseRest';
+import { deleteSupabaseRowsByColumn, fetchSupabaseTable, upsertSupabaseRows } from './supabaseRest';
 import type { SessionEngineDraft } from '../../types/sessionEngine';
 import type {
   AwardRecord,
@@ -37,18 +37,36 @@ import type {
   SessionRecord,
 } from '../../types/product';
 
+const sessionWriteQueues = new Map<string, Promise<void>>();
+
 export const supabaseProductRepository: ProductRepository = {
   driver: 'supabase',
-  createSessionDraftRecord(gameId) {
+  async createSessionDraftRecord(gameId) {
     if (!isSupabaseConfigured()) {
       return localProductRepository.createSessionDraftRecord(gameId);
     }
 
     const actor = requireAuthenticatedWorkspaceMember();
     const sessionOwnerId = actor.userId;
-    const bundle = buildDraftSessionBundle(gameId ?? 'among-us', getRuntimeProductData());
+    const targetGameId = gameId ?? 'among-us';
+    const sourceData = getRuntimeProductData();
+    const remotePlayerIds = await withTimeout(fetchSupabasePlayerIds(), 4000, new Set<string>());
+    const referenceHostPlayerId = sourceData.sessions.find(
+      (session) =>
+        session.gameId === targetGameId &&
+        session.status !== 'draft' &&
+        remotePlayerIds.has(session.hostPlayerId),
+    )?.hostPlayerId;
+    const [fallbackHostPlayerId] = Array.from(remotePlayerIds);
+    const hostPlayerId = referenceHostPlayerId ?? fallbackHostPlayerId ?? 'nova';
+    if (!hostPlayerId) {
+      throw new Error('Supabase players seed is missing; cannot create a session draft without a valid host player.');
+    }
+
+    const bundle = buildDraftSessionBundle(targetGameId, sourceData);
     const ownedSession: SessionRecord = {
       ...bundle.session,
+      hostPlayerId,
       ownerUserId: sessionOwnerId,
       lastEditedByUserId: sessionOwnerId,
     };
@@ -58,14 +76,16 @@ export const supabaseProductRepository: ProductRepository = {
       session: ownedSession,
     });
 
-    void Promise.all([
-      upsertSupabaseRows('sessions', [mapSessionRow(ownedSession)]),
-      upsertSupabaseRows('outcomes', [mapOutcomeRow(bundle.outcome)]),
-      upsertSupabaseRows('recaps', [mapRecapRow(bundle.recap)]),
-      upsertSupabaseRows('publish_states', [mapPublishStateRow(bundle.publishState)]),
-    ])
+    void enqueueSessionWrite(bundle.session.id, async () => {
+      await upsertSupabaseRows('sessions', [mapSessionRow(ownedSession)]);
+      await Promise.all([
+        upsertSupabaseRows('outcomes', [mapOutcomeRow(bundle.outcome)]),
+        upsertSupabaseRows('recaps', [mapRecapRow(bundle.recap)]),
+        upsertSupabaseRows('publish_states', [mapPublishStateRow(bundle.publishState)]),
+      ]);
+      await ensureRuntimeCanonicalRefresh();
+    })
       .then(async () => {
-        await ensureRuntimeCanonicalRefresh();
         markRuntimeSessionSyncSucceeded(bundle.session.id);
       })
       .catch((error) => {
@@ -117,13 +137,15 @@ export const supabaseProductRepository: ProductRepository = {
       recaps: [nextRecap],
       publishStates: [publishState],
     });
-    void Promise.all([
-      upsertSupabaseRows('sessions', [mapSessionRow(nextSession)]),
-      upsertSupabaseRows('recaps', [mapRecapRow(nextRecap)]),
-      upsertSupabaseRows('publish_states', [mapPublishStateRow(publishState)]),
-    ])
+    void enqueueSessionWrite(sessionId, async () => {
+      await upsertSupabaseRows('sessions', [mapSessionRow(nextSession)]);
+      await Promise.all([
+        upsertSupabaseRows('recaps', [mapRecapRow(nextRecap)]),
+        upsertSupabaseRows('publish_states', [mapPublishStateRow(publishState)]),
+      ]);
+      await ensureRuntimeCanonicalRefresh();
+    })
       .then(async () => {
-        await ensureRuntimeCanonicalRefresh();
         markRuntimeSessionSyncSucceeded(sessionId);
       })
       .catch((error) => {
@@ -156,9 +178,11 @@ export const supabaseProductRepository: ProductRepository = {
       publishState: nextDraft.publishState,
     });
 
-    void syncSessionEngineBundleToSupabase(nextDraft)
+    void enqueueSessionWrite(nextDraft.session.id, async () => {
+      await syncSessionEngineBundleToSupabase(nextDraft);
+      await ensureRuntimeCanonicalRefresh();
+    })
       .then(async () => {
-        await ensureRuntimeCanonicalRefresh();
         markRuntimeSessionSyncSucceeded(nextDraft.session.id);
       })
       .catch((error) => {
@@ -193,6 +217,39 @@ async function ensureRuntimeCanonicalRefresh() {
 
 export function getSupabaseFallbackRepository() {
   return localProductRepository;
+}
+
+function enqueueSessionWrite(sessionId: string, task: () => Promise<void>) {
+  const previousWrite = sessionWriteQueues.get(sessionId) ?? Promise.resolve();
+  const nextWrite = previousWrite.catch(() => undefined).then(task);
+  const trackedWrite = nextWrite.catch(() => undefined);
+
+  sessionWriteQueues.set(sessionId, trackedWrite);
+  void trackedWrite.finally(() => {
+    if (sessionWriteQueues.get(sessionId) === trackedWrite) {
+      sessionWriteQueues.delete(sessionId);
+    }
+  });
+
+  return nextWrite;
+}
+
+async function fetchSupabasePlayerIds() {
+  const rows = await fetchSupabaseTable('players') as Array<Record<string, unknown>>;
+  return new Set(
+    rows
+      .map((row) => row.id)
+      .filter((id): id is string => typeof id === 'string' && id.length > 0),
+  );
+}
+
+function withTimeout<T>(promise: Promise<T>, timeoutMs: number, fallback: T) {
+  return Promise.race([
+    promise,
+    new Promise<T>((resolve) => {
+      window.setTimeout(() => resolve(fallback), timeoutMs);
+    }),
+  ]);
 }
 
 function mapSessionRow(session: SessionRecord) {

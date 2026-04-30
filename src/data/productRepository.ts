@@ -31,7 +31,7 @@ export function getActiveProductRepositoryDriver() {
   return getRepository().driver;
 }
 
-export function createSessionDraftRecord(gameId = 'among-us') {
+export async function createSessionDraftRecord(gameId = 'among-us') {
   return getRepository().createSessionDraftRecord(gameId);
 }
 

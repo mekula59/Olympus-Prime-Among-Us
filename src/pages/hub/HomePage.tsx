@@ -91,7 +91,7 @@ export function HomePage() {
           </p>
           <h1>Enter Olympus Prime.</h1>
           <p className="hub-launch-scene__lede">
-            The night starts in Discord. Olympus Prime keeps the receipts: realms, rivals, dossiers, and the moments nobody lets die.
+            The night starts in Discord. Olympus Prime keeps the wins, rivalries, records, and the moments that last.
           </p>
           <a className="hub-launch-scene__action" href={primaryFeature?.href ?? '#/games/among-us/reports'}>
             Enter the live realm

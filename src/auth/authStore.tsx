@@ -364,6 +364,20 @@ export async function requestPasswordlessSignIn(email: string) {
   }
 }
 
+export async function signOutOpsUser() {
+  const client = getSupabaseBrowserClient();
+  if (!client) {
+    throw new Error('Supabase auth is not configured for this environment.');
+  }
+
+  const { error } = await client.auth.signOut();
+  if (error) {
+    throw error;
+  }
+
+  return refreshAuthSnapshot(null);
+}
+
 export function requireAuthenticatedWorkspaceMember() {
   const snapshot = getAuthSnapshot();
 

@@ -58,18 +58,21 @@ export function buildDraftSessionBundle(
   const suffix = Date.now().toString(36).slice(-4);
   const sessionId = `session-${String(nextSessionNumber).padStart(2, '0')}-${suffix}`;
   const activeSeason = data.seasons.find((season) => season.status === 'active') ?? data.seasons[0];
-  const hostPlayer = data.players[0];
+  const referenceHostPlayerId = gameSessions.find(
+    (session) => session.status !== 'draft' && session.hostPlayerId,
+  )?.hostPlayerId;
+  const fallbackHostPlayerId = data.players[0]?.id ?? '';
 
   const session: SessionRecord = {
     id: sessionId,
     gameId,
     seasonId: activeSeason?.id ?? '',
-    label: `Night ${String(nextSessionNumber).padStart(2, '0')} // Pending room`,
+    label: `Night ${String(nextSessionNumber).padStart(2, '0')} · Pending room`,
     sessionNumber: nextSessionNumber,
     scheduledAt: getDefaultScheduledAt(),
     venue: 'Discord voice room',
     format: gameId === 'among-us' ? 'Among Us session' : 'Gamesnight session',
-    hostPlayerId: hostPlayer?.id ?? '',
+    hostPlayerId: referenceHostPlayerId ?? fallbackHostPlayerId,
     status: 'draft',
     attendanceCount: 0,
     winningPlayerId: null,

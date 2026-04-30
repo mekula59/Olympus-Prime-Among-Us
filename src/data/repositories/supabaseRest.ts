@@ -34,10 +34,15 @@ export async function upsertSupabaseRows<T extends Record<string, unknown>>(
   );
 
   if (!response.ok) {
-    throw new Error(`Supabase upsert failed for ${table}: ${response.status}`);
+    throw new Error(`Supabase upsert failed for ${table}: ${response.status}${await formatSupabaseError(response)}`);
   }
 
-  return response.json();
+  const data = await response.json();
+  if (rows.length > 0 && Array.isArray(data) && data.length === 0) {
+    throw new Error(`Supabase upsert failed for ${table}: write returned no rows`);
+  }
+
+  return data;
 }
 
 export async function fetchSupabaseTable(table: string) {
@@ -48,7 +53,7 @@ export async function fetchSupabaseTable(table: string) {
   });
 
   if (!response.ok) {
-    throw new Error(`Supabase read failed for ${table}: ${response.status}`);
+    throw new Error(`Supabase read failed for ${table}: ${response.status}${await formatSupabaseError(response)}`);
   }
 
   return response.json();
@@ -73,6 +78,21 @@ export async function deleteSupabaseRowsByColumn(
   );
 
   if (!response.ok) {
-    throw new Error(`Supabase delete failed for ${table}: ${response.status}`);
+    throw new Error(`Supabase delete failed for ${table}: ${response.status}${await formatSupabaseError(response)}`);
+  }
+}
+
+async function formatSupabaseError(response: Response) {
+  const body = await response.text();
+  if (!body) {
+    return '';
+  }
+
+  try {
+    const parsed = JSON.parse(body) as { message?: string; details?: string; hint?: string };
+    const parts = [parsed.message, parsed.details, parsed.hint].filter(Boolean);
+    return parts.length > 0 ? ` ${parts.join(' ')}` : ` ${body}`;
+  } catch {
+    return ` ${body}`;
   }
 }

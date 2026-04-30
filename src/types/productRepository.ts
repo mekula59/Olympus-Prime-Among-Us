@@ -18,7 +18,7 @@ export interface SaveGenericSessionEditorPayload {
 
 export interface ProductRepository {
   readonly driver: ProductRepositoryDriver;
-  createSessionDraftRecord(gameId?: string): SessionRecord;
+  createSessionDraftRecord(gameId?: string): SessionRecord | Promise<SessionRecord>;
   saveGenericSessionEditor(
     sessionId: string,
     payload: SaveGenericSessionEditorPayload,

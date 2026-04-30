@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
+import { signOutOpsUser, useAuthState } from '../../auth/authStore';
 import type { AppRoute } from '../../config/routes';
 import { HubBottomNav } from './HubBottomNav';
 
@@ -16,6 +17,26 @@ const sectionMarkers: Record<AppRoute['section'], string> = {
 };
 
 export function HubShell({ currentPath, currentRoute, moduleHeader, children }: HubShellProps) {
+  const auth = useAuthState();
+  const [isSigningOut, setIsSigningOut] = useState(false);
+  const showOpsSignOut = currentRoute.section === 'ops' && auth.isAuthenticated;
+
+  async function handleSignOut() {
+    if (isSigningOut) {
+      return;
+    }
+
+    setIsSigningOut(true);
+    try {
+      await signOutOpsUser();
+      if (typeof window !== 'undefined') {
+        window.location.hash = '#/ops';
+      }
+    } finally {
+      setIsSigningOut(false);
+    }
+  }
+
   return (
     <>
       <div
@@ -34,9 +55,16 @@ export function HubShell({ currentPath, currentRoute, moduleHeader, children }: 
             <p className="topbar__subcopy">The room starts in Discord. Olympus Prime keeps the wins, reads, rivalries, and receipts.</p>
           </div>
 
-          <div className="topbar__status" aria-label="Current layer">
-            <span className="topbar__section">{sectionMarkers[currentRoute.section]}</span>
-            <strong>{currentRoute.stateLabel}</strong>
+          <div className="topbar__controls">
+            <div className="topbar__status" aria-label="Current layer">
+              <span className="topbar__section">{sectionMarkers[currentRoute.section]}</span>
+              <strong>{currentRoute.stateLabel}</strong>
+            </div>
+            {showOpsSignOut ? (
+              <button className="topbar__sign-out" type="button" onClick={handleSignOut} disabled={isSigningOut}>
+                {isSigningOut ? 'Signing out' : 'Sign out'}
+              </button>
+            ) : null}
           </div>
         </header>
 

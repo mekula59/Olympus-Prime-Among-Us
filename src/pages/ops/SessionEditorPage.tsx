@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useAuthState } from '../../auth/authStore';
 import { ModuleFrame } from '../../components/ModuleFrame';
 import { OpsSyncStatus } from '../../components/ops/OpsSyncStatus';
@@ -12,8 +12,40 @@ import {
 import { useAmongUsOpsData } from '../../data/games/among-us/amongUsOpsData';
 import { useHubOpsData } from '../../data/ops/hubOpsData';
 import { useHashRoute } from '../../hooks/useHashRoute';
+import type { OpsRecapDraft, OpsSessionDraft } from '../../types/ops';
+import type { SaveGenericSessionEditorPayload } from '../../types/productRepository';
 
 const GENERIC_OPS_AUTOSAVE_DELAY_MS = 750;
+
+function buildGenericEditorPayload(
+  sessionForm: OpsSessionDraft,
+  recapForm: OpsRecapDraft,
+): SaveGenericSessionEditorPayload {
+  return {
+    sessionName: sessionForm.sessionName,
+    date: sessionForm.date,
+    room: sessionForm.room,
+    mode: sessionForm.mode,
+    notes: sessionForm.notes,
+    headline: recapForm.headline,
+    summary: recapForm.summary,
+    highlight: recapForm.highlight,
+    publishNote: recapForm.publishNote,
+  };
+}
+
+function serializeGenericEditorPayload(payload: SaveGenericSessionEditorPayload) {
+  return JSON.stringify(payload);
+}
+
+function isEditingGenericSessionField() {
+  if (typeof document === 'undefined') {
+    return false;
+  }
+
+  const activeElement = document.activeElement;
+  return activeElement instanceof HTMLInputElement || activeElement instanceof HTMLTextAreaElement;
+}
 
 export function SessionEditorPage() {
   const { path, route } = useHashRoute();
@@ -23,21 +55,65 @@ export function SessionEditorPage() {
   const auth = useAuthState();
   const [sessionForm, setSessionForm] = useState(hubOpsData.opsSessionDraft);
   const [recapForm, setRecapForm] = useState(hubOpsData.opsRecapDraft);
+  const [createError, setCreateError] = useState<string | null>(null);
   const requiresAuth = getActiveProductRepositoryDriver() === 'supabase';
+  const canAttemptCreate = !requiresAuth || auth.status === 'ready';
   const canWriteOps = !requiresAuth || (auth.status === 'ready' && auth.isMember);
+  const editablePayload = useMemo(
+    () => buildGenericEditorPayload(sessionForm, recapForm),
+    [recapForm, sessionForm],
+  );
+  const serializedEditablePayload = useMemo(
+    () => serializeGenericEditorPayload(editablePayload),
+    [editablePayload],
+  );
+  const lastHydratedSessionIdRef = useRef(sessionId);
+  const initialCanonicalPayload = serializeGenericEditorPayload(
+    buildGenericEditorPayload(hubOpsData.opsSessionDraft, hubOpsData.opsRecapDraft),
+  );
+  const lastHydratedPayloadRef = useRef(initialCanonicalPayload);
+  const lastSavedPayloadRef = useRef(initialCanonicalPayload);
+  const latestEditablePayloadRef = useRef(initialCanonicalPayload);
+  const skipNextAutosaveRef = useRef(false);
+  const hasUserEditedRef = useRef(false);
+
+  function markUserEdited() {
+    hasUserEditedRef.current = true;
+  }
 
   useEffect(() => {
     if (route.id !== 'ops-session-new') {
       return;
     }
 
-    if (!canWriteOps) {
+    if (!canAttemptCreate) {
       return;
     }
 
-    const createdSession = createSessionDraftRecord();
-    window.location.hash = `#/ops/sessions/${createdSession.id}`;
-  }, [canWriteOps, route.id]);
+    let cancelled = false;
+
+    void (async () => {
+      try {
+        setCreateError(null);
+        const createdSession = await createSessionDraftRecord();
+        if (!cancelled) {
+          window.location.hash = `#/ops/sessions/${createdSession.id}`;
+        }
+      } catch (error) {
+        if (cancelled) {
+          return;
+        }
+
+        const message = error instanceof Error ? error.message : 'Unable to create session draft.';
+        setCreateError(message);
+        console.error('Unable to create Ops session draft.', error);
+      }
+    })();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [canAttemptCreate, route.id]);
 
   useEffect(() => {
     if (!requiresAuth || auth.status !== 'ready' || auth.isMember || !route.id.startsWith('ops')) {
@@ -48,9 +124,49 @@ export function SessionEditorPage() {
   }, [auth.isMember, auth.status, requiresAuth, route.id]);
 
   useEffect(() => {
+    latestEditablePayloadRef.current = serializedEditablePayload;
+  }, [serializedEditablePayload]);
+
+  useEffect(() => {
+    const nextCanonicalPayload = serializeGenericEditorPayload(
+      buildGenericEditorPayload(hubOpsData.opsSessionDraft, hubOpsData.opsRecapDraft),
+    );
+    const movedToNewSession = lastHydratedSessionIdRef.current !== sessionId;
+
+    if (movedToNewSession) {
+      lastHydratedSessionIdRef.current = sessionId;
+      lastHydratedPayloadRef.current = nextCanonicalPayload;
+      lastSavedPayloadRef.current = nextCanonicalPayload;
+      skipNextAutosaveRef.current = true;
+      hasUserEditedRef.current = false;
+      setSessionForm(hubOpsData.opsSessionDraft);
+      setRecapForm(hubOpsData.opsRecapDraft);
+      return;
+    }
+
+    if (lastHydratedPayloadRef.current === nextCanonicalPayload) {
+      return;
+    }
+
+    if (
+      latestEditablePayloadRef.current !== lastSavedPayloadRef.current ||
+      isEditingGenericSessionField()
+    ) {
+      return;
+    }
+
+    lastHydratedPayloadRef.current = nextCanonicalPayload;
+
+    if (lastSavedPayloadRef.current === nextCanonicalPayload) {
+      return;
+    }
+
+    lastSavedPayloadRef.current = nextCanonicalPayload;
+    skipNextAutosaveRef.current = true;
+    hasUserEditedRef.current = false;
     setSessionForm(hubOpsData.opsSessionDraft);
     setRecapForm(hubOpsData.opsRecapDraft);
-  }, [hubOpsData.opsRecapDraft, hubOpsData.opsSessionDraft]);
+  }, [hubOpsData.opsRecapDraft, hubOpsData.opsSessionDraft, sessionId]);
 
   useEffect(() => {
     if (!sessionId) {
@@ -61,22 +177,28 @@ export function SessionEditorPage() {
       return;
     }
 
+    if (skipNextAutosaveRef.current) {
+      skipNextAutosaveRef.current = false;
+      return;
+    }
+
+    if (!hasUserEditedRef.current) {
+      return;
+    }
+
+    if (lastSavedPayloadRef.current === serializedEditablePayload) {
+      hasUserEditedRef.current = false;
+      return;
+    }
+
     const timeoutId = window.setTimeout(() => {
-      saveGenericSessionEditor(sessionId, {
-        sessionName: sessionForm.sessionName,
-        date: sessionForm.date,
-        room: sessionForm.room,
-        mode: sessionForm.mode,
-        notes: sessionForm.notes,
-        headline: recapForm.headline,
-        summary: recapForm.summary,
-        highlight: recapForm.highlight,
-        publishNote: recapForm.publishNote,
-      });
+      hasUserEditedRef.current = false;
+      lastSavedPayloadRef.current = serializedEditablePayload;
+      saveGenericSessionEditor(sessionId, editablePayload);
     }, GENERIC_OPS_AUTOSAVE_DELAY_MS);
 
     return () => window.clearTimeout(timeoutId);
-  }, [canWriteOps, recapForm, sessionForm, sessionId]);
+  }, [canWriteOps, editablePayload, serializedEditablePayload, sessionId]);
 
   if (route.id === 'ops-session-new' || !sessionId) {
     return (
@@ -87,6 +209,19 @@ export function SessionEditorPage() {
           lede="Ops is creating a real draft record first so the new session can be edited, resumed, and published from the same source of truth."
           tags={['Creating', 'Source first', 'Persistent']}
         />
+        {createError ? (
+          <ModuleFrame
+            eyebrow="Creation failed"
+            title="The session shell did not open."
+            lede={createError}
+            tone="warm"
+          >
+            <div className="ops-sync-status ops-sync-status--module">
+              <span>Creation state</span>
+              <strong className="ops-chip-status ops-chip-status--failed">Blocked</strong>
+            </div>
+          </ModuleFrame>
+        ) : null}
       </div>
     );
   }
@@ -114,7 +249,10 @@ export function SessionEditorPage() {
               <label className="ops-field">
                 <span>Session</span>
                 <input
-                  onChange={(event) => setSessionForm((current) => ({ ...current, sessionName: event.target.value }))}
+                  onChange={(event) => {
+                    markUserEdited();
+                    setSessionForm((current) => ({ ...current, sessionName: event.target.value }));
+                  }}
                   type="text"
                   value={sessionForm.sessionName}
                 />
@@ -122,7 +260,10 @@ export function SessionEditorPage() {
               <label className="ops-field">
                 <span>Date</span>
                 <input
-                  onChange={(event) => setSessionForm((current) => ({ ...current, date: event.target.value }))}
+                  onChange={(event) => {
+                    markUserEdited();
+                    setSessionForm((current) => ({ ...current, date: event.target.value }));
+                  }}
                   type="date"
                   value={sessionForm.date}
                 />
@@ -130,7 +271,10 @@ export function SessionEditorPage() {
               <label className="ops-field">
                 <span>Room</span>
                 <input
-                  onChange={(event) => setSessionForm((current) => ({ ...current, room: event.target.value }))}
+                  onChange={(event) => {
+                    markUserEdited();
+                    setSessionForm((current) => ({ ...current, room: event.target.value }));
+                  }}
                   type="text"
                   value={sessionForm.room}
                 />
@@ -138,7 +282,10 @@ export function SessionEditorPage() {
               <label className="ops-field">
                 <span>Mode</span>
                 <input
-                  onChange={(event) => setSessionForm((current) => ({ ...current, mode: event.target.value }))}
+                  onChange={(event) => {
+                    markUserEdited();
+                    setSessionForm((current) => ({ ...current, mode: event.target.value }));
+                  }}
                   type="text"
                   value={sessionForm.mode}
                 />
@@ -148,7 +295,10 @@ export function SessionEditorPage() {
             <label className="ops-field">
               <span>Host note</span>
               <textarea
-                onChange={(event) => setSessionForm((current) => ({ ...current, notes: event.target.value }))}
+                onChange={(event) => {
+                  markUserEdited();
+                  setSessionForm((current) => ({ ...current, notes: event.target.value }));
+                }}
                 rows={4}
                 value={sessionForm.notes}
               />
@@ -183,7 +333,10 @@ export function SessionEditorPage() {
           <label className="ops-field">
             <span>Headline</span>
             <input
-              onChange={(event) => setRecapForm((current) => ({ ...current, headline: event.target.value }))}
+              onChange={(event) => {
+                markUserEdited();
+                setRecapForm((current) => ({ ...current, headline: event.target.value }));
+              }}
               type="text"
               value={recapForm.headline}
             />
@@ -191,7 +344,10 @@ export function SessionEditorPage() {
           <label className="ops-field">
             <span>Summary</span>
             <textarea
-              onChange={(event) => setRecapForm((current) => ({ ...current, summary: event.target.value }))}
+              onChange={(event) => {
+                markUserEdited();
+                setRecapForm((current) => ({ ...current, summary: event.target.value }));
+              }}
               rows={5}
               value={recapForm.summary}
             />
