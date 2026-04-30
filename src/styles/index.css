@@ -1,5 +1,5 @@
 :root {
-  color-scheme: dark;
+  color-scheme: only light;
   font-family: 'Trebuchet MS', 'Avenir Next', 'Segoe UI', sans-serif;
   line-height: 1.5;
   font-weight: 400;
@@ -28,10 +28,13 @@
 }
 
 html {
+  color-scheme: only light;
+  background: var(--bg-deep);
   scroll-behavior: smooth;
 }
 
 body {
+  color-scheme: only light;
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
@@ -87,6 +90,7 @@ img {
 
 #root {
   min-height: 100vh;
+  background: var(--bg-deep);
 }
 
 .app-shell {
@@ -94,6 +98,7 @@ img {
   min-height: 100vh;
   padding: 1rem;
   overflow: hidden;
+  background-color: var(--bg-deep);
   background-image: url('/assets/constellation.svg');
   background-repeat: no-repeat;
   background-position: top center;
