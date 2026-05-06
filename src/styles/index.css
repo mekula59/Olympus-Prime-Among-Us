@@ -6050,6 +6050,334 @@ body::after {
   transform: translateY(0);
 }
 
+/* Browser forced-dark hardening: explicitly paint major surfaces instead of relying on transparency. */
+:root {
+  --olympus-surface-solid: #0d101b;
+  --olympus-surface-raised: #111625;
+  --olympus-surface-card: #121827;
+  --olympus-surface-card-soft: #0f1422;
+  --olympus-field: #0b0f1a;
+  --olympus-shadow-hard: 0 18px 42px rgba(1, 3, 10, 0.32);
+  --olympus-shadow-soft: 0 10px 24px rgba(1, 3, 10, 0.2);
+  --olympus-button-light: #fff5e8;
+  --olympus-button-ink: #121317;
+}
+
+html,
+body,
+#root,
+.app-shell,
+.hq-layout,
+.hq-layout--mobile {
+  color-scheme: only light;
+  background-color: var(--olympus-canvas) !important;
+  color: var(--olympus-text);
+}
+
+body,
+.app-shell {
+  background-image:
+    radial-gradient(circle at 18% 10%, rgba(255, 122, 99, 0.1), transparent 18%),
+    radial-gradient(circle at 84% 8%, rgba(124, 222, 255, 0.08), transparent 18%),
+    linear-gradient(180deg, var(--olympus-bg-lift) 0%, #090d18 42%, var(--olympus-canvas) 100%) !important;
+}
+
+body *,
+body *::before,
+body *::after {
+  border-color: var(--olympus-line);
+}
+
+.mobile-shell,
+.page-stage,
+.page-stage--mobile,
+.zone-stage {
+  background-color: var(--olympus-surface-solid) !important;
+  color: var(--olympus-text);
+}
+
+.mobile-shell,
+.page-stage--mobile,
+.zone-stage {
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.035);
+}
+
+.topbar,
+.mobile-shell__bar,
+.brand-mark,
+.topbar__status,
+.mobile-shell__status,
+.mobile-shell__meta-card,
+.mobile-shell__whisper,
+.page-intro,
+.page-header,
+.module,
+.module-screen-module,
+.page--ops-home .page-intro {
+  background-color: var(--olympus-surface-raised) !important;
+  color: var(--olympus-text);
+  border-color: var(--olympus-line) !important;
+  box-shadow: var(--olympus-shadow-soft);
+}
+
+.mobile-shell__whisper,
+.page-header {
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.032), rgba(255, 255, 255, 0.018));
+}
+
+.hub-launch-scene,
+.hub-current-state,
+.hub-worlds-entry,
+.hub-home-pulse,
+.hub-home-note,
+.hub-home-worlds,
+.hub-home-memory,
+.hub-home-deeper,
+.hub-games-launch,
+.hub-games-secondary,
+.hub-seasons-archive,
+.hub-yearbook-fragments,
+.ops-command-lanes {
+  background-color: var(--olympus-surface-solid);
+  color: var(--olympus-text);
+}
+
+.hub-scene-card,
+.hub-state-card,
+.hub-world-card,
+.hub-home-world-card,
+.hub-home-signal-card,
+.hub-home-signal__shell,
+.hub-home-signal__fallback,
+.hub-home-memory,
+.hub-home-memory--featured,
+.hub-home-deeper__action,
+.hub-games-flagship,
+.hub-games-card,
+.hub-feature,
+.hub-game-card,
+.hub-memory-item,
+.hub-directory-card,
+.hub-season-card,
+.hub-yearbook-card,
+.hub-player-card,
+.hub-stat-row article,
+.hub-player-row,
+.hub-row-list,
+.hub-seasons-feature,
+.hub-season-chapter,
+.hub-yearbook-feature,
+.hub-yearbook-fragment,
+.memory-orb,
+.page-tag,
+.zone-card,
+.board-strip,
+.readout-card,
+.ribbon-card,
+.debrief-card,
+.transmission-item,
+.ops-check,
+.timeline-node,
+.ranking-strip {
+  background-color: var(--olympus-surface-card) !important;
+  color: var(--olympus-text) !important;
+  border-color: var(--olympus-line) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.045),
+    var(--olympus-shadow-soft);
+}
+
+.hub-world-card--featured,
+.hub-games-flagship,
+.hub-scene-card,
+.hub-home-pulse__lead {
+  background-color: #171625 !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 201, 120, 0.13),
+    var(--olympus-shadow-hard);
+}
+
+.hub-world-card--leap-of-legends,
+.hub-games-card--leap-of-legends {
+  background-color: #101927 !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(124, 224, 255, 0.14),
+    var(--olympus-shadow-hard);
+}
+
+.page--ops-home,
+.page--ops-home .hub-feature,
+.page--ops-home .hub-game-card,
+.page--ops-home .ops-home-card,
+.page--ops-home .ops-command-lane,
+.ops-primary-action,
+.ops-selector-block,
+.ops-preview-card,
+.ops-editor-card,
+.ops-status-strip,
+.ops-module-callout,
+.ops-list-item,
+.ops-person-pill,
+.ops-nav-chip {
+  background-color: var(--olympus-surface-card-soft) !important;
+  color: var(--olympus-text) !important;
+  border-color: var(--olympus-line) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.045),
+    var(--olympus-shadow-soft);
+}
+
+.bottom-dock {
+  background-color: #050711 !important;
+  color: var(--olympus-text);
+  box-shadow:
+    0 18px 38px rgba(1, 3, 10, 0.42),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.045);
+}
+
+.bottom-dock__scroll {
+  background-color: #080b14 !important;
+  border-color: var(--olympus-line) !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    var(--olympus-shadow-soft);
+}
+
+.bottom-dock__item {
+  background-color: #0b0f1a !important;
+  color: var(--olympus-muted) !important;
+  border-color: rgba(255, 255, 255, 0.055) !important;
+}
+
+.bottom-dock__item--active {
+  background-color: #162039 !important;
+  color: #fff7ef !important;
+}
+
+.bottom-dock__item span,
+.bottom-dock__item strong,
+.bottom-dock__item--active span,
+.bottom-dock__item--active strong {
+  color: currentColor !important;
+}
+
+.primary-link,
+.hub-launch-scene__action,
+.hub-home-arrival__action,
+.ops-button--primary {
+  background-color: var(--olympus-button-light) !important;
+  color: var(--olympus-button-ink) !important;
+  border-color: rgba(255, 245, 232, 0.7) !important;
+  box-shadow: 0 12px 30px rgba(8, 10, 18, 0.24);
+}
+
+.secondary-link,
+.ops-button,
+.system-switch,
+.relay-chip,
+.among-us-chip,
+.ops-field input,
+.ops-field select,
+.ops-field textarea,
+input,
+select,
+textarea,
+button {
+  color-scheme: only light;
+  background-color: var(--olympus-field) !important;
+  color: var(--olympus-text) !important;
+  border-color: var(--olympus-line) !important;
+}
+
+.secondary-link,
+.ops-button,
+.system-switch,
+.relay-chip,
+.among-us-chip {
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    var(--olympus-shadow-soft);
+}
+
+.system-switch--active,
+.system-switch[aria-selected='true'],
+.among-us-chip--active {
+  background-color: #17213a !important;
+  color: #fff7ef !important;
+  border-color: color-mix(in srgb, var(--accent) 36%, rgba(255, 255, 255, 0.12)) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--olympus-muted);
+  opacity: 0.78;
+}
+
+.muted,
+.eyebrow,
+.section-kicker,
+.page-intro__lede,
+.module__lede,
+.module p,
+.module li,
+.page-header p,
+.hub-launch-scene__lede,
+.hub-world-card__body p,
+.hub-games-card__body p,
+.hub-scene-card p,
+.hub-state-card p,
+.hub-player-row__info p,
+.hub-home-note p,
+.hub-home-signal-card p,
+.hub-home-world-card p,
+.hub-yearbook-fragment p,
+.ops-field label,
+.ops-card__list li,
+.bottom-dock__item span {
+  color: var(--olympus-muted) !important;
+}
+
+.hub-launch-scene h1,
+.page-header h1,
+.page-intro h2,
+.module h3,
+.hub-scene-card strong,
+.hub-world-card__body strong,
+.hub-games-card__body strong,
+.hub-player-row__info strong,
+.hub-yearbook-feature strong,
+.hub-yearbook-fragment strong,
+.hub-seasons-feature strong,
+.hub-season-chapter strong,
+.ops-primary-action strong {
+  color: var(--olympus-text) !important;
+  -webkit-text-fill-color: var(--olympus-text);
+}
+
+button.primary-link,
+.primary-link,
+.hub-launch-scene__action,
+.hub-home-arrival__action,
+.ops-button--primary {
+  background-color: var(--olympus-button-light) !important;
+  color: var(--olympus-button-ink) !important;
+  -webkit-text-fill-color: var(--olympus-button-ink);
+  border-color: rgba(255, 245, 232, 0.7) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  html,
+  body,
+  #root,
+  .app-shell,
+  .mobile-shell,
+  .page-stage,
+  .page-stage--mobile,
+  .zone-stage {
+    color-scheme: only light;
+  }
+}
+
 /* Mobile-first cleanup: reduce repeated brand weight on the home gateway. */
 @media (max-width: 719px) {
   .hq-layout--mobile {
@@ -9755,7 +10083,27 @@ body::after {
 }
 
 .x-post-embed blockquote.twitter-tweet {
+  display: grid;
+  gap: 0.45rem;
   margin: 0 !important;
+  min-height: 5rem;
+  padding: 0.95rem;
+  color: var(--text);
+}
+
+.x-post-embed blockquote.twitter-tweet a {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 2.35rem;
+  padding: 0.58rem 0.78rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.055);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+  color: var(--text);
+  font-size: 0.82rem;
+  font-weight: 680;
+  text-decoration: none;
 }
 
 .hub-home-worlds__stack {
@@ -12676,4 +13024,108 @@ body {
 .page--ops-home .ops-command-lane:active .object-activation {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Final forced-dark guard: this sits after every visual layer so browser auto-dark has solid paint to read. */
+html,
+body,
+#root,
+.app-shell,
+.mobile-shell,
+.page-stage,
+.page-stage--mobile,
+.zone-stage,
+.topbar,
+.bottom-dock,
+.bottom-dock__scroll,
+.module,
+.page-intro,
+.page-header,
+.hub-launch-scene,
+.hub-scene-card,
+.hub-state-card,
+.hub-world-card,
+.hub-home-world-card,
+.hub-home-signal-card,
+.hub-home-memory,
+.hub-home-deeper__action,
+.hub-games-flagship,
+.hub-games-card,
+.hub-feature,
+.hub-game-card,
+.hub-directory-card,
+.hub-season-card,
+.hub-yearbook-card,
+.hub-player-card,
+.hub-player-row,
+.hub-row-list,
+.hub-seasons-feature,
+.hub-season-chapter,
+.hub-yearbook-feature,
+.hub-yearbook-fragment,
+.ops-command-lane,
+.ops-primary-action,
+.ops-selector-block,
+.ops-preview-card,
+.ops-editor-card,
+.ops-status-strip,
+.ops-list-item,
+.ops-person-pill,
+.ops-nav-chip {
+  color-scheme: only light;
+  background-color: var(--olympus-surface-card, #121827);
+  color: var(--olympus-text, #f7f2ea);
+  border-color: var(--olympus-line, rgba(255, 255, 255, 0.085));
+}
+
+html,
+body,
+#root,
+.app-shell {
+  background-color: var(--olympus-canvas, #04060d) !important;
+}
+
+.mobile-shell,
+.page-stage,
+.page-stage--mobile,
+.zone-stage,
+.hub-launch-scene {
+  background-color: var(--olympus-surface-solid, #0d101b) !important;
+}
+
+.bottom-dock {
+  background-color: #050711 !important;
+}
+
+.bottom-dock__scroll,
+.bottom-dock__item,
+.secondary-link,
+.ops-button,
+.system-switch,
+.relay-chip,
+.among-us-chip,
+input,
+select,
+textarea,
+button {
+  background-color: var(--olympus-field, #0b0f1a) !important;
+  color: var(--olympus-text, #f7f2ea) !important;
+}
+
+.bottom-dock__item--active,
+.system-switch--active,
+.system-switch[aria-selected='true'],
+.among-us-chip--active {
+  background-color: #17213a !important;
+  color: #fff7ef !important;
+}
+
+button.primary-link,
+.primary-link,
+.hub-launch-scene__action,
+.hub-home-arrival__action,
+.ops-button--primary {
+  background-color: var(--olympus-button-light, #fff5e8) !important;
+  color: var(--olympus-button-ink, #121317) !important;
+  -webkit-text-fill-color: var(--olympus-button-ink, #121317);
 }
