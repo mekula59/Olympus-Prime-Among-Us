@@ -14,7 +14,7 @@ export function GamesPage() {
         <div className="page-header">
           <span className="page-header__marker">Realm Gate</span>
           <h1>Select a realm gate.</h1>
-          <p>Each game is a gate. Among Us is live now; Leap of Legends is the other flagship, built for swings, clutch finishes, and nights that become stories fast.</p>
+          <p>Each game is a gate. Among Us is live now; Leap of Legends is built for comebacks, clutch saves, and plays the room keeps replaying.</p>
         </div>
 
         <div className="hub-games-flagship-grid">
@@ -32,12 +32,12 @@ export function GamesPage() {
 
               <div className="hub-games-flagship__meta">
                 <article>
-                  <span>Latest signal</span>
+                  <span>Latest pulse</span>
                   <strong>{flagshipGame.latestLabel}</strong>
                 </article>
                 <article>
-                  <span>Realm pull</span>
-                  <strong>Olympus Prime’s strongest active memory realm.</strong>
+                  <span>Why enter</span>
+                  <strong>The room’s loudest active game right now.</strong>
                 </article>
               </div>
               <span className="object-activation">Enter realm</span>
@@ -48,7 +48,7 @@ export function GamesPage() {
             <article className={`hub-games-card hub-games-card--flagship hub-games-card--${game.slug}`} key={game.id}>
               <div className="hub-games-card__topline">
                 <span>{game.slug === 'leap-of-legends' ? 'Parallel flagship realm' : 'Flagship realm'}</span>
-                <small>{game.slug === 'leap-of-legends' ? 'Momentum gate' : game.latestLabel}</small>
+                <small>{game.slug === 'leap-of-legends' ? 'Comeback gate' : game.latestLabel}</small>
               </div>
 
               <div className="hub-games-card__body">
@@ -57,10 +57,10 @@ export function GamesPage() {
               </div>
 
               <div className="hub-games-card__meta">
-                <span>Realm state</span>
-                <small>{game.slug === 'leap-of-legends' ? game.latestLabel : 'Core Olympus Prime realm'}</small>
+                <span>Current run</span>
+                <small>{game.slug === 'leap-of-legends' ? game.latestLabel : 'Core Olympus Prime game'}</small>
               </div>
-              <span className="object-activation">Signal gate</span>
+              <span className="object-activation">Open gate</span>
             </article>
           ))}
         </div>
@@ -85,7 +85,7 @@ export function GamesPage() {
               </div>
 
               <div className="hub-games-card__meta">
-                <span>Latest signal</span>
+                <span>Latest pulse</span>
                 <small>{game.latestLabel}</small>
               </div>
               <span className="object-activation">Open gate</span>

@@ -1223,7 +1223,7 @@ export const recaps: RecapRecord[] = [
   {
     id: 'recap-05-leap',
     sessionId: 'session-05-leap',
-    headline: 'Leap of Legends opened its legend window.',
+    headline: 'Leap of Legends found its comeback lane.',
     summary:
       'Leap Night 05 gave Olympus Prime one of its clearest “we are building something here” sessions: loud momentum, one remembered comeback, and a finish people replayed before the night had even ended.',
     highlight:

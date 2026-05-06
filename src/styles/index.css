@@ -5906,7 +5906,7 @@ body::after {
 .hub-world-card::after { content: 'Open gate'; }
 .hub-world-card--featured::after,
 .hub-games-flagship::after { content: 'Enter realm'; }
-.hub-games-card::after { content: 'Signal gate'; }
+.hub-games-card::after { content: 'Open gate'; }
 .hub-player-row::after { content: 'Open file'; }
 .hub-seasons-feature::after { content: 'Enter era'; }
 .hub-season-chapter::after { content: 'Open chapter'; }
@@ -7805,7 +7805,7 @@ button.primary-link,
 .hub-world-card::after { content: 'Open gate'; }
 .hub-world-card--featured::after,
 .hub-games-flagship::after { content: 'Enter realm'; }
-.hub-games-card::after { content: 'Signal gate'; }
+.hub-games-card::after { content: 'Open gate'; }
 .hub-player-row::after { content: 'Open file'; }
 .hub-seasons-feature::after { content: 'Enter era'; }
 .hub-season-chapter::after { content: 'Open chapter'; }
@@ -10047,7 +10047,53 @@ button.primary-link,
 }
 
 .hub-home-signal__body {
-  min-height: 8rem;
+  display: grid;
+  gap: 0.65rem;
+  min-height: 0;
+}
+
+.hub-home-signal__native {
+  display: grid;
+  gap: 0.78rem;
+  padding: 0.95rem;
+  border-radius: 1rem;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.045), transparent 58%),
+    rgba(255, 255, 255, 0.036);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.055),
+    0 12px 26px rgba(4, 7, 15, 0.12);
+}
+
+.hub-home-signal__native-copy {
+  display: grid;
+  gap: 0.24rem;
+}
+
+.hub-home-signal__native span {
+  color: var(--cool);
+  font-size: 0.62rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.hub-home-signal__native strong {
+  font-size: 1.05rem;
+  font-weight: 720;
+  letter-spacing: -0.02em;
+  line-height: 1.18;
+}
+
+.hub-home-signal__native p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.45;
+}
+
+.hub-home-signal__embed {
+  display: grid;
+  gap: 0.35rem;
 }
 
 .hub-home-signal__fallback {
@@ -10073,21 +10119,27 @@ button.primary-link,
 
 .hub-home-signal__actions {
   display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
   justify-content: flex-start;
+}
+
+.secondary-link--quiet {
+  background: rgba(255, 255, 255, 0.045) !important;
 }
 
 .x-post-embed {
   overflow: hidden;
   border-radius: 1rem;
-  background: rgba(255, 255, 255, 0.015);
+  background: rgba(255, 255, 255, 0.018);
 }
 
 .x-post-embed blockquote.twitter-tweet {
   display: grid;
   gap: 0.45rem;
   margin: 0 !important;
-  min-height: 5rem;
-  padding: 0.95rem;
+  min-height: 0;
+  padding: 0.65rem;
   color: var(--text);
 }
 
@@ -10687,6 +10739,17 @@ button.primary-link,
 .hub-seasons-archive__stack {
   display: grid;
   gap: 0.65rem;
+}
+
+.hub-seasons-empty {
+  margin: 0;
+  padding: 0.9rem 0.95rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.026);
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.42;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
 
 .hub-season-chapter {

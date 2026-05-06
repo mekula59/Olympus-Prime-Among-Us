@@ -33,7 +33,7 @@ export function SeasonsPage() {
               </article>
               <article>
                 <span>Entries</span>
-                <strong>{activeSeason.sessionCount}</strong>
+                <strong>{activeSeason.sessionCount > 0 ? activeSeason.sessionCount : 'First night pending'}</strong>
               </article>
               <article>
                 <span>Realm focus</span>
@@ -51,27 +51,31 @@ export function SeasonsPage() {
         </div>
 
         <div className="hub-seasons-archive__stack">
-          {previousSeasons.map((season) => (
-            <a className="hub-season-chapter" href="#/seasons/current" key={season.id}>
-              <div className="hub-season-chapter__rail" aria-hidden="true" />
+          {previousSeasons.length > 0 ? (
+            previousSeasons.map((season) => (
+              <a className="hub-season-chapter" href="#/seasons/current" key={season.id}>
+                <div className="hub-season-chapter__rail" aria-hidden="true" />
 
-              <div className="hub-season-chapter__content">
-                <div className="hub-season-chapter__topline">
-                  <span>{season.code}</span>
-                  <small>{season.featuredGame}</small>
+                <div className="hub-season-chapter__content">
+                  <div className="hub-season-chapter__topline">
+                    <span>{season.code}</span>
+                    <small>{season.featuredGame}</small>
+                  </div>
+
+                  <strong>{season.name}</strong>
+                  <p>{season.theme}</p>
+
+                  <div className="hub-season-chapter__meta">
+                    <small>{season.currentWeek}</small>
+                    <small>{season.sessionCount > 0 ? `${season.sessionCount} sessions` : 'No rooms logged yet'}</small>
+                  </div>
                 </div>
-
-                <strong>{season.name}</strong>
-                <p>{season.theme}</p>
-
-                <div className="hub-season-chapter__meta">
-                  <small>{season.currentWeek}</small>
-                  <small>{season.sessionCount} sessions</small>
-                </div>
-              </div>
-              <span className="object-activation">Open chapter</span>
-            </a>
-          ))}
+                <span className="object-activation">Open chapter</span>
+              </a>
+            ))
+          ) : (
+            <p className="hub-seasons-empty">No sealed chapters yet. The first era is still being written.</p>
+          )}
         </div>
       </section>
     </div>

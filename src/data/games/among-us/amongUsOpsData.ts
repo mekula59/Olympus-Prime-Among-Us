@@ -73,7 +73,7 @@ export function getAmongUsOpsData(sessionId?: string): AmongUsOpsDataView {
       role: player.roleLabel,
       status: player.status.charAt(0).toUpperCase() + player.status.slice(1),
       title: getTitleById(player.currentTitleId)?.name ?? 'Unassigned',
-      lastSeen: latestSeen ? `Night ${String(latestSeen.sessionNumber).padStart(2, '0')}` : 'No session yet',
+      lastSeen: latestSeen ? `Night ${String(latestSeen.sessionNumber).padStart(2, '0')}` : 'No room read yet',
     };
   });
 

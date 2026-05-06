@@ -33,7 +33,7 @@ export function PlayersPage() {
                 <strong>{player.attendanceCount}</strong>
               </div>
               <div className="hub-player-row__history">
-                <span>Last signal</span>
+                <span>Last night</span>
                 <strong>{player.lastSeen}</strong>
               </div>
             </div>

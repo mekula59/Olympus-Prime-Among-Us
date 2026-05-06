@@ -20,7 +20,7 @@ export function HomePage() {
     {
       id: 'among-us',
       title: 'Among Us',
-      detail: flagshipGame?.summary ?? 'The active flagship realm for accusation, color memory, and room reads.',
+      detail: flagshipGame?.summary ?? 'The active flagship room for accusations, color memory, and reads.',
       href: flagshipGame?.href ?? '#/games/among-us',
       badge: 'Active realm',
       state: 'Realm online',
@@ -29,9 +29,7 @@ export function HomePage() {
     {
       id: 'leap-of-legends',
       title: 'Leap of Legends',
-      detail:
-        leapWorld?.summary ??
-        'The comeback gate: big swings, last-second saves, and plays the room keeps replaying.',
+      detail: leapWorld?.summary ?? 'Built for comebacks, clutch saves, and plays the room keeps replaying.',
       href: leapWorld?.href ?? '#/games',
       badge: 'Flagship realm',
       state: leapWorld?.latestLabel ?? 'Realm forming',
@@ -39,7 +37,7 @@ export function HomePage() {
     {
       id: 'players',
       title: 'Player dossiers',
-      detail: 'Open the champion files for the people shaping the room and carrying the stories forward.',
+      detail: 'Open the champion files for the people shaping the room.',
       href: '#/players',
       badge: 'Dossiers',
       state: 'Roster indexed',
@@ -47,7 +45,7 @@ export function HomePage() {
     {
       id: 'seasons',
       title: 'Eras',
-      detail: 'Track how each chapter of gamesnight changes across sessions, themes, and standouts.',
+      detail: 'Track who ran the room and which nights still get brought up.',
       href: '#/seasons',
       badge: 'Chronicle',
       state: 'Chapters active',
@@ -55,7 +53,7 @@ export function HomePage() {
     {
       id: 'yearbook',
       title: 'Memory archive',
-      detail: 'Open the fragments, titles, and moments that keep coming back.',
+      detail: 'Open the lines, titles, and moments that keep coming back.',
       href: '#/yearbook',
       badge: 'Archive',
       state: 'Fragments held',
@@ -63,7 +61,7 @@ export function HomePage() {
     {
       id: 'games',
       title: 'Realm gates',
-      detail: 'Step into the worlds Olympus Prime keeps returning to night after night.',
+      detail: 'Step into the games Olympus Prime keeps returning to.',
       href: '#/games',
       badge: 'Gateway',
       state: 'All gates',
@@ -73,8 +71,7 @@ export function HomePage() {
   const xProfileUrl = import.meta.env.VITE_OLYMPUS_X_PROFILE_URL ?? '';
   const xFeaturedPostUrl = import.meta.env.VITE_OLYMPUS_X_FEATURED_POST_URL ?? '';
   const showPublicSignal = Boolean(xFeaturedPostUrl || xProfileUrl);
-  const publicSignalActionUrl = xProfileUrl || xFeaturedPostUrl;
-  const publicSignalActionLabel = xProfileUrl ? 'View Olympus Prime on X' : 'Open featured post on X';
+  const publicSignalPostUrl = xFeaturedPostUrl || xProfileUrl;
   const featuredNames = featuredPlayers.slice(0, 3).map((player) => player.callsign);
   const deeperActions = [
     { label: 'Read latest recap', href: primaryFeature?.href ?? '#/games/among-us/reports' },
@@ -93,7 +90,7 @@ export function HomePage() {
           </p>
           <h1>Enter Olympus Prime.</h1>
           <p className="hub-launch-scene__lede">
-            The night starts in Discord. Olympus Prime keeps the wins, rivalries, records, and the moments that last.
+            Discord starts the night. Olympus Prime keeps the wins, rivalries, and moments that last.
           </p>
           <a className="hub-launch-scene__action" href={primaryFeature?.href ?? '#/games/among-us/reports'}>
             Enter the live realm
@@ -105,7 +102,7 @@ export function HomePage() {
             <a className="hub-scene-card" href={primaryFeature.href}>
               <div className="hub-scene-card__topline">
                 <span>{primaryFeature.label}</span>
-                <small>Gateway signal</small>
+                <small>Latest pulse</small>
               </div>
               <strong>{primaryFeature.title}</strong>
               <p>{primaryFeature.detail}</p>
@@ -128,7 +125,7 @@ export function HomePage() {
 
       <section className="hub-current-state" aria-label="Current world state">
         <div className="hub-home-section__header">
-          <span>Gateway signals</span>
+          <span>What’s live</span>
         </div>
 
         <div className="hub-current-state__stack">
@@ -143,7 +140,7 @@ export function HomePage() {
           <article className="hub-state-card hub-state-card--players">
             <span>Featured dossiers</span>
             <strong>{featuredNames.join(' · ') || 'Room regulars loading'}</strong>
-            <p>The character files currently shaping the room, carrying streaks, and setting the tone.</p>
+            <p>The files currently shaping the room, carrying streaks, and setting the tone.</p>
           </article>
         </div>
       </section>
@@ -157,31 +154,45 @@ export function HomePage() {
           <div className="hub-home-signal__shell">
             <div className="hub-home-signal__intro">
               <span>From Olympus Prime on X</span>
-              <strong>Public pulse, not the whole night.</strong>
-              <p>
-                Discord is still where the room lives. X is the public signal layer when Olympus Prime wants the wider
-                world to feel the motion.
-              </p>
+              <strong>Latest public signal.</strong>
             </div>
 
             <div className="hub-home-signal__body">
-              {xFeaturedPostUrl ? (
-                <XPostEmbed postUrl={xFeaturedPostUrl} />
-              ) : (
-                <div className="hub-home-signal__fallback">
-                  <strong>Olympus Prime on X</strong>
-                  <p>Open the public profile for the latest signal from the world outside Discord.</p>
+              <article className="hub-home-signal__native">
+                <div className="hub-home-signal__native-copy">
+                  <span>Featured post</span>
+                  <strong>Public pulse, not the whole night.</strong>
+                  <p>
+                    Discord is still where the room lives. X is just where Olympus Prime lets the wider world feel the
+                    motion.
+                  </p>
                 </div>
-              )}
-            </div>
 
-            {publicSignalActionUrl ? (
-              <div className="hub-home-signal__actions">
-                <a className="secondary-link" href={publicSignalActionUrl} rel="noreferrer" target="_blank">
-                  {publicSignalActionLabel}
-                </a>
-              </div>
-            ) : null}
+                <div className="hub-home-signal__actions">
+                  {publicSignalPostUrl ? (
+                    <a className="secondary-link" href={publicSignalPostUrl} rel="noreferrer" target="_blank">
+                      View on X
+                    </a>
+                  ) : null}
+                  {xProfileUrl && xProfileUrl !== publicSignalPostUrl ? (
+                    <a
+                      className="secondary-link secondary-link--quiet"
+                      href={xProfileUrl}
+                      rel="noreferrer"
+                      target="_blank"
+                    >
+                      Open Olympus Prime on X
+                    </a>
+                  ) : null}
+                </div>
+              </article>
+
+              {xFeaturedPostUrl ? (
+                <div className="hub-home-signal__embed" aria-label="X embed preview">
+                  <XPostEmbed postUrl={xFeaturedPostUrl} />
+                </div>
+              ) : null}
+            </div>
           </div>
         </section>
       ) : null}

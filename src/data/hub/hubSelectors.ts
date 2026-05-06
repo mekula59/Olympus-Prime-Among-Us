@@ -127,20 +127,20 @@ export function getHubViewModel(): HubViewModel {
   const hubHomeFeatures: HubHomeFeature[] = [
     {
       label: 'Latest recap',
-      title: latestPublishedRecap?.headline ?? latestPublishedSession?.label ?? 'Latest recap pending',
+      title: latestPublishedRecap?.headline ?? latestPublishedSession?.label ?? 'First recap waiting',
       detail:
         latestPublishedRecap?.summary ??
         latestPublishedSession?.hostNotes ??
-        'The next published gamesnight recap will land here once it is transmitted from Ops.',
+        'Once the next night is locked, the recap lands here.',
       href: '#/games/among-us/reports',
       tone: 'warm',
     },
     {
       label: 'Next session',
-      title: latestOperationalSession?.label ?? 'No draft session',
+      title: latestOperationalSession?.label ?? 'No room staged yet',
       detail:
         latestOperationalSession?.hostNotes ??
-        'Discord is still where the live planning happens; this site keeps the memory once the night is logged.',
+        'Discord still handles the live planning. The Hub keeps the memory once the room is logged.',
       href: '#/ops',
       tone: 'cool',
     },
@@ -148,7 +148,7 @@ export function getHubViewModel(): HubViewModel {
       label: 'Flagship world',
       title: getGameById('among-us')?.name ?? 'Among Us',
       detail:
-        'Among Us leads the live module layer right now, with Leap of Legends now represented beside it as a core Olympus Prime world.',
+        'Among Us is live now. Leap of Legends sits beside it for comebacks, clutch saves, and replayed finishes.',
       href: '#/games/among-us',
       tone: 'hot',
     },
@@ -172,7 +172,7 @@ export function getHubViewModel(): HubViewModel {
         title: getTitleById(player.currentTitleId)?.name ?? 'Unassigned',
         badge: getBadgeById(player.primaryBadgeId)?.name ?? 'Crew regular',
         attendanceCount: getAttendanceCount(player.id),
-        lastSeen: lastSeen ? lastSeen.label : 'No session yet',
+        lastSeen: lastSeen ? lastSeen.label : 'No room read yet',
         summary: playerProfileSummary(player.id),
         tone: player.profileTone,
       },
@@ -192,7 +192,7 @@ export function getHubViewModel(): HubViewModel {
       title: getTitleById(player.currentTitleId)?.name ?? 'Unassigned',
       badge: getBadgeById(player.primaryBadgeId)?.name ?? 'Crew regular',
       attendanceCount: getAttendanceCount(player.id),
-      lastSeen: lastSeen ? lastSeen.label : 'No session yet',
+      lastSeen: lastSeen ? lastSeen.label : 'Waiting for first recorded night',
       summary: player.bio,
       tone: player.profileTone,
     };
@@ -295,7 +295,7 @@ export function getHubViewModel(): HubViewModel {
         latestPublishedSession
           ? getAwardsBySessionId(latestPublishedSession.id).find((award) => award.awardType === 'badge')?.reason ??
             'The room is still deciding which read deserves the loudest retelling.'
-          : 'The next published session will write the first yearbook moment.',
+          : 'No vault moment yet. The next loud room memory lands here.',
       note: featuredPlayers[0]?.callsign ?? 'Olympus Prime regular',
       tone: 'cool',
     },
@@ -303,7 +303,7 @@ export function getHubViewModel(): HubViewModel {
       title: 'Line everyone remembered',
       detail:
         getQuotesByContext('legend')[0]?.text ??
-        'The next loud reveal is waiting for the yearbook page.',
+        'No quote has earned permanent room status yet.',
       note: 'Pulled from replay-worthy moments',
       tone: 'warm',
     },
@@ -312,7 +312,7 @@ export function getHubViewModel(): HubViewModel {
       detail:
         latestPublishedSession
           ? `${latestPublishedSession.label} still leads the retell index.`
-          : 'No season-leading session has been published yet.',
+          : 'No season leader yet. The first loud night is still up for grabs.',
       note: latestPublishedRecap?.publishNote ?? 'Will update after the next transmitted recap.',
       tone: 'hot',
     },
@@ -327,9 +327,12 @@ export function getHubViewModel(): HubViewModel {
       slug: game.slug,
       name: game.name,
       shortName: game.shortName,
-      summary: game.summary,
+      summary:
+        game.slug === 'leap-of-legends'
+          ? 'The comeback gate: big swings, last-second saves, and plays the room keeps replaying.'
+          : game.summary,
       theme: game.theme,
-      latestLabel: latestGameRecap?.headline ?? latestGameSession?.label ?? 'No published session yet',
+      latestLabel: latestGameRecap?.headline ?? latestGameSession?.label ?? 'Waiting for first recorded night',
       href: game.modulePath ? `#${game.modulePath}` : null,
       isFlagship: game.isFlagship,
       tone: game.id === 'among-us' ? 'hot' : game.isFlagship ? 'warm' : 'cool',
