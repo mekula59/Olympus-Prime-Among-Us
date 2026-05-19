@@ -9,9 +9,11 @@ export function SeasonsPage() {
     <div className="page page--hub-seasons">
       <section className="hub-seasons-scene" aria-label="Current season">
         <div className="page-header">
-          <span className="page-header__marker">Era Timeline</span>
-          <h1>Chronicles of the room.</h1>
-          <p>Every season leaves a mark: who ran the room, what changed, and which nights still get brought up.</p>
+          <span className="page-header__marker">Community Timeline</span>
+          <h1>Community eras.</h1>
+          <p>
+            Every era leaves a mark: market runs, game nights, new faces, loud wins, and moments people keep bringing up.
+          </p>
         </div>
 
         {activeSeason ? (
@@ -36,7 +38,7 @@ export function SeasonsPage() {
                 <strong>{activeSeason.sessionCount > 0 ? activeSeason.sessionCount : 'First night pending'}</strong>
               </article>
               <article>
-                <span>Realm focus</span>
+                <span>Game focus</span>
                 <strong>{activeSeason.featuredGame}</strong>
               </article>
             </div>

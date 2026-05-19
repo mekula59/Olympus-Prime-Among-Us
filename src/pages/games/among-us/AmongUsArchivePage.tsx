@@ -22,7 +22,7 @@ export function AmongUsArchivePage() {
       <section className="module-screen-header" aria-label="Among Us archive">
         <p className="module-screen-header__eyebrow">Among Us</p>
         <h2>Archive</h2>
-        <p className="module-screen-header__lede">Legends, incidents, and signal fragments from the sessions people kept talking about.</p>
+        <p className="module-screen-header__lede">Legends, incidents, and saved moments from the sessions people kept talking about.</p>
 
         <div className="module-utility-row" aria-label="Archive summary">
           <article>

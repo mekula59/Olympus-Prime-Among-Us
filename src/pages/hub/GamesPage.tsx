@@ -12,16 +12,16 @@ export function GamesPage() {
     <div className="page page--hub-games">
       <section className="hub-games-launch" aria-label="Game world selection">
         <div className="page-header">
-          <span className="page-header__marker">Realm Gate</span>
-          <h1>Select a realm gate.</h1>
-          <p>Each game is a gate. Among Us is live now; Leap of Legends is built for comebacks, clutch saves, and plays the room keeps replaying.</p>
+          <span className="page-header__marker">Play side</span>
+          <h1>Choose a game gate.</h1>
+          <p>Where the room competes, laughs, argues, and remembers who showed up.</p>
         </div>
 
         <div className="hub-games-flagship-grid">
           {flagshipGame ? (
             <a className="hub-games-flagship" href={flagshipGame.href ?? '#/games'}>
               <div className="hub-games-flagship__topline">
-                <span>Active flagship realm</span>
+                <span>Active flagship game</span>
                 <small>Gate open</small>
               </div>
 
@@ -37,17 +37,17 @@ export function GamesPage() {
                 </article>
                 <article>
                   <span>Why enter</span>
-                  <strong>The room’s loudest active game right now.</strong>
+                  <strong>Competition, reads, and receipts the room keeps replaying.</strong>
                 </article>
               </div>
-              <span className="object-activation">Enter realm</span>
+              <span className="object-activation">Enter game</span>
             </a>
           ) : null}
 
           {supportingFlagships.map((game) => (
             <article className={`hub-games-card hub-games-card--flagship hub-games-card--${game.slug}`} key={game.id}>
               <div className="hub-games-card__topline">
-                <span>{game.slug === 'leap-of-legends' ? 'Parallel flagship realm' : 'Flagship realm'}</span>
+                <span>{game.slug === 'leap-of-legends' ? 'Parallel flagship game' : 'Flagship game'}</span>
                 <small>{game.slug === 'leap-of-legends' ? 'Comeback gate' : game.latestLabel}</small>
               </div>
 

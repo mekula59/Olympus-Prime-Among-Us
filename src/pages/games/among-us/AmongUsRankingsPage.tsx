@@ -59,7 +59,7 @@ export function AmongUsRankingsPage() {
       <section className="module-screen-header" aria-label="Among Us rankings">
         <p className="module-screen-header__eyebrow">Among Us</p>
         <h2>Room board</h2>
-        <p className="module-screen-header__lede">Sort the room by reads, wins, and heat. The board remembers what the lobby argues about.</p>
+        <p className="module-screen-header__lede">Sort the room by reads, wins, and heat. The board keeps the receipts the lobby argues about.</p>
 
         <div className="module-utility-row" aria-label="Ranking summary">
           <article>

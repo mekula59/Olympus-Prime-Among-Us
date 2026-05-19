@@ -71,7 +71,7 @@ export function getHubOpsData(sessionId?: string): HubOpsDataView {
     {
       label: 'Next session',
       value: latestOperationalSession
-        ? `${latestOperationalSession.label} // ${latestOperationalSession.venue}`
+        ? `${latestOperationalSession.label} · ${latestOperationalSession.venue}`
         : 'No draft open',
       detail: latestOperationalSession
         ? 'The broad record is already open so hosts can capture the night before deeper game-level detail is needed.'

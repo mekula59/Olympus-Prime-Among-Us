@@ -38,12 +38,12 @@ export const appRoutes: AppRoute[] = [
   {
     id: 'home',
     path: '/',
-    label: 'Gamesnight Hub',
+    label: 'Olympus Prime Hub',
     shortLabel: 'Home',
     section: 'hub',
     shell: 'hub',
     stateLabel: 'Hub',
-    blurb: 'A calm memory layer for Olympus Prime sessions, player identity, and recurring nights that start in Discord.',
+    blurb: 'A Web3-native community hub for trading talk, game nights, member identity, and the moments that make people belong.',
     nav: 'bottom',
   },
   {
@@ -54,7 +54,7 @@ export const appRoutes: AppRoute[] = [
     section: 'hub',
     shell: 'hub',
     stateLabel: 'Players',
-    blurb: 'The cross-game player layer for attendance, identity, and the people who keep showing up.',
+    blurb: 'Member identity across traders, gamers, builders, and regulars who keep showing up.',
     nav: 'bottom',
   },
   {
@@ -65,7 +65,7 @@ export const appRoutes: AppRoute[] = [
     section: 'hub',
     shell: 'hub',
     stateLabel: 'Profile',
-    blurb: 'A cross-game identity page for one Olympus Prime regular.',
+    blurb: 'A member identity page for one Olympus Prime regular.',
     nav: 'hidden',
   },
   {
@@ -76,7 +76,7 @@ export const appRoutes: AppRoute[] = [
     section: 'hub',
     shell: 'hub',
     stateLabel: 'Seasons',
-    blurb: 'The archive backbone for recurring gamesnights, recaps, and season memories.',
+    blurb: 'Community eras across market runs, game nights, recaps, and standout memories.',
     nav: 'bottom',
   },
   {
@@ -87,7 +87,7 @@ export const appRoutes: AppRoute[] = [
     section: 'hub',
     shell: 'hub',
     stateLabel: 'Season',
-    blurb: 'A season-level recap space for sessions, players, and notable moments.',
+    blurb: 'A season-level recap space for sessions, members, and notable moments.',
     nav: 'hidden',
   },
   {
@@ -98,7 +98,7 @@ export const appRoutes: AppRoute[] = [
     section: 'hub',
     shell: 'hub',
     stateLabel: 'Yearbook',
-    blurb: 'A hall of fame layer for standout quotes, titles, and yearly memory snapshots.',
+    blurb: 'The culture vault for quotes, calls, wins, plays, and memories worth keeping.',
     nav: 'bottom',
   },
   {
@@ -109,7 +109,7 @@ export const appRoutes: AppRoute[] = [
     section: 'games',
     shell: 'hub',
     stateLabel: 'Games',
-    blurb: 'A game index with Among Us as the flagship memory module inside the broader Hub.',
+    blurb: 'The play side of Olympus Prime, with Among Us and Leap of Legends as flagship games.',
     nav: 'bottom',
   },
   {
@@ -120,7 +120,7 @@ export const appRoutes: AppRoute[] = [
     section: 'games',
     shell: 'among-us',
     stateLabel: 'Overview',
-    blurb: 'The flagship module for Olympus Prime Among Us nights, recaps, rankings, and memory-rich reports.',
+    blurb: 'The flagship social game room for reads, rankings, and memory-rich reports.',
     nav: 'module',
   },
   {
@@ -142,7 +142,7 @@ export const appRoutes: AppRoute[] = [
     section: 'games',
     shell: 'among-us',
     stateLabel: 'Players',
-    blurb: 'A game-specific player entry layer for crew reads, tells, and familiar room patterns.',
+    blurb: 'A game-specific player file for crew reads, tells, and familiar room patterns.',
     nav: 'module',
   },
   {
@@ -175,7 +175,7 @@ export const appRoutes: AppRoute[] = [
     section: 'games',
     shell: 'among-us',
     stateLabel: 'Archive',
-    blurb: 'The long-tail memory layer for legends, incidents, and signal fragments that outlive a single night.',
+    blurb: 'The long-tail memory shelf for legends, incidents, and saved moments that outlive a single night.',
     nav: 'module',
   },
   {
@@ -186,7 +186,7 @@ export const appRoutes: AppRoute[] = [
     section: 'ops',
     shell: 'hub',
     stateLabel: 'Ops',
-    blurb: 'The broad operations layer for creating, editing, and publishing gamesnight memory.',
+    blurb: 'The game-night command room for creating, editing, and publishing session memory.',
     nav: 'hidden',
   },
   {
@@ -197,7 +197,7 @@ export const appRoutes: AppRoute[] = [
     section: 'ops',
     shell: 'hub',
     stateLabel: 'New',
-    blurb: 'A lightweight generic session entry point for hosts creating a new gamesnight record.',
+    blurb: 'A lightweight session entry point for hosts creating a new game-night record.',
     nav: 'hidden',
   },
   {

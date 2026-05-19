@@ -15,7 +15,7 @@ export function SeasonDetailPage() {
         eyebrow="Season detail"
         title={currentSeasonDetail.name}
         lede="This is the broad season shell: one place for session rhythm, standout recaps, and game memory that stretches beyond a single report."
-        tags={[currentSeasonDetail.featuredGame, currentSeasonDetail.currentWeek, 'Season archive']}
+        tags={[currentSeasonDetail.featuredGame, currentSeasonDetail.currentWeek, 'Season record']}
       />
 
       <ModuleFrame

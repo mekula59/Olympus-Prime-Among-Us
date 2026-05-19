@@ -59,7 +59,7 @@ export function PlayerProfilePage() {
         </div>
       </section>
 
-      <section className="hub-profile-support" aria-label="Defining memory layers">
+      <section className="hub-profile-support" aria-label="Member identity details">
         <div className="hub-home-section__header">
           <span>Defining memory</span>
         </div>

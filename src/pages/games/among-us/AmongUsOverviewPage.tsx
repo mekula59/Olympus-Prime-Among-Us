@@ -51,7 +51,7 @@ export function AmongUsOverviewPage() {
       <section className="module-screen-header" aria-label="Among Us live room">
         <p className="module-screen-header__eyebrow">Among Us</p>
         <h2>Live room</h2>
-        <p className="module-screen-header__lede">Check the room before the next button gets hit: who’s loud, who’s clean, and where the table is leaning.</p>
+        <p className="module-screen-header__lede">Check the game room before the next button gets hit: who’s loud, who’s clean, and where the lobby is leaning.</p>
 
         <div className="module-utility-row" aria-label="Among Us live summary">
           <article>

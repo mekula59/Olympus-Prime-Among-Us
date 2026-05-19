@@ -9,16 +9,16 @@ export function YearbookPage() {
     <div className="page page--hub-yearbook">
       <section className="hub-yearbook-scene" aria-label="Yearbook opening">
         <div className="page-header">
-          <span className="page-header__marker">Archive Vault</span>
-          <h1>Memory archive.</h1>
-          <p>The vault keeps the lines people repeat, the reads people swear by, and the nights that got bigger after they ended.</p>
+          <span className="page-header__marker">Culture Vault</span>
+          <h1>Culture vault.</h1>
+          <p>The vault keeps the lines, wins, plays, calls, and memories that made Olympus Prime feel alive.</p>
         </div>
 
         {featuredMemory ? (
           <article className={`hub-yearbook-feature hub-yearbook-feature--${featuredMemory.tone}`} tabIndex={0}>
             <div className="hub-yearbook-feature__topline">
-              <span>Recovered fragment</span>
-              <small>Held in archive</small>
+              <span>Saved memory</span>
+              <small>Held in vault</small>
             </div>
 
             <blockquote>{featuredMemory.detail}</blockquote>
@@ -27,14 +27,14 @@ export function YearbookPage() {
               <strong>{featuredMemory.title}</strong>
               <p>{featuredMemory.note}</p>
             </div>
-            <span className="object-activation">Recover fragment</span>
+            <span className="object-activation">Open memory</span>
           </article>
         ) : null}
       </section>
 
-      <section className="hub-yearbook-fragments" aria-label="Memory fragments">
+      <section className="hub-yearbook-fragments" aria-label="Vault memories">
         <div className="hub-home-section__header">
-          <span>Archive fragments</span>
+          <span>Vault memories</span>
         </div>
 
         <div className="hub-yearbook-fragments__stack">

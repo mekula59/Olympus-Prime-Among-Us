@@ -5905,12 +5905,12 @@ body::after {
 
 .hub-world-card::after { content: 'Open gate'; }
 .hub-world-card--featured::after,
-.hub-games-flagship::after { content: 'Enter realm'; }
+.hub-games-flagship::after { content: 'Enter game'; }
 .hub-games-card::after { content: 'Open gate'; }
 .hub-player-row::after { content: 'Open file'; }
 .hub-seasons-feature::after { content: 'Enter era'; }
 .hub-season-chapter::after { content: 'Open chapter'; }
-.hub-yearbook-feature::after { content: 'Recover fragment'; }
+.hub-yearbook-feature::after { content: 'Open memory'; }
 .hub-yearbook-fragment::after { content: 'Reveal memory'; }
 .page--ops-home .ops-command-lane::after { content: 'Activate lane'; }
 
@@ -7804,12 +7804,12 @@ button.primary-link,
 
 .hub-world-card::after { content: 'Open gate'; }
 .hub-world-card--featured::after,
-.hub-games-flagship::after { content: 'Enter realm'; }
+.hub-games-flagship::after { content: 'Enter game'; }
 .hub-games-card::after { content: 'Open gate'; }
 .hub-player-row::after { content: 'Open file'; }
 .hub-seasons-feature::after { content: 'Enter era'; }
 .hub-season-chapter::after { content: 'Open chapter'; }
-.hub-yearbook-feature::after { content: 'Recover fragment'; }
+.hub-yearbook-feature::after { content: 'Open memory'; }
 .hub-yearbook-fragment::after { content: 'Reveal memory'; }
 .page--ops-home .ops-command-lane::after { content: 'Activate lane'; }
 
@@ -12313,7 +12313,7 @@ button.primary-link,
 }
 
 .hub-world-card--featured::after {
-  content: 'Enter realm';
+  content: 'Enter game';
 }
 
 .page--hub-games .page-header h1,

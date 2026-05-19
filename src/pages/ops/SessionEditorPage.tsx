@@ -324,7 +324,7 @@ export function SessionEditorPage() {
       <ModuleFrame
         eyebrow="Recap basics"
         title="Publish prep"
-        lede="The generic editor covers the broad memory layer. Among Us-specific flow still lives in its own engine."
+        lede="The session editor covers the room record. Among Us-specific flow still lives in its own engine."
         tone="warm"
       >
           <div className="ops-form-stack">

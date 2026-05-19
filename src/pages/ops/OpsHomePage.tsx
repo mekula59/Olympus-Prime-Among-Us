@@ -12,14 +12,14 @@ export function OpsHomePage() {
       <PageIntro
         eyebrow="Command room"
         title="Run the room without killing the vibe."
-        lede="Discord stays loud. Ops keeps the night clean: set up the session, lock the recap, and open the deeper tools only when the room needs them."
+        lede="Discord stays loud. Ops keeps game night clean: set up the session, lock the recap, and open deeper tools only when the room needs them."
         tags={['Host console', 'Record control', 'Transmit ready']}
       />
 
       <ModuleFrame
         eyebrow="Command surfaces"
         title="Choose the control surface"
-        lede="Start broad, then enter a realm engine only when the session needs deeper logging."
+        lede="Start with the room record, then open a game engine only when the session needs deeper logging."
         className="ops-home-card"
       >
         <a className="ops-primary-action" href="#/ops/sessions/new">
@@ -32,12 +32,12 @@ export function OpsHomePage() {
           <a className="hub-feature hub-feature--warm ops-command-lane ops-command-lane--live" href={`#/ops/sessions/${currentHubOpsSessionId}`}>
             <span>Active draft</span>
             <strong>Continue Session</strong>
-            <p>Jump back into the general command surface for the active gamesnight entry.</p>
+            <p>Jump back into the command surface for the active game-night record.</p>
             <span className="object-activation">Activate lane</span>
           </a>
           <a className="hub-feature hub-feature--hot ops-command-lane ops-command-lane--realm" href={`#/ops/among-us/sessions/${currentAmongUsOpsSessionId}`}>
             <span>Among Us engine</span>
-            <strong>Enter the flagship realm controls</strong>
+            <strong>Enter the flagship game controls</strong>
             <p>Use the flagship flow when a session needs deeper logging and report control.</p>
             <span className="object-activation">Activate lane</span>
           </a>
@@ -47,7 +47,7 @@ export function OpsHomePage() {
       <ModuleFrame
         eyebrow="Room telemetry"
         title="What the command room is tracking"
-        lede="A small, readable signal lane for the record state, not a heavy dashboard."
+        lede="A small, readable check on the record state, not a heavy dashboard."
         tone="cool"
       >
         <div className="hub-game-list">
