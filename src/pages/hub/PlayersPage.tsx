@@ -7,9 +7,9 @@ export function PlayersPage() {
   return (
     <div className="page page--hub-players">
       <div className="page-header">
-        <span className="page-header__marker">Dossier Index</span>
-        <h1>Champion files.</h1>
-        <p>Open the files on the people who show up, talk big, clutch rounds, and become part of the room’s memory.</p>
+        <span className="page-header__marker">Member Index</span>
+        <h1>Member files.</h1>
+        <p>Meet the members who trade, play, build, and keep the room alive.</p>
       </div>
 
       <div className="hub-row-list">

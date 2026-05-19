@@ -113,7 +113,7 @@ function getAttendanceCount(playerId: string) {
 function playerProfileSummary(playerId: string) {
   return (
     getQuotesForPlayer(playerId).find((quote) => quote.context === 'profile')?.text ??
-    'A recurring Olympus Prime regular with enough room memory to stay in the conversation.'
+    'An Olympus Prime regular with enough presence to stay in the room’s story.'
   );
 }
 
@@ -131,7 +131,7 @@ export function getHubViewModel(): HubViewModel {
       detail:
         latestPublishedRecap?.summary ??
         latestPublishedSession?.hostNotes ??
-        'Once the next night is locked, the recap lands here.',
+        'Trade talk, game nights, and the wins worth replaying land here.',
       href: '#/games/among-us/reports',
       tone: 'warm',
     },
@@ -140,15 +140,15 @@ export function getHubViewModel(): HubViewModel {
       title: latestOperationalSession?.label ?? 'No room staged yet',
       detail:
         latestOperationalSession?.hostNotes ??
-        'Discord still handles the live planning. The Hub keeps the memory once the room is logged.',
+        'Discord keeps the room moving. Ops keeps the game-night record clean.',
       href: '#/ops',
       tone: 'cool',
     },
     {
-      label: 'Flagship world',
+      label: 'Flagship game',
       title: getGameById('among-us')?.name ?? 'Among Us',
       detail:
-        'Among Us is live now. Leap of Legends sits beside it for comebacks, clutch saves, and replayed finishes.',
+        'The play side of Olympus Prime: competition, laughs, arguments, and proof of who showed up.',
       href: '#/games/among-us',
       tone: 'hot',
     },
@@ -232,7 +232,7 @@ export function getHubViewModel(): HubViewModel {
         },
         {
           label: 'Shared world',
-          value: 'Among Us leads this history',
+          value: 'Gaming leads this history',
         },
       ]
     : [];
@@ -290,12 +290,12 @@ export function getHubViewModel(): HubViewModel {
 
   const yearbookEntries: HubYearbookEntry[] = [
     {
-      title: 'Best room read',
+      title: 'Best call',
       detail:
         latestPublishedSession
           ? getAwardsBySessionId(latestPublishedSession.id).find((award) => award.awardType === 'badge')?.reason ??
-            'The room is still deciding which read deserves the loudest retelling.'
-          : 'No vault moment yet. The next loud room memory lands here.',
+            'The room is still deciding which call deserves the loudest retelling.'
+          : 'No vault moment yet. The next loud community memory lands here.',
       note: featuredPlayers[0]?.callsign ?? 'Olympus Prime regular',
       tone: 'cool',
     },
@@ -308,7 +308,7 @@ export function getHubViewModel(): HubViewModel {
       tone: 'warm',
     },
     {
-      title: 'Session of the season',
+      title: 'Season standout',
       detail:
         latestPublishedSession
           ? `${latestPublishedSession.label} still leads the retell index.`
@@ -344,13 +344,13 @@ export function getHubViewModel(): HubViewModel {
       title: 'Latest room',
       detail:
         latestPublishedSession?.label ??
-        'The latest published room will appear here once a session is transmitted from Ops.',
+        'The latest published night will appear here once a session is transmitted from Ops.',
     },
     {
       title: 'Next on deck',
       detail:
         latestOperationalSession?.label ??
-        'Discord planning is still the live source for the next gamesnight.',
+        'Discord is still the live source for the next room.',
     },
     {
       title: 'Top memory',

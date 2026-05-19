@@ -100,7 +100,7 @@ export function getAmongUsModuleData(): AmongUsModuleDataView {
     {
       name: 'Podium Gallery',
       mood: 'Warm rivalry',
-      description: 'Where win streaks and social reads get framed like ship folklore.',
+      description: 'Where win streaks and social reads get framed like room folklore.',
       destination: '/games/among-us/rankings',
       tone: 'warm',
     },

@@ -40,7 +40,7 @@ export function useAmongUsPublicSyncState() {
         ? 'UPLINK READY'
         : isLiveSession
           ? 'SESSION LIVE'
-          : 'ARCHIVE MEMORY';
+          : 'Saved night';
     const phaseDetail = isTransmitted
       ? `${draft.session.label} is now feeding the public decks.`
       : isReportReady
@@ -75,7 +75,7 @@ export function useAmongUsPublicSyncState() {
           {
             label: 'Session link',
             value: phaseLabel,
-            detail: `${draft.session.label} // ${checkedInPlayers.length || draft.session.attendanceCount} crew loaded.`,
+            detail: `${draft.session.label} · ${checkedInPlayers.length || draft.session.attendanceCount} crew loaded.`,
             tone: isTransmitted ? 'hot' : 'cool',
           },
           {

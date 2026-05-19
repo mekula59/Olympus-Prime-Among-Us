@@ -44,19 +44,21 @@ export function HubShell({ currentPath, currentRoute, moduleHeader, children }: 
       >
         <header className={`topbar topbar--${currentRoute.section}`}>
           <div className="topbar__identity">
-            <a className="brand-mark" href="#/" aria-label="Olympus Prime World Layer">
+            <a className="brand-mark" href="#/" aria-label="Olympus Prime Trade Play Build">
               <img src="/brand/selected/olympus-prime-mark.svg" alt="" />
               <span>
                 <strong>Olympus Prime</strong>
-                <small>World Layer</small>
+                <small>Trade · Play · Build</small>
               </span>
             </a>
 
-            <p className="topbar__subcopy">The room starts in Discord. Olympus Prime keeps the wins, reads, rivalries, and receipts.</p>
+            <p className="topbar__subcopy">
+              A Web3-native room for traders, gamers, and builders who actually show up.
+            </p>
           </div>
 
           <div className="topbar__controls">
-            <div className="topbar__status" aria-label="Current layer">
+            <div className="topbar__status" aria-label="Current area">
               <span className="topbar__section">{sectionMarkers[currentRoute.section]}</span>
               <strong>{currentRoute.stateLabel}</strong>
             </div>

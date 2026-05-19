@@ -20,10 +20,10 @@ export function HomePage() {
     {
       id: 'among-us',
       title: 'Among Us',
-      detail: flagshipGame?.summary ?? 'The active flagship room for accusations, color memory, and reads.',
+      detail: flagshipGame?.summary ?? 'The flagship game room for reads, rivalry, and replay-worthy nights.',
       href: flagshipGame?.href ?? '#/games/among-us',
-      badge: 'Active realm',
-      state: 'Realm online',
+      badge: 'Active game',
+      state: 'Live room',
       featured: true,
     },
     {
@@ -31,39 +31,39 @@ export function HomePage() {
       title: 'Leap of Legends',
       detail: leapWorld?.summary ?? 'Built for comebacks, clutch saves, and plays the room keeps replaying.',
       href: leapWorld?.href ?? '#/games',
-      badge: 'Flagship realm',
-      state: leapWorld?.latestLabel ?? 'Realm forming',
+      badge: 'Flagship game',
+      state: leapWorld?.latestLabel ?? 'Room forming',
     },
     {
       id: 'players',
-      title: 'Player dossiers',
-      detail: 'Open the champion files for the people shaping the room.',
+      title: 'Member files',
+      detail: 'Meet the people who trade, play, build, and keep the room alive.',
       href: '#/players',
       badge: 'Dossiers',
       state: 'Roster indexed',
     },
     {
       id: 'seasons',
-      title: 'Eras',
-      detail: 'Track who ran the room and which nights still get brought up.',
+      title: 'Community eras',
+      detail: 'Track market runs, game nights, loud wins, and the moments people keep bringing up.',
       href: '#/seasons',
       badge: 'Chronicle',
       state: 'Chapters active',
     },
     {
       id: 'yearbook',
-      title: 'Memory archive',
-      detail: 'Open the lines, titles, and moments that keep coming back.',
+      title: 'Culture vault',
+      detail: 'Open the lines, wins, plays, calls, and memories that made Olympus Prime feel alive.',
       href: '#/yearbook',
-      badge: 'Archive',
-      state: 'Fragments held',
+      badge: 'Vault',
+      state: 'Memories held',
     },
     {
       id: 'games',
-      title: 'Realm gates',
-      detail: 'Step into the games Olympus Prime keeps returning to.',
+      title: 'Game gates',
+      detail: 'Step into the play side of Olympus Prime.',
       href: '#/games',
-      badge: 'Gateway',
+      badge: 'Games',
       state: 'All gates',
     },
   ];
@@ -76,9 +76,9 @@ export function HomePage() {
   const deeperActions = [
     { label: 'Read latest recap', href: primaryFeature?.href ?? '#/games/among-us/reports' },
     { label: 'Open Among Us', href: flagshipGame?.href ?? '#/games/among-us' },
-    { label: 'Browse game worlds', href: '#/games' },
-    { label: 'Browse players', href: '#/players' },
-    { label: 'View season archive', href: '#/seasons' },
+    { label: 'Browse games', href: '#/games' },
+    { label: 'Browse members', href: '#/players' },
+    { label: 'View community eras', href: '#/seasons' },
   ];
 
   return (
@@ -90,10 +90,10 @@ export function HomePage() {
           </p>
           <h1>Enter Olympus Prime.</h1>
           <p className="hub-launch-scene__lede">
-            Discord starts the night. Olympus Prime keeps the wins, rivalries, and moments that last.
+            Olympus Prime is where Web3 traders, gamers, and builders come to trade, play, build, and belong.
           </p>
           <a className="hub-launch-scene__action" href={primaryFeature?.href ?? '#/games/among-us/reports'}>
-            Enter the live realm
+            Enter the live room
           </a>
         </div>
 
@@ -117,44 +117,22 @@ export function HomePage() {
                   <strong>{featuredNames.join(' · ') || 'Crew loading'}</strong>
                 </article>
               </div>
-              <span className="object-activation">Enter realm</span>
+              <span className="object-activation">Enter room</span>
             </a>
           ) : null}
         </div>
       </section>
 
-      <section className="hub-current-state" aria-label="Current world state">
-        <div className="hub-home-section__header">
-          <span>What’s live</span>
-        </div>
-
-        <div className="hub-current-state__stack">
-          {supportingFeatures.map((feature) => (
-            <article className="hub-state-card" key={feature.title}>
-              <span>{feature.label}</span>
-              <strong>{feature.title}</strong>
-              <p>{feature.detail}</p>
-            </article>
-          ))}
-
-          <article className="hub-state-card hub-state-card--players">
-            <span>Featured dossiers</span>
-            <strong>{featuredNames.join(' · ') || 'Room regulars loading'}</strong>
-            <p>The files currently shaping the room, carrying streaks, and setting the tone.</p>
-          </article>
-        </div>
-      </section>
-
       {showPublicSignal ? (
-        <section className="hub-home-signal" aria-label="Public signal">
+        <section className="hub-home-signal" aria-label="Public pulse">
           <div className="hub-home-section__header">
-            <span>Public signal</span>
+            <span>Public pulse</span>
           </div>
 
           <div className="hub-home-signal__shell">
             <div className="hub-home-signal__intro">
               <span>From Olympus Prime on X</span>
-              <strong>Latest public signal.</strong>
+              <strong>Latest public pulse.</strong>
             </div>
 
             <div className="hub-home-signal__body">
@@ -163,8 +141,7 @@ export function HomePage() {
                   <span>Featured post</span>
                   <strong>Public pulse, not the whole night.</strong>
                   <p>
-                    Discord is still where the room lives. X is just where Olympus Prime lets the wider world feel the
-                    motion.
+                    Trade talk, game nights, rivalries, wins, and the moments that turn a room into a real community.
                   </p>
                 </div>
 
@@ -197,9 +174,31 @@ export function HomePage() {
         </section>
       ) : null}
 
+      <section className="hub-current-state" aria-label="Current world state">
+        <div className="hub-home-section__header">
+          <span>What’s live</span>
+        </div>
+
+        <div className="hub-current-state__stack">
+          {supportingFeatures.map((feature) => (
+            <article className="hub-state-card" key={feature.title}>
+              <span>{feature.label}</span>
+              <strong>{feature.title}</strong>
+              <p>{feature.detail}</p>
+            </article>
+          ))}
+
+          <article className="hub-state-card hub-state-card--players">
+            <span>Member spotlight</span>
+            <strong>{featuredNames.join(' · ') || 'Room regulars loading'}</strong>
+            <p>The members shaping the room, carrying streaks, and setting the tone.</p>
+          </article>
+        </div>
+      </section>
+
       <section className="hub-worlds-entry" aria-label="Worlds to enter">
         <div className="hub-home-section__header">
-          <span>Realm gates</span>
+          <span>Game gates</span>
         </div>
 
         <div className="hub-world-grid">
@@ -218,19 +217,19 @@ export function HomePage() {
                 <strong>{world.title}</strong>
                 <p>{world.detail}</p>
               </div>
-              <span className="object-activation">{world.featured ? 'Enter realm' : 'Open gate'}</span>
+              <span className="object-activation">{world.featured ? 'Enter game' : 'Open gate'}</span>
             </a>
           ))}
         </div>
       </section>
 
       <section className="hub-home-note" aria-label="Why this exists">
-        <p>Discord is where the night happens. The Hub is where the world remembers what it became.</p>
+        <p>Trading, building, gaming, and inside jokes all leave a mark here.</p>
       </section>
 
       {featuredMemory ? (
         <section className="hub-home-memory hub-home-memory--featured" aria-label="Featured memory">
-          <span>Memory fragment</span>
+          <span>Saved memory</span>
           <blockquote>{featuredMemory.detail}</blockquote>
           <p>{featuredMemory.note}</p>
         </section>

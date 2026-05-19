@@ -15,7 +15,7 @@ export function OpsAccessGate() {
         <PageIntro
           eyebrow="Ops access"
           title="Checking workspace access."
-          lede="Ops is limited to authenticated Olympus Prime workspace members. We’re confirming your session before opening the tools."
+          lede="Ops is for Olympus Prime members. We’re checking your session before opening the command room."
           tags={['Auth required', 'Workspace only']}
         />
       </div>

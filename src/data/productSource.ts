@@ -26,7 +26,7 @@ export const games: GameRecord[] = [
     status: 'active',
     isFlagship: true,
     modulePath: '/games/among-us',
-    summary: 'The flagship Olympus Prime gamesnight module for social deduction, room reads, and recap-worthy finishes.',
+    summary: 'The flagship Olympus Prime game room for social deduction, room reads, and recap-worthy finishes.',
     theme: 'Warm suspicion, player-color identity, and post-round memory.',
   },
   {
@@ -218,7 +218,7 @@ const seededPlayers: PlayerRecord[] = [
     status: 'active',
     statusNote: 'Olympus Prime co-owner and always one of the hosts',
     profileTone: 'cool',
-    bio: 'TED is the Olympus Prime co-owner and a permanent host presence: the person who helps make sure gamesnight actually becomes a room, a rhythm, and a memory.',
+    bio: 'TED is the Olympus Prime co-owner and a permanent host presence: the person who helps make sure game night actually becomes a room, a rhythm, and a memory.',
     signatureMove: 'Keeps the session moving, welcomes the room in, and makes the night feel properly held.',
     alibiStyle: 'Host-clear, practical, and usually more focused on the room than the spotlight.',
     currentTitleId: null,
@@ -515,7 +515,7 @@ export const sessions: SessionRecord[] = [
     status: 'draft',
     attendanceCount: 6,
     winningPlayerId: 'nova',
-    hostNotes: 'Draft shell is open so hosts can log the next gamesnight before the room fills up.',
+    hostNotes: 'Draft shell is open so hosts can log the next game night before the room fills up.',
   },
 ];
 
@@ -1230,7 +1230,7 @@ export const recaps: RecapRecord[] = [
       '“That was the kind of finish people start referencing before everyone has even left call.”',
     publishNote: 'Logged as a flagship-world recap and held in the Hub memory lane even before the full Leap module arrives.',
     verdict: 'A real Olympus Prime world now, not a side entry.',
-    recommendation: 'Keep surfacing Leap of Legends at the Hub layer so it reads as a core world, not a future add-on.',
+    recommendation: 'Keep surfacing Leap of Legends in the Hub so it reads as a core game, not a future add-on.',
     status: 'published',
   },
   {
@@ -1241,7 +1241,7 @@ export const recaps: RecapRecord[] = [
       'The session opened playful, escalated quickly, and turned legendary once the final meeting stopped sounding calm. Olympus Prime got the exact kind of loud, vivid night the crew keeps retelling in hallways afterward.',
     highlight:
       'Nova landed the clearest room read of the night after a single over-explained route, then Sol turned the final reveal into a full-room detonation.',
-    publishNote: 'Published to HQ after title checks, quote trim, and podium collage signoff.',
+    publishNote: 'Night 08 still has the quote, the title, and the win everyone keeps retelling.',
     verdict: 'Too dramatic to forget. Too funny to file quietly.',
     recommendation:
       'Preserve the exact same energy next session, but arrive with extra charge cables and stronger confidence control.',
